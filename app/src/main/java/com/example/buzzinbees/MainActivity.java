@@ -1,20 +1,26 @@
 package com.example.buzzinbees;
 
-import android.arch.lifecycle.ViewModelProvider;
-import android.arch.lifecycle.ViewModelProviders;
+//import android.arch.lifecycle.ViewModelProvider;
+//import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
+//import android.support.annotation.NonNull;
+//import android.support.design.widget.BottomNavigationView;
+//import android.support.v4.app.Fragment;
+//import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.widget.TextView;
+//import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView mTextMessage;
-    int currentFragment = 0;
+    //private TextView mTextMessage;
+    //int currentFragment = 0;
     //int currentCount = 0;
 
 
@@ -65,13 +71,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mTextMessage = (TextView) findViewById(R.id.message);
+        //mTextMessage = (TextView) findViewById(R.id.message);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         //final DataContainer dc = ViewModelProviders.of(this).get(DataContainer.class);
 
-        loadFragment(new HomeFragment());
+        //loadFragment(new HomeFragment());
     }
 
     private boolean loadFragment(Fragment frag) {
