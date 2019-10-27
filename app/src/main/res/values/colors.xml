@@ -3,4 +3,11 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+
+    <color name="NavyBlue">#2F3443</color>
+    <color name="PowderBlue">#C7DDE2</color>
+    <color name="HoneyGold">#DAA927</color>
+    <color name="PaleHoney">#FCDD8D</color>
+    <color name="White">#FFFFFF</color>
+    <color name="Black">#000000</color>
 </resources>

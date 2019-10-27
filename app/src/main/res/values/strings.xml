@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">BuzzinBees</string>
+    <string name="title_home">Home</string>
+    <string name="title_options">Options</string>
+    <string name="title_musicLibrary_allSongs">Songs</string>
+    <string name="title_musicLibrary_allPlaylists">Playlists</string>
+    <string name="title_musicLibrary_allAlbums">Albums</string>
+    <string name="title_musicLibrary_allArtists">Artists</string>
+    <string name="title_visualizer">Visualizer</string>
 </resources>
