@@ -17,7 +17,7 @@ public class VisualizerFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.visualizer_fragment,null);
+        return inflater.inflate(R.layout.fragment_visualizer,null);
     }
 
 

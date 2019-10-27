@@ -25,7 +25,7 @@ public class ML_List_SongsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_list__songs, null);
+        return inflater.inflate(R.layout.fragment_list_songs, null);
     }
 
 }

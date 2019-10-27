@@ -20,9 +20,9 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 public class MainActivity extends AppCompatActivity {
 
     //private TextView mTextMessage;
-    //int currentFragment = 0;
     //int currentCount = 0;
 
+    int currentFragment = 0;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -44,22 +44,30 @@ public class MainActivity extends AppCompatActivity {
             Fragment fragment = null;
 
             switch (item.getItemId()) {
-                /*case R.id.navigation_home:
+                case R.id.navigation_home:
                     fragment = new HomeFragment();
                     currentFragment = 0;
                     break;
-                case R.id.navigation_dashboard:
-                    fragment = new DashboardFragment();
+                case R.id.navigation_songs:
+                    fragment = new ML_List_SongsFragment();
                     currentFragment = 1;
                     break;
-                case R.id.navigation_notifications:
-                    fragment = new NotificationsFragment();
+                case R.id.navigation_playlists:
+                    fragment = new ML_List_PlaylistsFragment();
                     currentFragment = 2;
+                    break;
+                case R.id.navigation_albums:
+                    fragment = new ML_List_AlbumsFragment();
+                    currentFragment = 3;
+                    break;
+                case R.id.navigation_artists:
+                    fragment = new ML_List_ArtstisFragment();
+                    currentFragment = 4;
                     break;
                 case R.id.navigation_visualizer:
                     fragment = new VisualizerFragment();
-                    currentFragment = 3;
-                    break;*/
+                    currentFragment = 5;
+                    break;
             }
             return loadFragment(fragment);
         }
@@ -75,9 +83,9 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        //final DataContainer dc = ViewModelProviders.of(this).get(DataContainer.class);
 
-        //loadFragment(new HomeFragment());
+
+        loadFragment(new HomeFragment());
     }
 
     private boolean loadFragment(Fragment frag) {

@@ -27,7 +27,7 @@
         android:title="@string/title_musicLibrary_allArtists" />
 
     <item
-        android:id="@+id/navigation_settings"
+        android:id="@+id/navigation_visualizer"
         android:icon="@drawable/ic_filter_vintage_black_24dp"
         android:title="@string/title_visualizer" />
 

@@ -18,9 +18,6 @@ import android.view.ViewGroup;
 public class ML_Page_ArtistFragment extends Fragment {
 
 
-    public ML_Page_ArtistFragment() {
-        // Required empty public constructor
-    }
 
 
     @Override
