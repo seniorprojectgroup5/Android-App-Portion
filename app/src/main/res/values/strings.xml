@@ -7,4 +7,7 @@
     <string name="title_musicLibrary_allAlbums">Albums</string>
     <string name="title_musicLibrary_allArtists">Artists</string>
     <string name="title_visualizer">Visualizer</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

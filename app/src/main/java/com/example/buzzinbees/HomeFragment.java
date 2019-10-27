@@ -11,15 +11,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class VisualizerFragment extends Fragment {
+
+public class HomeFragment extends Fragment {
+
+
+    public HomeFragment() {
+        // Required empty public constructor
+    }
 
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.visualizer_fragment,null);
+        return inflater.inflate(R.layout.fragment_home, null);
     }
-
-
 
 }
