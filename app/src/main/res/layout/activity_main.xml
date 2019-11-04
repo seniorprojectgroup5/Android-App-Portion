@@ -16,19 +16,6 @@
             android:layout_height="match_parent" >
 
             <TextView
-                android:id="@+id/textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Tutorials point"
-                android:textColor="#ff7aff24"
-                android:textSize="35dp" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" >
-
-            <TextView
                 android:id="@+id/textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -54,18 +41,6 @@
             android:layout_height="match_parent" >
 
             <Button
-                android:id="@+id/button2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="visible"
-                android:text="Get visible" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" >
-
-            <Button
                 android:id="@+id/button3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -83,6 +58,17 @@
                 android:layout_height="wrap_content"
                 android:onClick="off"
                 android:text="turn off" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <TextView
+                android:id="@+id/listOfDevices"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="paired devices" />
         </TableRow>
 
     </TableLayout>
