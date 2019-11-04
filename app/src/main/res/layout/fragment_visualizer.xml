@@ -6,52 +6,79 @@
     android:layout_height="match_parent"
     tools:context=".VisualizerFragment">
 
+
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/fragVisContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+
+        <TextView
+            android:id="@+id/vis_txtSongArtistTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="460dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="32dp"
+            android:text="Song Title - Artist"
+            app:layout_constraintBottom_toTopOf="@+id/vis_seekBar"
+            app:layout_constraintEnd_toEndOf="@+id/fragVisContainer"
+            app:layout_constraintStart_toStartOf="@+id/fragVisContainer"
+            app:layout_constraintTop_toTopOf="@+id/fragVisContainer" />
+
+        <SeekBar
+            android:id="@+id/vis_seekBar"
+            android:layout_width="0dp"
+            android:layout_height="18dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="185dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/fragVisContainer"
+            app:layout_constraintStart_toStartOf="@+id/fragVisContainer"
+            app:layout_constraintTop_toBottomOf="@+id/vis_txtSongArtistTitle"
+            app:layout_constraintVertical_bias="0.964" />
 
         <ImageButton
             android:id="@+id/vis_btnPlayPause"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="36dp"
-            android:layout_marginEnd="80dp"
-            android:src="@android:drawable/ic_media_play"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="90dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_play_arrow_black_24dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/vis_btnNext"
-            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toEndOf="@+id/vis_btnPrev"
-            app:layout_constraintTop_toBottomOf="@+id/vis_seekBar"
-            app:layout_constraintVertical_bias="0.02" />
-
-        <SeekBar
-            android:id="@+id/vis_seekBar"
-            android:layout_width="330dp"
-            android:layout_height="0dp"
-            android:layout_marginTop="528dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/vis_seekBar" />
 
         <ImageButton
             android:id="@+id/vis_btnNext"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
             android:layout_marginEnd="40dp"
-            android:layout_marginBottom="96dp"
-            android:src="@android:drawable/ic_media_next"
+            android:layout_marginBottom="90dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_skip_next_black_24dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/vis_seekBar" />
 
         <ImageButton
             android:id="@+id/vis_btnPrev"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
-            android:layout_marginBottom="96dp"
-            android:src="@android:drawable/ic_media_previous"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="90dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_skip_previous_black_24dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/vis_seekBar" />
 
         <ImageButton
             android:id="@+id/vis_btnLoop"
@@ -59,33 +86,27 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="108dp"
             android:layout_marginBottom="24dp"
-            android:src="@android:drawable/btn_star"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_repeat_black_24dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/vis_seekBar"
-            app:layout_constraintVertical_bias="0.809" />
+            app:layout_constraintTop_toBottomOf="@+id/vis_btnPrev" />
 
         <ImageButton
             android:id="@+id/vis_btnShuffle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="108dp"
-            android:src="@android:drawable/btn_star"
+            android:layout_marginBottom="24dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_shuffle_black_24dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/vis_seekBar"
-            app:layout_constraintVertical_bias="0.664" />
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toEndOf="@+id/vis_btnLoop"
+            app:layout_constraintTop_toBottomOf="@+id/vis_btnNext" />
 
-        <TextView
-            android:id="@+id/vis_txtSongArtistTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Song Title - Artist"
-            app:layout_constraintBottom_toTopOf="@+id/vis_seekBar"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.897" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

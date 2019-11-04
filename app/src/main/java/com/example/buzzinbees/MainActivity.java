@@ -7,6 +7,8 @@ import android.os.Bundle;
 //import android.support.design.widget.BottomNavigationView;
 //import android.support.v4.app.Fragment;
 //import android.support.v7.app.AppCompatActivity;
+import android.os.Debug;
+import android.util.Log;
 import android.view.MenuItem;
 //import android.widget.TextView;
 
@@ -24,22 +26,11 @@ public class MainActivity extends AppCompatActivity {
 
     int currentFragment = 0;
 
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+    /*private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            /*
-            if(currentFragment == 0) {
-                ViewModelProviders.of(MainActivity.this).get(DataContainer.class).homeCounter = currentCount;
-            } else if (currentFragment == 1) {
-                ViewModelProviders.of(MainActivity.this).get(DataContainer.class).dashCounter = currentCount;
-            } else if (currentFragment == 2) {
-                ViewModelProviders.of(MainActivity.this).get(DataContainer.class).notifCounter = currentCount;
-            } else if (currentFragment == 3) {
-                ViewModelProviders.of(MainActivity.this).get(DataContainer.class).settingCounter = currentCount;
-            }
-            */
 
             Fragment fragment = null;
 
@@ -72,20 +63,26 @@ public class MainActivity extends AppCompatActivity {
             return loadFragment(fragment);
         }
 
-    };
+    };*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        Log.d("AppCrash","Oncreate called");
         super.onCreate(savedInstanceState);
+        Log.d("AppCrash","SaveInstance");
         setContentView(R.layout.activity_main);
+        Log.d("AppCrash","contentView set");
 
         //mTextMessage = (TextView) findViewById(R.id.message);
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        //BottomNavigationView navigation =  findViewById(R.id.navigation);
+        //Log.d("AppCrash","Bottom Nav Loaded");
+        //navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        //Log.d("AppCrash","Bottom Nav Loaded");
 
 
-
-        loadFragment(new HomeFragment());
+        loadFragment(new VisualizerFragment());
+        Log.d("AppCrash","Home Fragment Loaded ");
     }
 
     private boolean loadFragment(Fragment frag) {
