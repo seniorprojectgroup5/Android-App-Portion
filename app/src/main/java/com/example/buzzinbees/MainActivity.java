@@ -32,7 +32,6 @@ public class MainActivity extends AppCompatActivity {
         b4=(Button)findViewById(R.id.button4);
 
         BA = (BluetoothAdapter) BluetoothAdapter.getDefaultAdapter();
-        //lv = (ListView)findViewById(R.id.listView);
     }
 
     public void on(View v){
@@ -58,16 +57,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void list(View v){
-        Set<BluetoothDevice>pairedDevices;
-        pairedDevices = BA.getBondedDevices();
-
-        ArrayList list = new ArrayList();
-
-//        for(BluetoothDevice bt : pairedDevices) list.add(bt.getName());
-        Toast.makeText(getApplicationContext(), "Showing Paired Devices",Toast.LENGTH_SHORT).show();
-
-//        final ArrayAdapter adapter = new  ArrayAdapter(this,android.R.layout.simple_list_item_1, list);
-//
-//        lv.setAdapter(adapter);
+        String deviceName = BA.getName();
+        Toast.makeText(getApplicationContext(), deviceName,Toast.LENGTH_SHORT).show();
     }
 }
