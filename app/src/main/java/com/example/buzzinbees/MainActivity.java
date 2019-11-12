@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
         //Log.d("AppCrash","Bottom Nav Loaded");
 
 
-        loadFragment(new ML_Page_ArtistFragment());
+        loadFragment(new HomeFragment());
         //Log.d("AppCrash","Home Fragment Loaded ");
     }
 
