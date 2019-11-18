@@ -9,88 +9,299 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/fragHomeContainer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:visibility="visible">
 
-        <ImageView
-            android:id="@+id/img_QueenBeeActive"
-            android:layout_width="250dp"
-            android:layout_height="250dp"
-            android:layout_marginTop="92dp"
-            android:src="@drawable/ic_queenbeetopdown_fill"
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="205dp" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/deviceInactiveContainer"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:visibility="visible"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintBottom_toBottomOf="@+id/fragHomeContainer"
+            app:layout_constraintEnd_toEndOf="@+id/fragHomeContainer"
+            app:layout_constraintStart_toStartOf="@+id/fragHomeContainer"
+            app:layout_constraintTop_toTopOf="@+id/fragHomeContainer"
+            app:layout_constraintVertical_bias="0.0">
 
-        <ImageView
-            android:id="@+id/img_cell3"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/ic_batterycell_3_filled"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.355"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.26" />
+            <ImageView
+                android:id="@+id/img_QueenBeeInactive"
+                android:layout_width="250dp"
+                android:layout_height="250dp"
+                android:layout_marginTop="92dp"
+                android:layout_marginBottom="52dp"
+                android:src="@drawable/ic_queenbeetopdown_clear"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="@+id/deviceInactiveContainer"
+                app:layout_constraintEnd_toEndOf="@+id/deviceInactiveContainer"
+                app:layout_constraintHorizontal_bias="0.50"
+                app:layout_constraintStart_toStartOf="@+id/deviceInactiveContainer"
+                app:layout_constraintTop_toTopOf="@+id/deviceInactiveContainer" />
 
-        <ImageView
-            android:id="@+id/img_cell4"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/ic_batterycell_4_filled"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.452"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.26" />
+            <TextView
+                android:id="@+id/txt_DeviceNotFound"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Queen Bee \n device not found"
+                android:textAlignment="center"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="@+id/img_QueenBeeInactive"
+                app:layout_constraintEnd_toEndOf="@+id/img_QueenBeeInactive"
+                app:layout_constraintStart_toStartOf="@+id/img_QueenBeeInactive"
+                app:layout_constraintTop_toTopOf="@+id/img_QueenBeeInactive"
+                app:layout_constraintVertical_bias="0.4" />
 
-        <ImageView
-            android:id="@+id/img_cell1"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/ic_batterycell_1_filled"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.355"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.325" />
+            <ImageView
+                android:id="@+id/img_ConnectBtnBG"
+                android:layout_width="136dp"
+                android:layout_height="87dp"
+                android:layout_marginBottom="52dp"
+                android:src="@drawable/ic_hexagonbutton_long_fill"
+                app:layout_constraintBottom_toBottomOf="@+id/img_QueenBeeInactive"
+                app:layout_constraintEnd_toEndOf="@+id/img_QueenBeeInactive"
+                app:layout_constraintStart_toStartOf="@+id/img_QueenBeeInactive"
+                app:layout_constraintTop_toBottomOf="@+id/txt_DeviceNotFound" />
 
-        <ImageView
-            android:id="@+id/img_cell2"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/ic_batterycell_2_filled"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.355"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.293" />
+            <Button
+                android:id="@+id/btn_Connect"
+                style="@android:style/Widget.Material.Light.Button.Borderless.Colored"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="52dp"
+                android:backgroundTint="@android:color/transparent"
+                android:text="Connect"
+                android:textSize="18sp"
+                app:iconPadding="0dp"
+                app:iconTint="@android:color/transparent"
+                app:layout_constraintBottom_toBottomOf="@+id/img_QueenBeeInactive"
+                app:layout_constraintEnd_toEndOf="@+id/img_ConnectBtnBG"
+                app:layout_constraintStart_toStartOf="@+id/img_ConnectBtnBG"
+                app:layout_constraintTop_toBottomOf="@+id/txt_DeviceNotFound"
+                app:layout_constraintVertical_bias="0.5" />
 
-        <TextView
-            android:id="@+id/txt_batteryLevel"
-            android:layout_width="wrap_content"
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/deviceActiveContainer"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:text="000"
-            android:textSize="36sp"
-            app:layout_constraintBottom_toBottomOf="@+id/img_QueenBeeActive"
-            app:layout_constraintStart_toEndOf="@+id/img_cell2"
-            app:layout_constraintTop_toTopOf="@+id/img_QueenBeeActive"
-            app:layout_constraintVertical_bias="0.552" />
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0">
 
-        <TextView
-            android:id="@+id/txt_percent"
-            android:layout_width="wrap_content"
+
+            <ImageView
+                android:id="@+id/img_QueenBeeActive"
+                android:layout_width="250dp"
+                android:layout_height="250dp"
+                android:layout_marginTop="92dp"
+                android:layout_marginBottom="52dp"
+                android:src="@drawable/ic_queenbeetopdown_fill"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="@+id/deviceActiveContainer"
+                app:layout_constraintEnd_toEndOf="@+id/deviceActiveContainer"
+                app:layout_constraintHorizontal_bias="0.50"
+                app:layout_constraintStart_toStartOf="@+id/deviceActiveContainer"
+                app:layout_constraintTop_toTopOf="@+id/deviceActiveContainer" />
+
+            <ImageView
+                android:id="@+id/img_cell1"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_batterycell_1_filled"
+                app:layout_constraintBottom_toBottomOf="@+id/img_QueenBeeActive"
+                app:layout_constraintEnd_toEndOf="@+id/img_QueenBeeActive"
+                app:layout_constraintHorizontal_bias="0.25"
+                app:layout_constraintStart_toStartOf="@+id/img_QueenBeeActive"
+                app:layout_constraintTop_toTopOf="@+id/img_QueenBeeActive"
+                app:layout_constraintVertical_bias="0.60" />
+
+            <ImageView
+                android:id="@+id/img_cell2"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_batterycell_2_filled"
+                app:layout_constraintBottom_toBottomOf="@+id/img_QueenBeeActive"
+                app:layout_constraintEnd_toEndOf="@+id/img_QueenBeeActive"
+                app:layout_constraintHorizontal_bias="0.25"
+                app:layout_constraintStart_toStartOf="@+id/img_QueenBeeActive"
+                app:layout_constraintTop_toTopOf="@+id/img_QueenBeeActive"
+                app:layout_constraintVertical_bias="0.50" />
+
+
+            <ImageView
+                android:id="@+id/img_cell3"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_batterycell_3_filled"
+                app:layout_constraintBottom_toBottomOf="@+id/img_QueenBeeActive"
+                app:layout_constraintEnd_toEndOf="@+id/img_QueenBeeActive"
+                app:layout_constraintHorizontal_bias="0.25"
+                app:layout_constraintStart_toStartOf="@+id/img_QueenBeeActive"
+                app:layout_constraintTop_toTopOf="@+id/img_QueenBeeActive"
+                app:layout_constraintVertical_bias="0.40" />
+
+            <ImageView
+                android:id="@+id/img_cell4"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_batterycell_4_filled"
+                app:layout_constraintBottom_toBottomOf="@+id/img_QueenBeeActive"
+                app:layout_constraintEnd_toEndOf="@+id/img_QueenBeeActive"
+                app:layout_constraintHorizontal_bias="0.421"
+                app:layout_constraintStart_toStartOf="@+id/img_QueenBeeActive"
+                app:layout_constraintTop_toTopOf="@+id/img_QueenBeeActive"
+                app:layout_constraintVertical_bias="0.40" />
+
+            <TextView
+                android:id="@+id/txt_batteryLevel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="100"
+                android:textSize="36sp"
+                app:layout_constraintBottom_toBottomOf="@+id/img_QueenBeeActive"
+                app:layout_constraintStart_toEndOf="@+id/img_cell2"
+                app:layout_constraintTop_toTopOf="@+id/img_QueenBeeActive"
+                app:layout_constraintVertical_bias="0.56" />
+
+            <TextView
+                android:id="@+id/txt_percent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="%"
+                android:textSize="36sp"
+                app:layout_constraintBottom_toBottomOf="@+id/img_QueenBeeActive"
+                app:layout_constraintStart_toEndOf="@+id/txt_batteryLevel"
+                app:layout_constraintTop_toTopOf="@+id/img_QueenBeeActive"
+                app:layout_constraintVertical_bias="0.56" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/musicControlsContainer"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="%"
-            android:textSize="36sp"
-            app:layout_constraintBottom_toBottomOf="@+id/img_QueenBeeActive"
-            app:layout_constraintStart_toEndOf="@+id/txt_batteryLevel"
-            app:layout_constraintTop_toTopOf="@+id/img_QueenBeeActive"
-            app:layout_constraintVertical_bias="0.552" />
+            app:layout_constraintBottom_toBottomOf="@+id/fragHomeContainer"
+            app:layout_constraintEnd_toEndOf="@+id/fragHomeContainer"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="@+id/fragHomeContainer"
+            app:layout_constraintTop_toTopOf="@+id/fragHomeContainer"
+            app:layout_constraintVertical_bias="1">
+
+            <!--<ImageView
+                android:id="@+id/img_QueueBtnBG"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_hexagonbutton_long_fill"
+                app:layout_constraintBottom_toBottomOf="@+id/btn_toQueue"
+                app:layout_constraintEnd_toEndOf="@+id/btn_toQueue"
+                app:layout_constraintStart_toStartOf="@+id/btn_toQueue"
+                app:layout_constraintTop_toTopOf="@+id/btn_toQueue" />!-->
+
+            <ImageView
+                android:id="@+id/img_QueueBtnBG_MID"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_hexagonbutton_mid_long_fill"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="@+id/btn_toQueue"
+                app:layout_constraintEnd_toStartOf="@+id/img_QueueBtnBG_RGT"
+                app:layout_constraintStart_toEndOf="@+id/img_QueueBtnBG_LFT"
+                app:layout_constraintTop_toTopOf="@+id/btn_toQueue" />
+
+            <ImageView
+                android:id="@+id/img_QueueBtnBG_RGT"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_hexagonbutton_rgt_long_fill"
+                app:layout_constraintBottom_toBottomOf="@+id/img_QueueBtnBG_MID"
+                app:layout_constraintEnd_toEndOf="@+id/btn_toQueue"
+                app:layout_constraintTop_toTopOf="@+id/img_QueueBtnBG_MID" />
+
+            <ImageView
+                android:id="@+id/img_QueueBtnBG_LFT"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_hexagonbutton_lft_long_fill"
+                app:layout_constraintBottom_toBottomOf="@+id/img_QueueBtnBG_MID"
+                app:layout_constraintStart_toStartOf="@+id/btn_toQueue"
+                app:layout_constraintTop_toTopOf="@+id/img_QueueBtnBG_MID" />
+
+            <Button
+                android:id="@+id/btn_toQueue"
+                style="@android:style/Widget.Material.Light.Button.Borderless.Colored"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginBottom="300dp"
+                android:backgroundTint="@android:color/transparent"
+                android:text="Music  Queue"
+                android:textSize="18sp"
+                app:iconPadding="0dp"
+                app:iconTint="@android:color/transparent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/txt_RecentlyPlayed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Recently Played"
+                app:layout_constraintBottom_toTopOf="@+id/btn_toQueue"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="1.0" />
+
+            <ImageButton
+                android:id="@+id/btn_Play"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="64dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="100dp"
+                android:background="@drawable/ic_play_arrow_black_24dp"
+                android:scaleX="1.2"
+                android:scaleY="1.2"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.5" />
+
+            <ImageButton
+                android:id="@+id/btn_ShufflePlay"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="72dp"
+                android:layout_marginBottom="100dp"
+                android:background="@drawable/ic_shuffle_black_24dp"
+                android:cropToPadding="false"
+                android:scaleType="center"
+                android:scaleX="1"
+                android:scaleY="1"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toEndOf="@+id/btn_Play"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>
