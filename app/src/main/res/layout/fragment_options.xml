@@ -64,93 +64,96 @@
             app:layout_constraintTop_toBottomOf="@+id/fragPgOptionsToolBar"
             app:layout_constraintVertical_bias="0.0">
 
-            <TableLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:orientation="vertical"
                 android:paddingLeft="12dp"
                 android:paddingRight="12dp">
 
-                <TableRow
+                <TextView
+                    android:id="@+id/txt_DeviceCardTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Device Settings" />
+
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/txt_DeviceCardTitle"
+                        android:id="@+id/txt_vibStrength"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Device Settings" />
-                </TableRow>
+                        android:text="Vibration Strength"
+                        android:textSize="24sp" />
 
-                <TableRow
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent">
-
-                    <LinearLayout
+                    <SeekBar
+                        android:id="@+id/sb_vibeStrengthBar"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="vertical">
+                        android:layout_marginStart="6dp"
+                        android:layout_marginEnd="6dp" />
+                </LinearLayout>
+
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
 
                         <TextView
-                            android:id="@+id/txt_vibStrength"
-                            android:layout_width="wrap_content"
+                            android:id="@+id/txt_batPow"
+                            android:layout_width="344dp"
                             android:layout_height="wrap_content"
-                            android:text="Vibration Strength"
+                            android:text="Battery Power"
                             android:textSize="24sp" />
 
-                        <SeekBar
-                            android:id="@+id/sb_vibeStrengthBar"
+                        <TextView
+                            android:id="@+id/txt_batPercent"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="100"
+                            android:textAlignment="textEnd"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:id="@+id/txt_percentSym"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="end"
+                            android:text="%"
+                            android:textAlignment="textEnd"
+                            android:textSize="18sp" />
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/txt_BluetoothSet"
+                            android:layout_width="302dp"
+                            android:layout_height="wrap_content"
+                            android:text="Bluetooth Settings"
+                            android:textSize="24sp" />
+
+                        <ImageButton
+                            android:id="@+id/btn_toBTSettings"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_marginStart="6dp"
-                            android:layout_marginEnd="6dp" />
-                    </LinearLayout>
+                            android:background="@android:color/transparent"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/ic_navigate_next_black_24dp" />
 
-                </TableRow>
+                    </TableRow>
+                </TableLayout>
 
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <TextView
-                        android:id="@+id/txt_batPow"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Battery Power"
-                        android:textSize="24sp" />
-
-                    <TextView
-                        android:id="@+id/txt_batPercent"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="100" />
-
-                    <TextView
-                        android:id="@+id/txt_percentSym"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="%" />
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <TextView
-                        android:id="@+id/txt_BluetoothSet"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Bluetooth Settings"
-                        android:textSize="24sp" />
-
-                    <ImageButton
-                        android:id="@+id/btn_toBTSettings"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@android:color/transparent"
-                        android:src="@drawable/ic_navigate_next_black_24dp" />
-
-                </TableRow>
-            </TableLayout>
+            </LinearLayout>
 
         </androidx.cardview.widget.CardView>
 
@@ -160,6 +163,11 @@
             android:layout_height="0dp"
             android:layout_marginTop="16dp"
             app:layout_constraintTop_toBottomOf="@+id/card_DeviceSettings">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"></LinearLayout>
 
             <TableLayout
                 android:layout_width="match_parent"
@@ -173,7 +181,7 @@
 
                     <TextView
                         android:id="@+id/txt_AppCardTitle"
-                        android:layout_width="wrap_content"
+                        android:layout_width="295dp"
                         android:layout_height="wrap_content"
                         android:text="App Settings" />
                 </TableRow>
@@ -210,7 +218,8 @@
                         android:id="@+id/txt_vNum"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/var_VersionNum" />
+                        android:text="@string/var_VersionNum"
+                        android:textAlignment="textEnd" />
                 </TableRow>
 
                 <TableRow
