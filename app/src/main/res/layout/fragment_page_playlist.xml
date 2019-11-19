@@ -80,7 +80,7 @@ tools:context=".ML_Page_PlaylistFragment">
                     app:layout_constraintStart_toEndOf="@+id/txt_numSongs" />
 
                 <ImageButton
-                    android:id="@+id/imageButton2"
+                    android:id="@+id/btn_songPopUp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
