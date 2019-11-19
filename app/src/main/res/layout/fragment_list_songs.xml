@@ -7,27 +7,71 @@
     tools:context=".ML_List_SongsFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/fragLstSongsContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/fragLstSongsToolbar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="?attr/actionBarTheme"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="0dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingStart="24dp">
+
+
+                <TextView
+                    android:id="@+id/txt_PageTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/title_musicLibrary_allSongs"
+                    android:textAlignment="viewStart"
+                    android:textAllCaps="true"
+                    android:textColor="@android:color/primary_text_dark"
+                    android:textSize="24sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </FrameLayout>
+        </androidx.appcompat.widget.Toolbar>
 
         <SearchView
             android:id="@+id/listSongs_search"
             android:layout_width="match_parent"
             android:layout_height="33dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="16dp"
             android:alpha="100"
             android:background="#00AFAFAF"
             android:backgroundTint="#2D000000"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fragLstSongsToolbar"
             tools:layout_editor_absoluteX="0dp" />
 
         <ScrollView
             android:id="@+id/listSongs_container"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="68dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/listSongs_search">
 
@@ -64,7 +108,7 @@
                         android:layout_height="match_parent">
 
                         <ImageButton
-                            android:id="@+id/imageButton"
+                            android:id="@+id/btn_songPopUp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="#00FFFFFF"

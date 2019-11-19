@@ -80,7 +80,7 @@ tools:context=".ML_Page_PlaylistFragment">
                     app:layout_constraintStart_toEndOf="@+id/txt_numSongs" />
 
                 <ImageButton
-                    android:id="@+id/btn_songPopUp"
+                    android:id="@+id/btn_editList"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
@@ -89,6 +89,7 @@ tools:context=".ML_Page_PlaylistFragment">
                     android:src="@drawable/ic_edit_black_24dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -124,7 +125,7 @@ tools:context=".ML_Page_PlaylistFragment">
                     android:layout_height="match_parent">
 
                     <ImageButton
-                        android:id="@+id/imageButton"
+                        android:id="@+id/btn_songPopUp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="#00FFFFFF"

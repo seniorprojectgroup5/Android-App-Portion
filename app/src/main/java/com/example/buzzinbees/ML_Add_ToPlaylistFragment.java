@@ -13,10 +13,10 @@ import android.view.ViewGroup;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class AddToPlaylistFragment extends Fragment {
+public class ML_Add_ToPlaylistFragment extends Fragment {
 
 
-    public AddToPlaylistFragment() {
+    public ML_Add_ToPlaylistFragment() {
         // Required empty public constructor
     }
 
@@ -25,7 +25,7 @@ public class AddToPlaylistFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_add_to_playlist, container, false);
+        return inflater.inflate(R.layout.fragment_add_to_playlist,null);
     }
 
 }

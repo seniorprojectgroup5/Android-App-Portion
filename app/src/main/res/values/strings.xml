@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">BuzzinBees</string>
+
+    <!-- Page Names !-->
     <string name="title_home">Home</string>
     <string name="title_options">Options</string>
     <string name="title_musicLibrary_allSongs">Songs</string>
@@ -7,7 +9,15 @@
     <string name="title_musicLibrary_allAlbums">Albums</string>
     <string name="title_musicLibrary_allArtists">Artists</string>
     <string name="title_visualizer">Visualizer</string>
+
+    <!-- Constants-->
+    <string name="name_defaultPlaylist">★Favorites</string>
+
+    <!--Variable/Placeholder Strings!-->
     <string name="var_RecentPlayedQueue">Music Queue</string>
+
+
+    <!--String Arrays!-->
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
