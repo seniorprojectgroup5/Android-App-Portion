@@ -11,11 +11,13 @@ import android.view.View;
 
 public class MyVisualizer extends View{
 
+    //set up the drawing variables
     private Paint mForePaint = new Paint();
     private byte[] mBytes;
     private float[] mPoints;
     private Rect mRect = new Rect();
 
+    //constructors, do not delete!
     public MyVisualizer(Context context) {
         super(context);
         initialize();
@@ -29,6 +31,7 @@ public class MyVisualizer extends View{
         initialize();
     }
 
+    //initialize drawing variables
     void initialize(){
         mBytes=null;
         mForePaint.setStrokeWidth(1f);
@@ -36,11 +39,13 @@ public class MyVisualizer extends View{
         mForePaint.setColor(Color.rgb(0, 128, 255));
     }
 
+    //update the visualizer function
     public void updateVisualizer(byte[] bytes) {
         mBytes = bytes;
         invalidate();
     }
 
+    //draw the waveform
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);

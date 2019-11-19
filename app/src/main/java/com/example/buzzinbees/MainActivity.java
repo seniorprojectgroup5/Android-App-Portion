@@ -20,15 +20,15 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    //create variables
     private boolean isPlaying;
     private MediaPlayer player;
     private MyVisualizer visualizerView;
     private Visualizer mVisualizer;
     private MediaPlayer.OnCompletionListener completeListener;
 
-
+    //check permissions
     List<String> permissions = new ArrayList<String>();
-
     private boolean askPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             int RECORD_AUDIO = checkSelfPermission(Manifest.permission.RECORD_AUDIO );
@@ -61,37 +61,35 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //check permissions function call
         askPermission();
 
-        Log.d("CRASH", "starts onCreate");
         super.onCreate(savedInstanceState);
-        Log.d("CRASH", "Load instance");
         setContentView(R.layout.activity_main);
-        Log.d("CRASH", "Loaded XML");
 
+        //create media player to handle the playback
         player = new MediaPlayer();
-        Log.d("CRASH", "Initialized MediaPlayer");
 
 
-        final Button record = findViewById(R.id.btntoggelRec);
+        //create play button
         final Button playBack = findViewById(R.id.btnPlayRec);
-        Log.d("CRASH", "Loaded buttons");
         visualizerView = findViewById(R.id.visualizer);
-        Log.d("CRASH", "Loaded visualizer");
 
+        //set isPlaying boolean
         isPlaying = false;
 
-
-
+        //decide what happens when the song is done playing
         completeListener = new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {
-                Log.d("CRASH", "completion listener started");
+                //stop the music and release the media player
                 player.stop();
                 player.release();
+                //reset isPlaying to false
                 isPlaying = false;
-                record.setEnabled(true);
+                //turn off the visualizer
                 mVisualizer.setEnabled(false);
+                //turn the button text to play again
                 playBack.setText("Play");
             }
         };
@@ -99,37 +97,35 @@ public class MainActivity extends AppCompatActivity {
         playBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("CRASH", "button clicked");
+                //check if a song is playing
                 if (isPlaying) {
-                    Log.d("CRASH", "isPlaying true");
+                    //if a song is playing, the button will stop playback
                     player.stop();
                     player.release();
-                    Log.d("CRASH", "mediaplayer released");
                     isPlaying = false;
                     mVisualizer.setEnabled(false);
                     ((Button) v).setText("Play");
                 } else {
-                    Log.d("CRASH", "isPlaying false");
+                    //otherwise, the play button will instantiate the song and the visualizer responding to it
                     try {
-                        Log.d("CRASH", "start of process");
+                        //instantiate the mediaplayer
                         player = new MediaPlayer();
-                        Log.d("CRASH", "player defined");
-                        AssetFileDescriptor assetFileDescriptor = getResources().openRawResourceFd(R.raw.sanctuarytheme);
-                        Log.d("CRASH", "song file assigned to variable");
+                        //assign the song to play
+                        AssetFileDescriptor assetFileDescriptor = getResources().openRawResourceFd(R.raw.sanctuarytheme); //pulling a RAW FILE, not from device storage!
                         player.setDataSource(assetFileDescriptor);
-                        Log.d("CRASH", "data source assigned");
+                        //check for song completion
                         player.setOnCompletionListener(completeListener);
-                        Log.d("CRASH", "set completion listener");
                         player.prepare();
-                        Log.d("CRASH", "prepared media player");
+                        //set up visualizer function
                         setupVisualizerFxAndUI();
-                        Log.d("CRASH", "set up visualizer");
+                        //start playback
                         player.start();
                         mVisualizer.setEnabled(true);
                         isPlaying = true;
+                        //change button text to stop
                         ((Button) v).setText("Stop");
-                        Toast.makeText(MainActivity.this, "PlayBack Started", Toast.LENGTH_SHORT).show();
                     } catch (IOException e) {
+                        //if the "try" above fails, do this
                         e.printStackTrace();
                         Toast.makeText(MainActivity.this, "No song to play", Toast.LENGTH_SHORT).show();
                     }
@@ -140,21 +136,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupVisualizerFxAndUI() {
-
-        Log.d("CRASH", "start vis function");
         // Create the Visualizer object and attach it to our media player.
         mVisualizer = new Visualizer(player.getAudioSessionId());
-        Log.d("CRASH", "get audio session");
+
+        //set up the visualizer
         mVisualizer.setCaptureSize(Visualizer.getCaptureSizeRange()[0]);
-        Log.d("CRASH", "set capture size");
+
+        //set up the data capture for waveform data and fft data
         mVisualizer.setDataCaptureListener(
                 new Visualizer.OnDataCaptureListener() {
                     public void onWaveFormDataCapture(Visualizer visualizer, byte[] bytes, int samplingRate) {
+                        //update the visualizer view with the waveform
                         visualizerView.updateVisualizer(bytes);
                     }
 
-                    public void onFftDataCapture(Visualizer visualizer,
-                                                 byte[] bytes, int samplingRate) {
+                    public void onFftDataCapture(Visualizer visualizer, byte[] bytes, int samplingRate) {
+                        //code for fft data capture, likely a print to screen to start
                     }
                 }, Visualizer.getMaxCaptureRate() / 2, true, false);
     }
