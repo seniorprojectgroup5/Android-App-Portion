@@ -5,22 +5,12 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <ScrollView
-        android:id="@+id/scroll_container"
+    <ListView
+        android:id="@+id/listView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="8dp"
-        android:layout_weight="1">
-
-        <TextView
-            android:id="@+id/text_debug"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="monospace"
-            android:textSize="12sp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
-
-    </ScrollView>
+        android:layout_weight="1"
+        android:dividerHeight="1dp" />
 
     <SeekBar
         android:id="@+id/seekbar_audio"
