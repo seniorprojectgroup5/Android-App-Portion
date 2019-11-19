@@ -15,6 +15,7 @@
 
     <!--Variable/Placeholder Strings!-->
     <string name="var_RecentPlayedQueue">Music Queue</string>
+    <string name="var_VersionNum">Version 0.00.1</string>
 
 
     <!--String Arrays!-->
