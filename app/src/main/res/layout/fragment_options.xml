@@ -66,11 +66,13 @@
 
             <TableLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp">
 
                 <TableRow
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" >
+                    android:layout_height="match_parent">
 
                     <TextView
                         android:id="@+id/txt_DeviceCardTitle"
@@ -80,8 +82,8 @@
                 </TableRow>
 
                 <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" >
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -92,30 +94,36 @@
                             android:id="@+id/txt_vibStrength"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Vibration Strength" />
+                            android:text="Vibration Strength"
+                            android:textSize="24sp" />
 
                         <SeekBar
                             android:id="@+id/sb_vibeStrengthBar"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="6dp"
+                            android:layout_marginEnd="6dp" />
                     </LinearLayout>
 
                 </TableRow>
 
                 <TableRow
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" >
+                    android:layout_height="match_parent">
 
                     <TextView
                         android:id="@+id/txt_batPow"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Battery Power" />
+                        android:text="Battery Power"
+                        android:textSize="24sp" />
+
                     <TextView
                         android:id="@+id/txt_batPercent"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="100" />
+
                     <TextView
                         android:id="@+id/txt_percentSym"
                         android:layout_width="wrap_content"
@@ -126,12 +134,21 @@
                 <TableRow
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
+
                     <TextView
                         android:id="@+id/txt_BluetoothSet"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Bluetooth Settings" />
-                    
+                        android:text="Bluetooth Settings"
+                        android:textSize="24sp" />
+
+                    <ImageButton
+                        android:id="@+id/btn_toBTSettings"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:src="@drawable/ic_navigate_next_black_24dp" />
+
                 </TableRow>
             </TableLayout>
 
@@ -146,11 +163,13 @@
 
             <TableLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp">
 
                 <TableRow
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" >
+                    android:layout_height="match_parent">
 
                     <TextView
                         android:id="@+id/txt_AppCardTitle"
@@ -161,11 +180,38 @@
 
                 <TableRow
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/txt_DarkMode"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Dark Mode"
+                        android:textSize="24sp" />
+
+                    <Switch
+                        android:id="@+id/switch_darkMode"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </TableRow>
 
                 <TableRow
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/txt_info"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Info"
+                        android:textSize="24sp" />
+
+                    <TextView
+                        android:id="@+id/txt_vNum"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/var_VersionNum" />
+                </TableRow>
 
                 <TableRow
                     android:layout_width="match_parent"
