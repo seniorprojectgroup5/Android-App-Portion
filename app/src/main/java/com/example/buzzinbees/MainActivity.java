@@ -40,6 +40,10 @@ public class MainActivity extends AppCompatActivity {
 
 //      bluetooth adapter needed for bluetooth to work
         BA = (BluetoothAdapter)BluetoothAdapter.getDefaultAdapter();
+
+        if(BA == null){
+            Toast.makeText(getApplicationContext(),"Device doesnt Support Bluetooth", Toast.LENGTH_LONG).show();
+        }
     }
 
 //    turn bluetooth on
