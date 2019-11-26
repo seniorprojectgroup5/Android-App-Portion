@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Debug;
 import android.util.Log;
 import android.view.MenuItem;
+import androidx.appcompat.widget.Toolbar;
 //import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -26,44 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
     int currentFragment = 0;
 
-    /*private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
-            Fragment fragment = null;
-
-            switch (item.getItemId()) {
-                case R.id.navigation_home:
-                    fragment = new HomeFragment();
-                    currentFragment = 0;
-                    break;
-                case R.id.navigation_songs:
-                    fragment = new ML_List_SongsFragment();
-                    currentFragment = 1;
-                    break;
-                case R.id.navigation_playlists:
-                    fragment = new ML_List_PlaylistsFragment();
-                    currentFragment = 2;
-                    break;
-                case R.id.navigation_albums:
-                    fragment = new ML_List_AlbumsFragment();
-                    currentFragment = 3;
-                    break;
-                case R.id.navigation_artists:
-                    fragment = new ML_List_ArtstisFragment();
-                    currentFragment = 4;
-                    break;
-                case R.id.navigation_visualizer:
-                    fragment = new VisualizerFragment();
-                    currentFragment = 5;
-                    break;
-            }
-            return loadFragment(fragment);
-        }
-
-    };*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,12 +38,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Log.d("AppCrash","contentView set");
 
-        //mTextMessage = (TextView) findViewById(R.id.message);
-        //BottomNavigationView navigation =  findViewById(R.id.navigation);
-        //Log.d("AppCrash","Bottom Nav Loaded");
-        //navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        //Log.d("AppCrash","Bottom Nav Loaded");
-
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         loadFragment(new HomeFragment());
         //Log.d("AppCrash","Home Fragment Loaded ");
