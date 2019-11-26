@@ -41,7 +41,8 @@
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:paddingStart="40dp">
 
                     <ImageView
                         android:id="@+id/img_AlbumCover"
