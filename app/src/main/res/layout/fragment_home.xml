@@ -204,12 +204,25 @@
                 app:layout_constraintVertical_bias="0.56" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <FrameLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:layout_editor_absoluteY="430dp">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-        </FrameLayout>
+            <fragment
+                android:id="@+id/songControls_frag"
+                android:name="com.example.buzzinbees.MusicControls"
+                android:layout_width="415dp"
+                android:layout_height="420dp"
+                android:layout_marginTop="312dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.921" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>
