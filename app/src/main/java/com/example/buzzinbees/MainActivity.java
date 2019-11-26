@@ -10,11 +10,15 @@ import android.os.Bundle;
 import android.os.Debug;
 import android.util.Log;
 import android.view.MenuItem;
+
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
 //import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -26,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
     //int currentCount = 0;
 
     int currentFragment = 0;
+
+    private DrawerLayout drawer;
 
 
 
@@ -41,8 +47,27 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        drawer = findViewById(R.id.mainContainer);
+
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawer,toolbar,
+                R.string.navigation_drawer_open,R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
         loadFragment(new HomeFragment());
         //Log.d("AppCrash","Home Fragment Loaded ");
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(drawer.isDrawerOpen(GravityCompat.START)){
+            drawer.closeDrawer(GravityCompat.START);
+            //on backpress, if menu open, close menu
+        }else{
+            super.onBackPressed();
+            //else usual back btn function, closes app currently
+        }
+
     }
 
     private boolean loadFragment(Fragment frag) {
