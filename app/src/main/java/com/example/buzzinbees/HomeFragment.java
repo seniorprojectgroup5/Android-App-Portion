@@ -27,10 +27,6 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-//        Fragment videoFragment = new MusicControls();
-//        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-//        transaction.add(R.id.songControls_frag, videoFragment).commit();
-
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_home,null);
     }
