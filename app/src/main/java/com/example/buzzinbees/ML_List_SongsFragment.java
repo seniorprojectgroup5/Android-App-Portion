@@ -108,7 +108,7 @@ public class ML_List_SongsFragment extends Fragment {
 
     public void getMusic() {
         //get access to device music info and create a "cursor" to scroll through the files
-        ContentResolver contentResolver = getContentResolver();
+        ContentResolver contentResolver = null;
         Uri songUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
         Cursor songCursor = contentResolver.query(songUri, null, null, null, null);
 
