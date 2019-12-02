@@ -38,9 +38,10 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 
 import java.util.ArrayList;
-    // TODO: move this into main activity
-    int currentFragment = 0;
+
 public final class MainActivity extends AppCompatActivity {
+
+    int currentFragment = 0;
 
     //permissions request code
     private static final int MY_PERMISSION_REQUEST = 1;
