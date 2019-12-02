@@ -19,8 +19,8 @@ public final class MediaPlayerHolder implements PlayerAdapter {
     private ScheduledExecutorService exec;
     private Runnable seekbarPositionUpdateTask;
 
-    public MediaPlayerHolder(Context con) {
-        context = con.getApplicationContext();
+    public MediaPlayerHolder(ML_List_SongsFragment con) {
+        context = con.getContext();
     }
 
 

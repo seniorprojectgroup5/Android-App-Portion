@@ -10,9 +10,18 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SeekBar;
 
 
 public class miniMusicControls extends Fragment {
+
+    //hard coded song data
+    public static final int MEDIA_RES_ID = R.raw.sanctuarytheme;
+
+    //music player variables
+    private SeekBar seekbarAudio;
+    private PlayerAdapter playAdapt;
+    private boolean isSeeking = false;
 
     public miniMusicControls() {
         // Required empty public constructor
