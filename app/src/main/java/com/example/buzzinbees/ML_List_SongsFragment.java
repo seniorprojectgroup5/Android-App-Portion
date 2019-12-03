@@ -141,7 +141,7 @@ public class ML_List_SongsFragment extends Fragment {
                     }
                 } else {
                     Toast.makeText(getContext(),"No permission granted!", Toast.LENGTH_SHORT).show();
-                    finish();
+//            TODO:        finish();
                 }
                 return;
             }
@@ -151,7 +151,7 @@ public class ML_List_SongsFragment extends Fragment {
 
 
     @Override
-    protected void onStart() {
+    public void onStart() {
         //on start, load the media (currently loading from pre-loaded song)
         super.onStart();
         playAdapt.loadMedia(MEDIA_RES_ID);
@@ -159,15 +159,16 @@ public class ML_List_SongsFragment extends Fragment {
     }
 
     @Override
-    protected void onStop() {
+    public void onStop() {
         //if the application is stopped
         super.onStop();
+        // Todo:
         //check if its changing configurations (rotating) and do not stop play if so
-        if(isChangingConfigurations() && playAdapt.isPlaying()) {
-        } else {
+//        if(isChangingConfigurations() && playAdapt.isPlaying()) {
+//        } else {
             //otherwise, stop the player adapter and release it
             playAdapt.release();
-        }
+//        }
     }
 
     private void initializeUI() {
