@@ -61,6 +61,7 @@ public class ML_List_SongsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
+        playAdapt.loadMedia(MEDIA_RES_ID);
         // loads the music player stuff
         //check permissions
         if(ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
@@ -141,7 +142,6 @@ public class ML_List_SongsFragment extends Fragment {
                     }
                 } else {
                     Toast.makeText(getContext(),"No permission granted!", Toast.LENGTH_SHORT).show();
-//            TODO:        finish();
                 }
                 return;
             }
@@ -154,7 +154,6 @@ public class ML_List_SongsFragment extends Fragment {
     public void onStart() {
         //on start, load the media (currently loading from pre-loaded song)
         super.onStart();
-        playAdapt.loadMedia(MEDIA_RES_ID);
         Log.d(TAG, "onStart: create media player");
     }
 
@@ -163,11 +162,11 @@ public class ML_List_SongsFragment extends Fragment {
         //if the application is stopped
         super.onStop();
         // Todo:
-        //check if its changing configurations (rotating) and do not stop play if so
+//        //check if its changing configurations (rotating) and do not stop play if so
 //        if(isChangingConfigurations() && playAdapt.isPlaying()) {
 //        } else {
-            //otherwise, stop the player adapter and release it
-            playAdapt.release();
+//            //otherwise, stop the player adapter and release it
+//            playAdapt.release();
 //        }
     }
 
