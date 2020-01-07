@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
                         //instantiate the mediaplayer
                         player = new MediaPlayer();
                         //assign the song to play
-                        AssetFileDescriptor assetFileDescriptor = getResources().openRawResourceFd(R.raw.sanctuarytheme); //pulling a RAW FILE, not from device storage!
+                        AssetFileDescriptor assetFileDescriptor = getResources().openRawResourceFd(R.raw.WowWow); //pulling a RAW FILE, not from device storage!
                         player.setDataSource(assetFileDescriptor);
                         //check for song completion
                         player.setOnCompletionListener(completeListener);
