@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.Manifest;
 import android.content.ContentResolver;
@@ -52,7 +53,9 @@ public final class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // to load a specified fragment
-        loadFragment(new ML_List_SongsFragment());
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.fragment_container, new HomeFragment());
+        ft.commit();
     }
 
     private boolean loadFragment(Fragment frag) {

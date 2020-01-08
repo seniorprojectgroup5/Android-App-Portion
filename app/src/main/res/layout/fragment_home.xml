@@ -9,7 +9,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/fragHomeContainer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="349dp"
         tools:visibility="visible">
 
         <androidx.constraintlayout.widget.Guideline
@@ -202,26 +202,6 @@
                 app:layout_constraintStart_toEndOf="@+id/txt_batteryLevel"
                 app:layout_constraintTop_toTopOf="@+id/img_QueenBeeActive"
                 app:layout_constraintVertical_bias="0.56" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <fragment
-                android:id="@+id/songControls_frag"
-                android:name="com.example.buzzinbees.MusicControls"
-                android:layout_width="415dp"
-                android:layout_height="420dp"
-                android:layout_marginTop="312dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.921" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
