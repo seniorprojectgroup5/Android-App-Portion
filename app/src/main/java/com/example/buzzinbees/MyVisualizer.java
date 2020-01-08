@@ -53,20 +53,8 @@ public class MyVisualizer extends View{
         invalidate();
     }
 
-    public void scaleHexagons( ImageView hex1,ImageView hex2,ImageView hex3,ImageView hex4){
-        hex1.setScaleX(0.7087f);
-        hex1.setScaleY(0.7087f);
 
-        hex2.setScaleX(0.5748f);
-        hex2.setScaleY(0.5748f);
-
-        hex3.setScaleX(0.5354f);
-        hex3.setScaleY(0.5354f);
-
-        hex4.setScaleX(0.3386f);
-        hex4.setScaleY(0.3386f);
-    }
-    public void scaleHexagons1(ImageView hex,float value){
+    public void scaleHexagons(ImageView hex,float value){
         hex.setScaleX(value);
         hex.setScaleY(value);
     }

@@ -16,7 +16,9 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -28,10 +30,17 @@ public class MainActivity extends AppCompatActivity {
     private Visualizer mVisualizer;
     private MediaPlayer.OnCompletionListener completeListener;
 
+    ByteBuffer byteBuffer;
+
     ImageView visHex1;
     ImageView visHex2;
     ImageView visHex3;
     ImageView visHex4;
+
+    float HEX1SCALE = 0.7087f;
+    float HEX2SCALE = 0.5748f;
+    float HEX3SCALE = 0.5354f;
+    float HEX4SCALE =0.3386f;
 
     //check permissions
     List<String> permissions = new ArrayList<String>();
@@ -86,10 +95,10 @@ public class MainActivity extends AppCompatActivity {
         final Button playBack = findViewById(R.id.btnPlayRec);
         visualizerView = findViewById(R.id.visualizer);
 
-        visualizerView.scaleHexagons1(visHex1,0.7087f);
-        visualizerView.scaleHexagons1(visHex2,0.5748f);
-        visualizerView.scaleHexagons1(visHex3,0.5354f);
-        visualizerView.scaleHexagons1(visHex4,0.3386f);
+        visualizerView.scaleHexagons(visHex1,HEX1SCALE);
+        visualizerView.scaleHexagons(visHex2,HEX2SCALE);
+        visualizerView.scaleHexagons(visHex3,HEX3SCALE);
+        visualizerView.scaleHexagons(visHex4,HEX4SCALE);
 
         //set isPlaying boolean
         isPlaying = false;
@@ -127,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
                         //instantiate the mediaplayer
                         player = new MediaPlayer();
                         //assign the song to play
-                        AssetFileDescriptor assetFileDescriptor = getResources().openRawResourceFd(R.raw.wowwow); //pulling a RAW FILE, not from device storage!
+                        AssetFileDescriptor assetFileDescriptor = getResources().openRawResourceFd(R.raw.basstones); //pulling a RAW FILE, not from device storage!
                         player.setDataSource(assetFileDescriptor);
                         //check for song completion
                         player.setOnCompletionListener(completeListener);
@@ -161,6 +170,7 @@ public class MainActivity extends AppCompatActivity {
         //set up the visualizer
         mVisualizer.setCaptureSize(Visualizer.getCaptureSizeRange()[0]);
 
+
         //set up the data capture for waveform data and fft data
         mVisualizer.setDataCaptureListener(
                 new Visualizer.OnDataCaptureListener() {
@@ -173,6 +183,16 @@ public class MainActivity extends AppCompatActivity {
 
                     public void onFftDataCapture(Visualizer visualizer, byte[] bytes, int samplingRate) {
                         //code for fft data capture, likely a print to screen to start
+                        //base frequencies 60-250 hz
+
+                        Log.d("FFT", Integer.toString(mVisualizer.getSamplingRate()));
+                        Log.d("FFT", Arrays.toString(bytes));
+
+                        Float f = byteBuffer.getFloat(bytes[0]);
+
+                        Log.d("FFT", f.toString());
+
+                        visualizerView.scaleHexagons(visHex4,HEX4SCALE*f);
 
                     }
                 }, Visualizer.getMaxCaptureRate() / 2, true, true);
