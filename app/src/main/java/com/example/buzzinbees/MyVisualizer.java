@@ -4,9 +4,13 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.ImageView;
+
+import java.util.LinkedList;
 
 
 public class MyVisualizer extends View{
@@ -16,6 +20,11 @@ public class MyVisualizer extends View{
     private byte[] mBytes;
     private float[] mPoints;
     private Rect mRect = new Rect();
+
+    ImageView visHex1;
+    ImageView visHex2;
+    ImageView visHex3;
+    ImageView visHex4;
 
     //constructors, do not delete!
     public MyVisualizer(Context context) {
@@ -34,9 +43,11 @@ public class MyVisualizer extends View{
     //initialize drawing variables
     void initialize(){
         mBytes=null;
-        mForePaint.setStrokeWidth(1f);
+        mForePaint.setStrokeWidth(10f);
         mForePaint.setAntiAlias(true);
-        mForePaint.setColor(Color.rgb(0, 128, 255));
+        mForePaint.setColor(Color.rgb(224, 181, 86));
+
+        visHex1 = findViewById(R.id.img_visHex1);
     }
 
     //update the visualizer function
@@ -44,6 +55,8 @@ public class MyVisualizer extends View{
         mBytes = bytes;
         invalidate();
     }
+
+
 
     //draw the waveform
     @Override
@@ -58,7 +71,7 @@ public class MyVisualizer extends View{
             mPoints = new float[mBytes.length * 4];
         }
 
-        mRect.set(0, 0, getWidth(), getHeight());
+        mRect.set(0, 0, canvas.getWidth(), canvas.getHeight());
 
         for (int i = 0; i < mBytes.length - 1; i++) {
             mPoints[i * 4] = mRect.width() * i / (mBytes.length - 1);

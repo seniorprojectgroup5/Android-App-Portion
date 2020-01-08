@@ -1,15 +1,55 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <com.example.buzzinbees.MyVisualizer
-        android:id="@+id/visualizer"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/VisualizerContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"/>
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_weight="1">
+
+        <ImageView
+            android:id="@+id/img_visHex1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:tint="#373737"
+            app:srcCompat="@drawable/ic_vis_filled_hexagon" />
+
+        <ImageView
+            android:id="@+id/img_visHex2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:tint="#646464"
+            app:srcCompat="@drawable/ic_vis_filled_hexagon" />
+
+        <ImageView
+            android:id="@+id/img_visHex3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:tint="#9B9B9B"
+            app:srcCompat="@drawable/ic_vis_filled_hexagon" />
+
+        <ImageView
+            android:id="@+id/img_visHex4"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:tint="#C8C8C8"
+            app:srcCompat="@drawable/ic_vis_filled_hexagon" />
+
+        <com.example.buzzinbees.MyVisualizer
+            android:id="@+id/visualizer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            tools:layout_editor_absoluteY="326dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
