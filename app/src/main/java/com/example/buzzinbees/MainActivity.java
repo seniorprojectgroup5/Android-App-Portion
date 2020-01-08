@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,6 +27,11 @@ public class MainActivity extends AppCompatActivity {
     private MyVisualizer visualizerView;
     private Visualizer mVisualizer;
     private MediaPlayer.OnCompletionListener completeListener;
+
+    ImageView visHex1;
+    ImageView visHex2;
+    ImageView visHex3;
+    ImageView visHex4;
 
     //check permissions
     List<String> permissions = new ArrayList<String>();
@@ -67,6 +73,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        visHex1 = findViewById(R.id.img_visHex1);
+        visHex2 = findViewById(R.id.img_visHex2);
+        visHex3 = findViewById(R.id.img_visHex3);
+        visHex4 = findViewById(R.id.img_visHex4);
+
         //create media player to handle the playback
         player = new MediaPlayer();
 
@@ -74,6 +85,11 @@ public class MainActivity extends AppCompatActivity {
         //create play button
         final Button playBack = findViewById(R.id.btnPlayRec);
         visualizerView = findViewById(R.id.visualizer);
+
+        visualizerView.scaleHexagons1(visHex1,0.7087f);
+        visualizerView.scaleHexagons1(visHex2,0.5748f);
+        visualizerView.scaleHexagons1(visHex3,0.5354f);
+        visualizerView.scaleHexagons1(visHex4,0.3386f);
 
         //set isPlaying boolean
         isPlaying = false;
@@ -139,6 +155,9 @@ public class MainActivity extends AppCompatActivity {
         // Create the Visualizer object and attach it to our media player.
         mVisualizer = new Visualizer(player.getAudioSessionId());
 
+
+
+
         //set up the visualizer
         mVisualizer.setCaptureSize(Visualizer.getCaptureSizeRange()[0]);
 
@@ -148,12 +167,15 @@ public class MainActivity extends AppCompatActivity {
                     public void onWaveFormDataCapture(Visualizer visualizer, byte[] bytes, int samplingRate) {
                         //update the visualizer view with the waveform
                         visualizerView.updateVisualizer(bytes);
+                        //visualizerView.scaleHexagons(visHex1,visHex2,visHex3,visHex4);
+
                     }
 
                     public void onFftDataCapture(Visualizer visualizer, byte[] bytes, int samplingRate) {
                         //code for fft data capture, likely a print to screen to start
+
                     }
-                }, Visualizer.getMaxCaptureRate() / 2, true, false);
+                }, Visualizer.getMaxCaptureRate() / 2, true, true);
     }
 
 

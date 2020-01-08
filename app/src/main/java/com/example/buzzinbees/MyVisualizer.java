@@ -21,10 +21,7 @@ public class MyVisualizer extends View{
     private float[] mPoints;
     private Rect mRect = new Rect();
 
-    ImageView visHex1;
-    ImageView visHex2;
-    ImageView visHex3;
-    ImageView visHex4;
+
 
     //constructors, do not delete!
     public MyVisualizer(Context context) {
@@ -47,7 +44,7 @@ public class MyVisualizer extends View{
         mForePaint.setAntiAlias(true);
         mForePaint.setColor(Color.rgb(224, 181, 86));
 
-        visHex1 = findViewById(R.id.img_visHex1);
+
     }
 
     //update the visualizer function
@@ -56,12 +53,30 @@ public class MyVisualizer extends View{
         invalidate();
     }
 
+    public void scaleHexagons( ImageView hex1,ImageView hex2,ImageView hex3,ImageView hex4){
+        hex1.setScaleX(0.7087f);
+        hex1.setScaleY(0.7087f);
 
+        hex2.setScaleX(0.5748f);
+        hex2.setScaleY(0.5748f);
+
+        hex3.setScaleX(0.5354f);
+        hex3.setScaleY(0.5354f);
+
+        hex4.setScaleX(0.3386f);
+        hex4.setScaleY(0.3386f);
+    }
+    public void scaleHexagons1(ImageView hex,float value){
+        hex.setScaleX(value);
+        hex.setScaleY(value);
+    }
 
     //draw the waveform
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+
+
 
         if (mBytes == null) {
             return;
