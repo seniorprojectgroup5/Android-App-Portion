@@ -2,6 +2,7 @@ package com.example.buzzinbees;
 
 //import android.arch.lifecycle.ViewModelProvider;
 //import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
 //import android.support.annotation.NonNull;
@@ -15,6 +16,7 @@ import android.view.MenuItem;
 //import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -24,8 +26,10 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.appcompat.widget.Toolbar;
 import androidx.navigation.NavController;
+import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
 
 import android.Manifest;
 import android.content.ContentResolver;
@@ -44,6 +48,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
@@ -58,14 +63,37 @@ public final class MainActivity extends AppCompatActivity {
     private NavigationView navigationView;
     private Toolbar toolBar;
 
+    private NavController navController;
+    private AppBarConfiguration appBarConfiguration;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        navigationView = findViewById(R.id.navView);
+        navController = Navigation.findNavController(this, R.id.nav_host_containter);
 
 
-//        toolBar = findViewById(R.id.toolbar);
+        navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
+            @Override
+            public void onDestinationChanged(@NonNull NavController controller, @NonNull NavDestination destination, @Nullable Bundle arguments) {
+                if(destination.getId() == R.id.homeFragment){
+                    //
+                }
+            }
+        });
+
+        appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).setDrawerLayout(drawerLayout).build();
+        CollapsingToolbarLayout layout = findViewById(R.id.collapsing_toolbar_layout);
+        toolBar = findViewById(R.id.toolbar);
+
+        NavigationUI.setupWithNavController(layout, toolBar, navController, appBarConfiguration);
+        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+
+
+
+//
 //        setSupportActionBar(toolBar);
 //
 //        drawerLayout = findViewById(R.id.mainContainer);
@@ -78,7 +106,7 @@ public final class MainActivity extends AppCompatActivity {
 //        getSupportActionBar().setHomeButtonEnabled(true);
 //
 //
-//        navigationView = findViewById(R.id.navView);
+//
 //        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
 //            @Override
 //            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -118,6 +146,11 @@ public final class MainActivity extends AppCompatActivity {
 //        getMenuInflater().inflate(R.menu.navigation, menu);
 //        return true;
 //    }
+
+    @Override
+    public boolean onSupportNavigateUp(){
+        return NavigationUI.navigateUp(navController, appBarConfiguration) || super.onSupportNavigateUp();
+    }
 
     @Override
     public void onPostCreate(Bundle savedInstanceState){
