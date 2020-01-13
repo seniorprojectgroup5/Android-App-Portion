@@ -20,6 +20,7 @@ import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
     ByteBuffer byteBuffer;
     FloatBuffer floatBuffer;
+    LinkedList<String> byteStrings;
 
     ImageView visHex1;
     ImageView visHex2;
@@ -89,6 +91,8 @@ public class MainActivity extends AppCompatActivity {
         visHex3 = findViewById(R.id.img_visHex3);
         visHex4 = findViewById(R.id.img_visHex4);
 
+        byteStrings = new LinkedList<String>();
+
         //create media player to handle the playback
         player = new MediaPlayer();
 
@@ -132,6 +136,12 @@ public class MainActivity extends AppCompatActivity {
                     isPlaying = false;
                     mVisualizer.setEnabled(false);
                     ((Button) v).setText("Play");
+                    byteStrings.clear();//clears the byte strings
+                    //reset hexagon scale
+                    visualizerView.scaleHexagons(visHex1,HEX1SCALE);
+                    visualizerView.scaleHexagons(visHex2,HEX2SCALE);
+                    visualizerView.scaleHexagons(visHex3,HEX3SCALE);
+                    visualizerView.scaleHexagons(visHex4,HEX4SCALE);
                 } else {
                     //otherwise, the play button will instantiate the song and the visualizer responding to it
                     try {
@@ -187,19 +197,25 @@ public class MainActivity extends AppCompatActivity {
                         //code for fft data capture, likely a print to screen to start
                         //base frequencies 60-250 hz
 
-                        Log.d("FFT", Integer.toString(mVisualizer.getSamplingRate()));
                         Log.d("FFT", Arrays.toString(bytes));
 
-                        floatBuffer = ByteBuffer.wrap(bytes).asFloatBuffer();
-                        float[] fftFloat = new float[floatBuffer.capacity()];
-                        floatBuffer.get(fftFloat);
-                        Log.d("FFT", Arrays.toString(fftFloat));
-                        Float f = fftFloat[0];
+                        for(int i = 0; i<=6; i++){
+                            //convert first 6 bins of fft data to string
+                            Byte b = bytes[i];
+                            byteStrings.add(i,b.toString());
+                            //continuously replace first 6 elements of linked list with first 6 bin values
+                        }
+                        Log.d("FFT",byteStrings.toString());
 
+                        Float f = Float.parseFloat(byteStrings.get(0));
+                        //convert string to float for scaling
 
-
-                        visualizerView.scaleHexagons(visHex4,HEX4SCALE*f);
-
+                        Log.d("FFT",Float.toString(HEX4SCALE*(f/100)));
+                        visualizerView.scaleHexagons(visHex1,HEX1SCALE*(f/100));
+                        visualizerView.scaleHexagons(visHex2,HEX2SCALE*(f/100));
+                        visualizerView.scaleHexagons(visHex3,HEX3SCALE*(f/100));
+                        visualizerView.scaleHexagons(visHex4,HEX4SCALE*(f/100));
+                        //scale hexagon in visualizer
                     }
                 }, Visualizer.getMaxCaptureRate() / 2, true, true);
     }
