@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.nio.FloatBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private MediaPlayer.OnCompletionListener completeListener;
 
     ByteBuffer byteBuffer;
+    FloatBuffer floatBuffer;
 
     ImageView visHex1;
     ImageView visHex2;
@@ -136,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
                         //instantiate the mediaplayer
                         player = new MediaPlayer();
                         //assign the song to play
-                        AssetFileDescriptor assetFileDescriptor = getResources().openRawResourceFd(R.raw.basstones); //pulling a RAW FILE, not from device storage!
+                        AssetFileDescriptor assetFileDescriptor = getResources().openRawResourceFd(R.raw.wowwow); //pulling a RAW FILE, not from device storage!
                         player.setDataSource(assetFileDescriptor);
                         //check for song completion
                         player.setOnCompletionListener(completeListener);
@@ -188,9 +190,13 @@ public class MainActivity extends AppCompatActivity {
                         Log.d("FFT", Integer.toString(mVisualizer.getSamplingRate()));
                         Log.d("FFT", Arrays.toString(bytes));
 
-                        Float f = byteBuffer.getFloat(bytes[0]);
+                        floatBuffer = ByteBuffer.wrap(bytes).asFloatBuffer();
+                        float[] fftFloat = new float[floatBuffer.capacity()];
+                        floatBuffer.get(fftFloat);
+                        Log.d("FFT", Arrays.toString(fftFloat));
+                        Float f = fftFloat[0];
 
-                        Log.d("FFT", f.toString());
+
 
                         visualizerView.scaleHexagons(visHex4,HEX4SCALE*f);
 
