@@ -6,12 +6,11 @@
         android:icon="@drawable/ic_home_black_24dp"
         android:title="@string/title_home" />
 
-    <item
-        android:id="@+id/navigation_songs"
-        android:icon="@drawable/ic_library_music_black_24dp"
-        android:title="@string/title_musicLibrary_allSongs" />
-
-    <item
+        <item
+            android:id="@+id/navigation_songs"
+            android:icon="@drawable/ic_library_music_black_24dp"
+            android:title="@string/title_musicLibrary_allSongs" />
+        <item
         android:id="@+id/navigation_playlists"
         android:icon="@drawable/ic_library_music_black_24dp"
         android:title="@string/title_musicLibrary_allPlaylists" />

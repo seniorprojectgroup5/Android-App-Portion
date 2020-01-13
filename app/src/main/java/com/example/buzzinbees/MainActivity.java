@@ -23,6 +23,9 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.appcompat.widget.Toolbar;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.AppBarConfiguration;
 
 import android.Manifest;
 import android.content.ContentResolver;
@@ -60,19 +63,21 @@ public final class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        toolBar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolBar);
-
-        drawerLayout = findViewById(R.id.mainContainer);
-        toggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.Open, R.string.Close);
-
-        drawerLayout.addDrawerListener(toggle);
-        toggle.syncState();
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
 
 
+//        toolBar = findViewById(R.id.toolbar);
+//        setSupportActionBar(toolBar);
+//
+//        drawerLayout = findViewById(R.id.mainContainer);
+//        toggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.Open, R.string.Close);
+//
+//        drawerLayout.addDrawerListener(toggle);
+//        toggle.syncState();
+//
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        getSupportActionBar().setHomeButtonEnabled(true);
+//
+//
 //        navigationView = findViewById(R.id.navView);
 //        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
 //            @Override
@@ -96,6 +101,9 @@ public final class MainActivity extends AppCompatActivity {
 //                }
 //            }
 //        });
+
+
+
 
 
 
