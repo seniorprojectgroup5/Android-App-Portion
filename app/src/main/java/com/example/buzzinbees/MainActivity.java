@@ -206,23 +206,34 @@ public class MainActivity extends AppCompatActivity {
                             //continuously replace first 6 elements of linked list with first 6 bin values
                         }
                         Log.d("FFT",byteStrings.toString());
+                        Float f= 0f;
+                        Float f1=0f;
+                        Float f2=0f;
+                        Float f3 = 0f;
 
-                        Float f = Float.parseFloat(byteStrings.get(0));
+                        f = Float.parseFloat(byteStrings.get(0));
+                        if((byteStrings.size()>7)){
+                            f1 = Float.parseFloat(byteStrings.get(7));
+                        }
+                        if((byteStrings.size()>14)){
+                            f2 = Float.parseFloat(byteStrings.get(14));
+                        }
+                        if((byteStrings.size()>21)){
+                            f3 = Float.parseFloat(byteStrings.get(21));
+                        }
                         //convert string to float for scaling
 
-                        /*Log.d("FFT",Float.toString(HEX4SCALE*(f/100)));
-                        visualizerView.scaleHexagons(visHex1,HEX1SCALE*(f/100));
-                        visualizerView.scaleHexagons(visHex2,HEX2SCALE*(f/100));
-                        visualizerView.scaleHexagons(visHex3,HEX3SCALE*(f/100));
-                        visualizerView.scaleHexagons(visHex4,HEX4SCALE*(f/100));
-                        visualizerView.lerpScaleHexagons(visHex1,HEX1SCALE*(f/1000));
-                        visualizerView.lerpScaleHexagons(visHex2,HEX2SCALE*(f/1000));
-                        visualizerView.lerpScaleHexagons(visHex3,HEX3SCALE*(f/1000));
-                        visualizerView.lerpScaleHexagons(visHex4,HEX4SCALE*(f/1000));*/
-                        visualizerView.lerpScaleHexagons(visHex1,(f/1000));
-                        visualizerView.lerpScaleHexagons(visHex2,(f/1000));
-                        visualizerView.lerpScaleHexagons(visHex3,(f/1000));
-                        visualizerView.lerpScaleHexagons(visHex4,(f/1000));
+                        //normalize float to values
+
+                        //Log.d("FFT",Float.toString(HEX4SCALE*(f/100)));
+                        visualizerView.lerpScaleHexagons(visHex1,1,HEX1SCALE*(f/1000));
+                        visualizerView.lerpScaleHexagons(visHex2,2,HEX2SCALE*(f1/1000));
+                        visualizerView.lerpScaleHexagons(visHex3,3,HEX3SCALE*(f2/1000));
+                        visualizerView.lerpScaleHexagons(visHex4,4,HEX4SCALE*(f3/1000));
+                       /* visualizerView.lerpScaleHexagons(visHex1,1,(f/1000));
+                        visualizerView.lerpScaleHexagons(visHex2,2,(f/1000));
+                        visualizerView.lerpScaleHexagons(visHex3,3,(f/1000));
+                        visualizerView.lerpScaleHexagons(visHex4,4,(f/1000));*/
                         //scale hexagon in visualizer
                     }
                 }, Visualizer.getMaxCaptureRate() / 2, true, true);

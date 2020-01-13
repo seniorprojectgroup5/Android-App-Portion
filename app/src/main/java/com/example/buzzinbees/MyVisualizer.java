@@ -24,6 +24,21 @@ public class MyVisualizer extends View{
     private float[] mPoints;
     private Rect mRect = new Rect();
 
+    float HEX1SCALE = 0.7087f;
+    float HEX2SCALE = 0.5748f;
+    float HEX3SCALE = 0.5354f;
+    float HEX4SCALE = 0.3386f;
+
+    float HEX1MIN = 0.3544f;
+    float HEX2MIN = 0.2874f;
+    float HEX3MIN = 0.2667f;
+    float HEX4MIN = 0.1693f;
+
+    float HEX1MAX = 0.9087f;
+    float HEX2MAX = 0.7748f;
+    float HEX3MAX = 0.7354f;
+    float HEX4MAX = 0.5386f;
+
 
     //constructors, do not delete!
     public MyVisualizer(Context context) {
@@ -61,25 +76,34 @@ public class MyVisualizer extends View{
         hex.setScaleY(value);
     }
 
-    public void lerpScaleHexagons(ImageView hex,float value){
+    public void lerpScaleHexagons(ImageView hex,int id,float value){
         float sX = hex.getScaleX();
         float sY = hex.getScaleY();
 
 
+
         float vX = lerp(sX, sX*value, value);
-        if(vX>1){
-            vX = 1f;
-        }
-        else if(vX <0.1){
-            vX = 0.1f;
-        }
         float vY = lerp(sY, sY*value, value);
-        if(vY>1){
-            vY = 1f;
+
+        switch(id){
+            case(1):
+                vX = normalize(vX,HEX1MIN,HEX1MAX);
+                vY = normalize(vY,HEX1MIN,HEX1MAX);
+                break;
+            case(2):
+                vX = normalize(vX,HEX2MIN,HEX2MAX);
+                vY = normalize(vY,HEX2MIN,HEX2MAX);
+                break;
+            case(3):
+                vX = normalize(vX,HEX3MIN,HEX3MAX);
+                vY = normalize(vY,HEX3MIN,HEX3MAX);
+                break;
+            case(4):
+                vX = normalize(vX,HEX4MIN,HEX4MAX);
+                vY = normalize(vY,HEX4MIN,HEX4MAX);
+                break;
         }
-        else if(vY <0.1){
-            vY = 0.1f;
-        }
+
         Log.d("FFT","["+Float.toString(vX)+","+Float.toString(vY)+"]");
         hex.setScaleX(vX);
         hex.setScaleY(vY);
@@ -88,6 +112,16 @@ public class MyVisualizer extends View{
     float lerp(float a, float b, float f)
     {
         return ((a * (1.0f - f)) + (b * f));
+    }
+
+    float normalize(float f, float min, float max){
+        float a = (max-min)/(1f- 0f);
+
+        float b = 1f - (a * 1f);
+
+        float mappedValue = (a * f) + b;
+
+        return mappedValue;
     }
 
     //draw the waveform
