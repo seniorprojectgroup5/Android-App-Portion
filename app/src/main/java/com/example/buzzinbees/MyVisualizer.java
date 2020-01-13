@@ -7,8 +7,11 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+
+import androidx.core.math.MathUtils;
 
 import java.util.LinkedList;
 
@@ -20,7 +23,6 @@ public class MyVisualizer extends View{
     private byte[] mBytes;
     private float[] mPoints;
     private Rect mRect = new Rect();
-
 
 
     //constructors, do not delete!
@@ -57,6 +59,35 @@ public class MyVisualizer extends View{
     public void scaleHexagons(ImageView hex,float value){
         hex.setScaleX(value);
         hex.setScaleY(value);
+    }
+
+    public void lerpScaleHexagons(ImageView hex,float value){
+        float sX = hex.getScaleX();
+        float sY = hex.getScaleY();
+
+
+        float vX = lerp(sX, sX*value, value);
+        if(vX>1){
+            vX = 1f;
+        }
+        else if(vX <0.1){
+            vX = 0.1f;
+        }
+        float vY = lerp(sY, sY*value, value);
+        if(vY>1){
+            vY = 1f;
+        }
+        else if(vY <0.1){
+            vY = 0.1f;
+        }
+        Log.d("FFT","["+Float.toString(vX)+","+Float.toString(vY)+"]");
+        hex.setScaleX(vX);
+        hex.setScaleY(vY);
+    }
+
+    float lerp(float a, float b, float f)
+    {
+        return ((a * (1.0f - f)) + (b * f));
     }
 
     //draw the waveform

@@ -210,11 +210,19 @@ public class MainActivity extends AppCompatActivity {
                         Float f = Float.parseFloat(byteStrings.get(0));
                         //convert string to float for scaling
 
-                        Log.d("FFT",Float.toString(HEX4SCALE*(f/100)));
+                        /*Log.d("FFT",Float.toString(HEX4SCALE*(f/100)));
                         visualizerView.scaleHexagons(visHex1,HEX1SCALE*(f/100));
                         visualizerView.scaleHexagons(visHex2,HEX2SCALE*(f/100));
                         visualizerView.scaleHexagons(visHex3,HEX3SCALE*(f/100));
                         visualizerView.scaleHexagons(visHex4,HEX4SCALE*(f/100));
+                        visualizerView.lerpScaleHexagons(visHex1,HEX1SCALE*(f/1000));
+                        visualizerView.lerpScaleHexagons(visHex2,HEX2SCALE*(f/1000));
+                        visualizerView.lerpScaleHexagons(visHex3,HEX3SCALE*(f/1000));
+                        visualizerView.lerpScaleHexagons(visHex4,HEX4SCALE*(f/1000));*/
+                        visualizerView.lerpScaleHexagons(visHex1,(f/1000));
+                        visualizerView.lerpScaleHexagons(visHex2,(f/1000));
+                        visualizerView.lerpScaleHexagons(visHex3,(f/1000));
+                        visualizerView.lerpScaleHexagons(visHex4,(f/1000));
                         //scale hexagon in visualizer
                     }
                 }, Visualizer.getMaxCaptureRate() / 2, true, true);
