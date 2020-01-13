@@ -1,32 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group>
-    <item
-        android:id="@+id/navigation_home"
+        <item
+        android:id="@+id/home"
         android:icon="@drawable/ic_home_black_24dp"
         android:title="@string/title_home" />
 
         <item
-            android:id="@+id/navigation_songs"
+            android:id="@+id/optionsFragment"
             android:icon="@drawable/ic_library_music_black_24dp"
             android:title="@string/title_musicLibrary_allSongs" />
+
         <item
-        android:id="@+id/navigation_playlists"
+        android:id="@+id/ML_List_SongsFragment"
+        android:icon="@drawable/ic_library_music_black_24dp"
+        android:title="@string/title_musicLibrary_allSongs" />
+
+    <item
+        android:id="@+id/ML_Page_PlaylistFragment"
         android:icon="@drawable/ic_library_music_black_24dp"
         android:title="@string/title_musicLibrary_allPlaylists" />
 
     <item
-        android:id="@+id/navigation_albums"
+        android:id="@+id/ML_Page_AlbumFragment"
         android:icon="@drawable/ic_library_music_black_24dp"
         android:title="@string/title_musicLibrary_allAlbums" />
 
     <item
-        android:id="@+id/navigation_artists"
+        android:id="@+id/ML_Page_ArtistFragment"
         android:icon="@drawable/ic_library_music_black_24dp"
         android:title="@string/title_musicLibrary_allArtists" />
 
     <item
-        android:id="@+id/navigation_visualizer"
+        android:id="@+id/visualizerFragment"
         android:icon="@drawable/ic_filter_vintage_black_24dp"
         android:title="@string/title_visualizer" />
     </group>

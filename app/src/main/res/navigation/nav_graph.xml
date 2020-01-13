@@ -23,7 +23,14 @@
         android:id="@+id/ML_Page_PlaylistFragment"
         android:name="com.example.buzzinbees.ML_Page_PlaylistFragment"
         android:label="fragment_page_playlist"
-        tools:layout="@layout/fragment_page_playlist" />
+        tools:layout="@layout/fragment_page_playlist" >
+        <action
+            android:id="@+id/action_ML_Page_PlaylistFragment_to_ML_Add_NewPlaylistFragment"
+            app:destination="@id/ML_Add_NewPlaylistFragment" />
+        <action
+            android:id="@+id/action_ML_Page_PlaylistFragment_to_ML_Add_ToPlaylistFragment"
+            app:destination="@id/ML_Add_ToPlaylistFragment" />
+    </fragment>
     <fragment
         android:id="@+id/ML_Page_ArtistFragment"
         android:name="com.example.buzzinbees.ML_Page_ArtistFragment"
@@ -39,4 +46,14 @@
         android:name="com.example.buzzinbees.ML_List_SongsFragment"
         android:label="fragment_list_songs"
         tools:layout="@layout/fragment_list_songs" />
+    <fragment
+        android:id="@+id/ML_Add_NewPlaylistFragment"
+        android:name="com.example.buzzinbees.ML_Add_NewPlaylistFragment"
+        android:label="fragment_add_new_playlist"
+        tools:layout="@layout/fragment_add_new_playlist" />
+    <fragment
+        android:id="@+id/ML_Add_ToPlaylistFragment"
+        android:name="com.example.buzzinbees.ML_Add_ToPlaylistFragment"
+        android:label="fragment_add_to_playlist"
+        tools:layout="@layout/fragment_add_to_playlist" />
 </navigation>

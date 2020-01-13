@@ -108,9 +108,9 @@ public final class MainActivity extends AppCompatActivity {
 
 
         // to load a specified fragment
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.fragment_container, new HomeFragment());
-        ft.commit();
+//        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+//        ft.replace(R.id.fragment_container, new HomeFragment());
+//        ft.commit();
     }
 
 //    @Override
