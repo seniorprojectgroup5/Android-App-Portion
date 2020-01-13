@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeFragment2">
+    <fragment
+        android:id="@+id/homeFragment2"
+        android:name="com.example.buzzinbees.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/visualizerFragment"
+        android:name="com.example.buzzinbees.VisualizerFragment"
+        android:label="fragment_visualizer"
+        tools:layout="@layout/fragment_visualizer" />
+    <fragment
+        android:id="@+id/optionsFragment"
+        android:name="com.example.buzzinbees.OptionsFragment"
+        android:label="fragment_options"
+        tools:layout="@layout/fragment_options" />
+    <fragment
+        android:id="@+id/ML_Page_PlaylistFragment"
+        android:name="com.example.buzzinbees.ML_Page_PlaylistFragment"
+        android:label="fragment_page_playlist"
+        tools:layout="@layout/fragment_page_playlist" />
+    <fragment
+        android:id="@+id/ML_Page_ArtistFragment"
+        android:name="com.example.buzzinbees.ML_Page_ArtistFragment"
+        android:label="fragment_page_artist"
+        tools:layout="@layout/fragment_page_artist" />
+    <fragment
+        android:id="@+id/ML_Page_AlbumFragment"
+        android:name="com.example.buzzinbees.ML_Page_AlbumFragment"
+        android:label="fragment_page_album"
+        tools:layout="@layout/fragment_page_album" />
+    <fragment
+        android:id="@+id/ML_List_SongsFragment"
+        android:name="com.example.buzzinbees.ML_List_SongsFragment"
+        android:label="fragment_list_songs"
+        tools:layout="@layout/fragment_list_songs" />
+</navigation>
