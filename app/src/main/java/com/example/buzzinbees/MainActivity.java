@@ -138,10 +138,10 @@ public class MainActivity extends AppCompatActivity {
                     ((Button) v).setText("Play");
                     byteStrings.clear();//clears the byte strings
                     //reset hexagon scale
-                    visualizerView.scaleHexagons(visHex1,HEX1SCALE);
-                    visualizerView.scaleHexagons(visHex2,HEX2SCALE);
-                    visualizerView.scaleHexagons(visHex3,HEX3SCALE);
-                    visualizerView.scaleHexagons(visHex4,HEX4SCALE);
+                    visualizerView.lerpScaleHexagons(visHex1,1,HEX1SCALE);
+                    visualizerView.lerpScaleHexagons(visHex2,2,HEX2SCALE);
+                    visualizerView.lerpScaleHexagons(visHex3,3,HEX3SCALE);
+                    visualizerView.lerpScaleHexagons(visHex4,4,HEX4SCALE);
                 } else {
                     //otherwise, the play button will instantiate the song and the visualizer responding to it
                     try {
@@ -206,27 +206,52 @@ public class MainActivity extends AppCompatActivity {
                             //continuously replace first 6 elements of linked list with first 6 bin values
                         }
                         Log.d("FFT",byteStrings.toString());
-                        Float f= 0f;
-                        Float f1=0f;
-                        Float f2=0f;
-                        Float f3 = 0f;
 
-                        f = Float.parseFloat(byteStrings.get(0));
+                        /*Float f= Float.parseFloat(byteStrings.get(0));
+                        Float f1= Float.parseFloat(byteStrings.get(0));
+                        Float f2= Float.parseFloat(byteStrings.get(0));
+                        Float f3= Float.parseFloat(byteStrings.get(0));*/
+
+                        Float f = 0f; // init initial float
+
+                        for(int i = 0; i<=6; i++){
+                            f += Float.parseFloat(byteStrings.get(i));
+                            //add values of bass bins
+                        }
+
+                        Float f1= f;
+                        Float f2=f;
+                        Float f3=f;
+                        //init float values for past bin values
+
                         if((byteStrings.size()>7)){
                             f1 = Float.parseFloat(byteStrings.get(7));
+                            for(int i = 8; i<14; i++){
+                                f1 += Float.parseFloat(byteStrings.get(i));
+                                //add values of bass bins
+                            }
                         }
                         if((byteStrings.size()>14)){
                             f2 = Float.parseFloat(byteStrings.get(14));
+                            for(int i = 15; i<21; i++){
+                                f2 += Float.parseFloat(byteStrings.get(i));
+                                //add values of bass bins
+                            }
                         }
                         if((byteStrings.size()>21)){
                             f3 = Float.parseFloat(byteStrings.get(21));
+                            for(int i = 22; i<28; i++){
+                                f3 += Float.parseFloat(byteStrings.get(i));
+                                //add values of bass bins
+                            }
                         }
+
                         //convert string to float for scaling
 
                         //normalize float to values
 
                         //Log.d("FFT",Float.toString(HEX4SCALE*(f/100)));
-                        visualizerView.lerpScaleHexagons(visHex1,1,HEX1SCALE*(f/1000));
+                        /*visualizerView.lerpScaleHexagons(visHex1,1,HEX1SCALE*(f/1000));
                         visualizerView.lerpScaleHexagons(visHex2,2,HEX2SCALE*(f1/1000));
                         visualizerView.lerpScaleHexagons(visHex3,3,HEX3SCALE*(f2/1000));
                         visualizerView.lerpScaleHexagons(visHex4,4,HEX4SCALE*(f3/1000));
@@ -235,6 +260,10 @@ public class MainActivity extends AppCompatActivity {
                         visualizerView.lerpScaleHexagons(visHex3,3,(f/1000));
                         visualizerView.lerpScaleHexagons(visHex4,4,(f/1000));*/
                         //scale hexagon in visualizer
+                        visualizerView.lerpScaleHexagons(visHex1,1,f);
+                        visualizerView.lerpScaleHexagons(visHex2,2,f1);
+                        visualizerView.lerpScaleHexagons(visHex3,3,f2);
+                        visualizerView.lerpScaleHexagons(visHex4,4,f3);
                     }
                 }, Visualizer.getMaxCaptureRate() / 2, true, true);
     }

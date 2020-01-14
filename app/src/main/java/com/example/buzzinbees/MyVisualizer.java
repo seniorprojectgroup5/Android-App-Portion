@@ -34,10 +34,10 @@ public class MyVisualizer extends View{
     float HEX3MIN = 0.2667f;
     float HEX4MIN = 0.1693f;
 
-    float HEX1MAX = 0.9087f;
-    float HEX2MAX = 0.7748f;
-    float HEX3MAX = 0.7354f;
-    float HEX4MAX = 0.5386f;
+    float HEX1MAX = 0.95f;
+    float HEX2MAX = 0.80f;
+    float HEX3MAX = 0.75f;
+    float HEX4MAX = 0.55f;
 
 
     //constructors, do not delete!
@@ -81,47 +81,46 @@ public class MyVisualizer extends View{
         float sY = hex.getScaleY();
 
 
-
-        float vX = lerp(sX, sX*value, value);
-        float vY = lerp(sY, sY*value, value);
+        float mapVal = value;
 
         switch(id){
             case(1):
-                vX = normalize(vX,HEX1MIN,HEX1MAX);
-                vY = normalize(vY,HEX1MIN,HEX1MAX);
+                mapVal = map(value,-175f,175f,HEX1MIN,HEX1MAX);
                 break;
             case(2):
-                vX = normalize(vX,HEX2MIN,HEX2MAX);
-                vY = normalize(vY,HEX2MIN,HEX2MAX);
+                mapVal = map(value,-175f,175f,HEX2MIN,HEX2MAX);
                 break;
             case(3):
-                vX = normalize(vX,HEX3MIN,HEX3MAX);
-                vY = normalize(vY,HEX3MIN,HEX3MAX);
+                mapVal = map(value,-175f,175f,HEX3MIN,HEX3MAX);
                 break;
             case(4):
-                vX = normalize(vX,HEX4MIN,HEX4MAX);
-                vY = normalize(vY,HEX4MIN,HEX4MAX);
+                mapVal = map(value,-175f,175f,HEX4MIN,HEX4MAX);
                 break;
         }
+        Log.d("FFT","Map Val:"+Float.toString(mapVal));
+
+        float vX = lerp(sX,mapVal , 0.1f);
+        float vY = lerp(sY,mapVal , 0.1f);
 
         Log.d("FFT","["+Float.toString(vX)+","+Float.toString(vY)+"]");
         hex.setScaleX(vX);
         hex.setScaleY(vY);
     }
 
-    float lerp(float a, float b, float f)
+    float lerp(float start, float end, float percent)
     {
-        return ((a * (1.0f - f)) + (b * f));
+        return (start + percent * (end - start));
     }
 
-    float normalize(float f, float min, float max){
-        float a = (max-min)/(1f- 0f);
+    float map(float value , float inputMin, float inputMax , float outputMin, float outputMax ){
+        //the bin value, the min and max to be mapped between the sent range
+        /*float a = (max-min)/(mapMax- mapMin);
 
-        float b = 1f - (a * 1f);
+        float b = mapMax - (a * mapMax);
 
-        float mappedValue = (a * f) + b;
+        float mappedValue = (a * f) + b;*/
 
-        return mappedValue;
+        return ((value - inputMin) / (inputMax - inputMin) * (outputMax - outputMin) + outputMin);
     }
 
     //draw the waveform
