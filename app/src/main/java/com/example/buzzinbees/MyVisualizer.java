@@ -85,22 +85,22 @@ public class MyVisualizer extends View{
 
         switch(id){
             case(1):
-                mapVal = map(value,-175f,175f,HEX1MIN,HEX1MAX);
+                mapVal = map(value,-130f,130f,HEX1MIN,HEX1MAX,true);
                 break;
             case(2):
-                mapVal = map(value,-175f,175f,HEX2MIN,HEX2MAX);
+                mapVal = map(value,-130f,130f,HEX2MIN,HEX2MAX,true);
                 break;
             case(3):
-                mapVal = map(value,-175f,175f,HEX3MIN,HEX3MAX);
+                mapVal = map(value,-130f,130f,HEX3MIN,HEX3MAX,true);
                 break;
             case(4):
-                mapVal = map(value,-175f,175f,HEX4MIN,HEX4MAX);
+                mapVal = map(value,-130f,130f,HEX4MIN,HEX4MAX,true);
                 break;
         }
         Log.d("FFT","Map Val:"+Float.toString(mapVal));
 
-        float vX = lerp(sX,mapVal , 0.1f);
-        float vY = lerp(sY,mapVal , 0.1f);
+        float vX = lerp(sX,mapVal , 0.3f);
+        float vY = lerp(sY,mapVal , 0.3f);
 
         Log.d("FFT","["+Float.toString(vX)+","+Float.toString(vY)+"]");
         hex.setScaleX(vX);
@@ -112,15 +112,20 @@ public class MyVisualizer extends View{
         return (start + percent * (end - start));
     }
 
-    float map(float value , float inputMin, float inputMax , float outputMin, float outputMax ){
+    float map(float value , float inputMin, float inputMax , float outputMin, float outputMax, Boolean clamp ){
         //the bin value, the min and max to be mapped between the sent range
-        /*float a = (max-min)/(mapMax- mapMin);
+        float outVal = ((value - inputMin) / (inputMax - inputMin) * (outputMax - outputMin) + outputMin);
 
-        float b = mapMax - (a * mapMax);
-
-        float mappedValue = (a * f) + b;*/
-
-        return ((value - inputMin) / (inputMax - inputMin) * (outputMax - outputMin) + outputMin);
+        if( clamp ){
+            if(outputMax < outputMin){
+                if( outVal < outputMax )outVal = outputMax;
+                else if( outVal > outputMin )outVal = outputMin;
+            }else{
+                if( outVal > outputMax )outVal = outputMax;
+                else if( outVal < outputMin )outVal = outputMin;
+            }
+        }
+        return outVal;
     }
 
     //draw the waveform

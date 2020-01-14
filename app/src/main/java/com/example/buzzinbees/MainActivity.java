@@ -148,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
                         //instantiate the mediaplayer
                         player = new MediaPlayer();
                         //assign the song to play
-                        AssetFileDescriptor assetFileDescriptor = getResources().openRawResourceFd(R.raw.wowwow); //pulling a RAW FILE, not from device storage!
+                        AssetFileDescriptor assetFileDescriptor = getResources().openRawResourceFd(R.raw.gorrilaz); //pulling a RAW FILE, not from device storage!
                         player.setDataSource(assetFileDescriptor);
                         //check for song completion
                         player.setOnCompletionListener(completeListener);
@@ -176,12 +176,10 @@ public class MainActivity extends AppCompatActivity {
         // Create the Visualizer object and attach it to our media player.
         mVisualizer = new Visualizer(player.getAudioSessionId());
 
-
-
-
         //set up the visualizer
         mVisualizer.setCaptureSize(Visualizer.getCaptureSizeRange()[0]);
 
+        mVisualizer.setMeasurementMode(Visualizer.MEASUREMENT_MODE_NONE);
 
         //set up the data capture for waveform data and fft data
         mVisualizer.setDataCaptureListener(
@@ -197,7 +195,7 @@ public class MainActivity extends AppCompatActivity {
                         //code for fft data capture, likely a print to screen to start
                         //base frequencies 60-250 hz
 
-                        Log.d("FFT", Arrays.toString(bytes));
+                        Log.d("BYTES", Arrays.toString(bytes));
 
                         for(int i = 0; i<=6; i++){
                             //convert first 6 bins of fft data to string
@@ -207,17 +205,14 @@ public class MainActivity extends AppCompatActivity {
                         }
                         Log.d("FFT",byteStrings.toString());
 
-                        /*Float f= Float.parseFloat(byteStrings.get(0));
-                        Float f1= Float.parseFloat(byteStrings.get(0));
-                        Float f2= Float.parseFloat(byteStrings.get(0));
-                        Float f3= Float.parseFloat(byteStrings.get(0));*/
 
-                        Float f = 0f; // init initial float
 
-                        for(int i = 0; i<=6; i++){
+                        Float f = Float.parseFloat(byteStrings.get(3)); // init initial float
+
+                        /*for(int i = 0; i<=6; i++){
                             f += Float.parseFloat(byteStrings.get(i));
                             //add values of bass bins
-                        }
+                        }*/
 
                         Float f1= f;
                         Float f2=f;
@@ -225,40 +220,28 @@ public class MainActivity extends AppCompatActivity {
                         //init float values for past bin values
 
                         if((byteStrings.size()>7)){
-                            f1 = Float.parseFloat(byteStrings.get(7));
-                            for(int i = 8; i<14; i++){
+                            f1 = Float.parseFloat(byteStrings.get(10));
+                            /*for(int i = 8; i<14; i++){
                                 f1 += Float.parseFloat(byteStrings.get(i));
                                 //add values of bass bins
-                            }
+                            }*/
                         }
                         if((byteStrings.size()>14)){
-                            f2 = Float.parseFloat(byteStrings.get(14));
-                            for(int i = 15; i<21; i++){
+                            f2 = Float.parseFloat(byteStrings.get(17));
+                            /*for(int i = 15; i<21; i++){
                                 f2 += Float.parseFloat(byteStrings.get(i));
                                 //add values of bass bins
-                            }
+                            }*/
                         }
                         if((byteStrings.size()>21)){
-                            f3 = Float.parseFloat(byteStrings.get(21));
-                            for(int i = 22; i<28; i++){
+                            f3 = Float.parseFloat(byteStrings.get(24));
+                            /*for(int i = 22; i<28; i++){
                                 f3 += Float.parseFloat(byteStrings.get(i));
                                 //add values of bass bins
-                            }
+                            }*/
                         }
 
-                        //convert string to float for scaling
 
-                        //normalize float to values
-
-                        //Log.d("FFT",Float.toString(HEX4SCALE*(f/100)));
-                        /*visualizerView.lerpScaleHexagons(visHex1,1,HEX1SCALE*(f/1000));
-                        visualizerView.lerpScaleHexagons(visHex2,2,HEX2SCALE*(f1/1000));
-                        visualizerView.lerpScaleHexagons(visHex3,3,HEX3SCALE*(f2/1000));
-                        visualizerView.lerpScaleHexagons(visHex4,4,HEX4SCALE*(f3/1000));
-                       /* visualizerView.lerpScaleHexagons(visHex1,1,(f/1000));
-                        visualizerView.lerpScaleHexagons(visHex2,2,(f/1000));
-                        visualizerView.lerpScaleHexagons(visHex3,3,(f/1000));
-                        visualizerView.lerpScaleHexagons(visHex4,4,(f/1000));*/
                         //scale hexagon in visualizer
                         visualizerView.lerpScaleHexagons(visHex1,1,f);
                         visualizerView.lerpScaleHexagons(visHex2,2,f1);
