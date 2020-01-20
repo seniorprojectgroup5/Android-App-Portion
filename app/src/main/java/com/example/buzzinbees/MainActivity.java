@@ -17,6 +17,7 @@ import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -74,6 +75,15 @@ public final class MainActivity extends AppCompatActivity {
         navigationView = findViewById(R.id.navView);
         navController = Navigation.findNavController(this, R.id.nav_host_containter);
 
+        toolBar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolBar);
+
+        ActionBar AB = getSupportActionBar();
+        AB.setHomeButtonEnabled(true);
+
+        drawerLayout = findViewById(R.id.mainContainer);
+        //ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolBar, )
+
 
         navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
             @Override
@@ -86,10 +96,10 @@ public final class MainActivity extends AppCompatActivity {
 
         appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).setDrawerLayout(drawerLayout).build();
         CollapsingToolbarLayout layout = findViewById(R.id.collapsing_toolbar_layout);
-        toolBar = findViewById(R.id.toolbar);
+
 
         NavigationUI.setupWithNavController(layout, toolBar, navController, appBarConfiguration);
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+        //NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
 
 
 
@@ -111,22 +121,7 @@ public final class MainActivity extends AppCompatActivity {
 //            @Override
 //            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
 //                int id = menuItem.getItemId();
-//                switch(id){
-//                    case R.id.navigation_home:
 //
-//                    case R.id.navigation_songs:
-//
-//                    case R.id.navigation_playlists:
-//
-//                    case R.id.navigation_albums:
-//
-//                    case R.id.navigation_artists:
-//
-//                    case R.id.navigation_visualizer:
-//
-//                    default:
-//                        return true;
-//                }
 //            }
 //        });
 
@@ -141,22 +136,22 @@ public final class MainActivity extends AppCompatActivity {
 //        ft.commit();
     }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu){
-//        getMenuInflater().inflate(R.menu.navigation, menu);
-//        return true;
-//    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.navigation, menu);
+        return true;
+    }
 
     @Override
     public boolean onSupportNavigateUp(){
         return NavigationUI.navigateUp(navController, appBarConfiguration) || super.onSupportNavigateUp();
     }
-
-    @Override
-    public void onPostCreate(Bundle savedInstanceState){
-        super.onPostCreate(savedInstanceState);
-        toggle.syncState();
-    }
+//
+//    @Override
+//    public void onPostCreate(Bundle savedInstanceState){
+//        super.onPostCreate(savedInstanceState);
+//        //toggle.syncState();
+//    }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig){
@@ -164,11 +159,14 @@ public final class MainActivity extends AppCompatActivity {
         toggle.onConfigurationChanged(newConfig);
     }
 
-    public boolean onOptionItemSelected(MenuItem item){
-        if(toggle.onOptionsItemSelected(item)){
-            return true;
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch(item.getItemId()){
+            case R.id.homeFragment:
+                return true;
+            default:
+                    return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
     }
 
     private boolean loadFragment(Fragment frag) {
