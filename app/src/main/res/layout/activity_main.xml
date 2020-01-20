@@ -28,12 +28,12 @@
             android:layout_height="match_parent" >
 
             <Button
-                android:id="@+id/button"
+                android:id="@+id/Bluetooth_onBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:clickable="true"
-                android:onClick="on"
-                android:text="Turn On" />
+                android:text="Turn On"
+                android:onClick="Bluetooth_on"/>
         </TableRow>
 
         <TableRow
@@ -41,11 +41,11 @@
             android:layout_height="match_parent" >
 
             <Button
-                android:id="@+id/button3"
+                android:id="@+id/Bluetooth_list"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:onClick="list"
-                android:text="List devices" />
+                android:text="List devices"
+                android:onClick="Bluetooth_list"/>
         </TableRow>
 
         <TableRow
@@ -53,11 +53,11 @@
             android:layout_height="match_parent" >
 
             <Button
-                android:id="@+id/button4"
+                android:id="@+id/Bluetooth_offBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:onClick="off"
-                android:text="turn off" />
+                android:text="turn off"
+                android:onClick="Bluetooth_off"/>
         </TableRow>
 
         <TableRow
