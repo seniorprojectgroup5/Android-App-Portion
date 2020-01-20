@@ -16,13 +16,25 @@ import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Set;
+import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity {
     Button B_on,B_list,B_off;
     private BluetoothAdapter BA;
     private BluetoothSocket BS;
+    private static String mac_adress;
+    private static final UUID B_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
+
+    InputStream B_input;
+    OutputStream B_output;
+
     TextView connectedDevices;
 
     @Override
@@ -42,16 +54,31 @@ public class MainActivity extends AppCompatActivity {
 
 //      bluetooth adapter needed for bluetooth to work
         BA = (BluetoothAdapter)BluetoothAdapter.getDefaultAdapter();
+        if(BA == null){
+            Toast.makeText(getApplicationContext(),"Device doesnt Support Bluetooth", Toast.LENGTH_LONG).show();
+        } else {
+            BA.enable();
+        }
+
         String tmp = BA.getAddress();
         BluetoothDevice BD = BA.getRemoteDevice(tmp);
 
-        if(BA == null){
-            Toast.makeText(getApplicationContext(),"Device doesnt Support Bluetooth", Toast.LENGTH_LONG).show();
+        try {
+            BS = BD.createRfcommSocketToServiceRecord(B_UUID);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        BA.cancelDiscovery();
+
+        try {
+            BS.connect();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
         Bluetooth_Communication BC = new Bluetooth_Communication();
         BC.sendInfo(BS);
-
     }
 
     public void Bluetooth_on(View v){
@@ -66,6 +93,8 @@ public class MainActivity extends AppCompatActivity {
 
     //    turn bluetooth off
     public void Bluetooth_off(View v){
+        Bluetooth_Communication BC = new Bluetooth_Communication();
+        BC.disconnect(BS, B_output, B_input);
         BA.disable();
         Toast.makeText(getApplicationContext(), "Turned off" ,Toast.LENGTH_LONG).show();
     }
