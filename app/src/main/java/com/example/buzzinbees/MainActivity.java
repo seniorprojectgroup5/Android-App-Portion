@@ -2,40 +2,40 @@ package com.example.buzzinbees;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothSocket;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
-
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.ArrayList;
 import java.util.Set;
 import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity {
-    Button B_on,B_list,B_off;
-    private BluetoothAdapter BA;
-    private BluetoothSocket BS;
-    private static String mac_adress;
-    private static final UUID B_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
+    Button B_on,B_list,B_off, snd_effct, get_nme;
+    public BluetoothAdapter BA;
+    public Bluetooth_Connection BC;
+    public BluetoothDevice BD;
 
-    InputStream B_input;
-    OutputStream B_output;
+    private static String deviceName = "DSD_TECH";
+    private static String mac_adress;
+    public static final UUID B_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
+
+
+    public static Context context;
 
     TextView connectedDevices;
+
+
+    public int effect;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,57 +44,86 @@ public class MainActivity extends AppCompatActivity {
 
 //        temporary buttons needed
 //      turn on bluetooth
-        B_on = (Button) findViewById(R.id.Bluetooth_onBtn);
+        B_on = findViewById(R.id.Bluetooth_onBtn);
 //      list bluetooth devices
-        B_list =(Button)findViewById(R.id.Bluetooth_list);
+        B_list = findViewById(R.id.Bluetooth_list);
 //      turn off bluetooth
-        B_off =(Button)findViewById(R.id.Bluetooth_offBtn);
+        B_off = findViewById(R.id.Bluetooth_offBtn);
+
+        snd_effct = findViewById(R.id.sendEffect);
+
+        get_nme = findViewById(R.id.getNameofDevice);
 
         connectedDevices = (TextView) findViewById(R.id.listOfDevices);
+
+        effect = 1;
 
 //      bluetooth adapter needed for bluetooth to work
         BA = (BluetoothAdapter)BluetoothAdapter.getDefaultAdapter();
         if(BA == null){
             Toast.makeText(getApplicationContext(),"Device doesnt Support Bluetooth", Toast.LENGTH_LONG).show();
-        } else {
-            BA.enable();
         }
 
-        String tmp = BA.getAddress();
-        BluetoothDevice BD = BA.getRemoteDevice(tmp);
+        context = getApplicationContext();
 
-        try {
-            BS = BD.createRfcommSocketToServiceRecord(B_UUID);
-        } catch (IOException e) {
-            e.printStackTrace();
+        Set<BluetoothDevice> pairedDevices = BA.getBondedDevices();
+
+        if(pairedDevices.size() > 0){
+            for (BluetoothDevice device : pairedDevices){
+                String deviceName = device.getName();
+                String deviceHardwareAddress = device.getAddress();
+                if(checkForChip(deviceName)){
+                    BD = device;
+                }
+            }
         }
 
-        BA.cancelDiscovery();
+        BC = new Bluetooth_Connection(BD);
 
-        try {
-            BS.connect();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        Bluetooth_Communication BC = new Bluetooth_Communication();
-        BC.sendInfo(BS);
-    }
-
-    public void Bluetooth_on(View v){
+        int REQUEST_ENABLE_BT = 1;
         if (!BA.isEnabled()) {
             Intent turnOn = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            startActivityForResult(turnOn, 0);
+            startActivityForResult(turnOn, REQUEST_ENABLE_BT);
             Toast.makeText(getApplicationContext(), "Turned on",Toast.LENGTH_LONG).show();
+
+
         } else {
             Toast.makeText(getApplicationContext(), "Already on", Toast.LENGTH_LONG).show();
+        }
+
+
+    }
+
+
+    private final BroadcastReceiver receiver = new BroadcastReceiver() {
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (BluetoothDevice.ACTION_FOUND.equals(action)) {
+                // Discovery has found a device. Get the BluetoothDevice
+                // object and its info from the Intent.
+                BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+                String deviceName = device.getName();
+                String deviceHardwareAddress = device.getAddress(); // MAC address
+
+                if(checkForChip(deviceName)){
+                    BD = device;
+                }
+            }
+        }
+    };
+
+
+    public boolean checkForChip(String name){
+        if(name == deviceName){
+            return true;
+        }else{
+            return false;
         }
     }
 
     //    turn bluetooth off
     public void Bluetooth_off(View v){
-        Bluetooth_Communication BC = new Bluetooth_Communication();
-        BC.disconnect(BS, B_output, B_input);
+        BC.cancel();
         BA.disable();
         Toast.makeText(getApplicationContext(), "Turned off" ,Toast.LENGTH_LONG).show();
     }
@@ -114,6 +143,25 @@ public class MainActivity extends AppCompatActivity {
 //        the toast for debugging
 //        Toast.makeText(getApplicationContext(), deviceName,Toast.LENGTH_SHORT).show();
         connectedDevices.setText(deviceName);
+    }
+
+    public void sendEffect(View v){
+        Toast.makeText(getApplicationContext(), "sent effect", Toast.LENGTH_LONG).show();
+        BC.sendInfo(effect);
+    }
+
+    public void getName(View v){
+        String BName = BA.getName();
+        Toast.makeText(getApplicationContext(), BName, Toast.LENGTH_LONG).show();
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        // Don't forget to unregister the ACTION_FOUND receiver.
+        unregisterReceiver(receiver);
     }
 
 }

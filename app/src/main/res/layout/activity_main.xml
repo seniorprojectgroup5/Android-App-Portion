@@ -64,6 +64,30 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" >
 
+            <Button
+                android:id="@+id/sendEffect"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="send effect"
+                android:onClick="sendEffect"/>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <Button
+                android:id="@+id/getNameofDevice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="get name"
+                android:onClick="getName"/>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
             <TextView
                 android:id="@+id/listOfDevices"
                 android:layout_width="wrap_content"
