@@ -13,6 +13,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
@@ -56,7 +57,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //Log.d("AppCrash","Home Fragment Loaded ");
     }
 
-    @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item){
         switch (item.getItemId()) {
             case R.id.navigation_home:
@@ -124,4 +124,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+
+    }
 }
