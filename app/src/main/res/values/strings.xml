@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">BuzzinBees</string>
 
-    <string name ="navigation_drawer_open">Open Navigation drawer</string>
-    <string name ="navigation_drawer_close">Close Navigation drawer</string>
+    <string name="navigation_drawer_open">Open Navigation drawer</string>
+    <string name="navigation_drawer_close">Close Navigation drawer</string>
 
     <!-- Page Names !-->
     <string name="title_home">Home</string>

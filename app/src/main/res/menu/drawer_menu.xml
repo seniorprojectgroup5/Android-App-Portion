@@ -32,5 +32,9 @@
             android:id="@+id/navigation_visualizer"
             android:icon="@drawable/ic_visualizer_icon"
             android:title="@string/title_visualizer" />
+        <item
+            android:id="@+id/navigation_options"
+            android:icon="@drawable/ic_settings_black_24dp"
+            android:title="@string/title_options" />
     </group>
 </menu>

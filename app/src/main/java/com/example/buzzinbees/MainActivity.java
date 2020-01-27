@@ -1,9 +1,12 @@
 package com.example.buzzinbees;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
-import android.os.Debug;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
@@ -14,8 +17,10 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -25,8 +30,42 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private DrawerLayout drawer;
 
+    //check permissions
+    List<String> permissions = new ArrayList<String>();
+    private boolean askPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            int RECORD_AUDIO = checkSelfPermission(Manifest.permission.RECORD_AUDIO );
+            if (RECORD_AUDIO != PackageManager.PERMISSION_GRANTED) {
+                permissions.add(Manifest.permission.RECORD_AUDIO);
+            }
+            if (!permissions.isEmpty()) {
+                requestPermissions(permissions.toArray(new String[permissions.size()]), 1);
+            } else
+                return false;
+        } else
+            return false;
+        return true;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == 1) {
+            boolean result = true;
+            for (int i = 0; i < permissions.length; i++) {
+                result = result && grantResults[i] == PackageManager.PERMISSION_GRANTED;
+            }
+            if (!result) {
+                Toast.makeText(this, "..", Toast.LENGTH_LONG).show();
+            } else {
+            }
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState){
+
+        askPermission();//ask permission for the audiomanager stuff to wrok
 
         Log.d("AppCrash","Oncreate called");
         super.onCreate(savedInstanceState);
@@ -48,40 +87,52 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
 
         if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer_main,
                     new HomeFragment()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer_audioManager,
+                    new AudioManagerFragment()).commit();
             navigationView.setCheckedItem(R.id.navigation_home);
         }
 
-        //loadFragment(new HomeFragment());
-        //Log.d("AppCrash","Home Fragment Loaded ");
     }
 
     public boolean onNavigationItemSelected(@NonNull MenuItem item){
+        //nav menu click lsiteners
         switch (item.getItemId()) {
             case R.id.navigation_home:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer_main,
                         new HomeFragment()).commit();
+                currentFragment = 0;
                 break;
             case R.id.navigation_songs:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer_main,
                         new ML_List_SongsFragment()).commit();
+                currentFragment = 1;
                 break;
             case R.id.navigation_playlists:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer_main,
                         new ML_List_PlaylistsFragment()).commit();
+                currentFragment = 2;
                 break;
             case R.id.navigation_albums:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer_main,
                         new ML_List_AlbumsFragment()).commit();
+                currentFragment = 3;
                 break;
             case R.id.navigation_artists:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer_main,
                         new ML_List_ArtstisFragment()).commit();
+                currentFragment = 4;
                 break;
             case R.id.navigation_visualizer:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer_main,
                         new VisualizerFragment()).commit();
+                currentFragment = 5;
+                break;
+            case R.id.navigation_options:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer_main,
+                        new OptionsFragment()).commit();
+                currentFragment = 6;
                 break;
         }
 
@@ -104,19 +155,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private boolean loadFragment(Fragment frag) {
         if(frag != null) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, frag).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer_main, frag).commit();
 
-            /*
-            if(currentFragment == 0) {
-                currentCount = ViewModelProviders.of(this).get(DataContainer.class).homeCounter;
-            } else if (currentFragment == 1) {
-                currentCount = ViewModelProviders.of(this).get(DataContainer.class).dashCounter;
-            } else if (currentFragment == 2) {
-                currentCount = ViewModelProviders.of(this).get(DataContainer.class).notifCounter;
-            } else if (currentFragment == 3) {
-                currentCount = ViewModelProviders.of(this).get(DataContainer.class).settingCounter;
-            }
-             */
             return true;
         }
         else {
