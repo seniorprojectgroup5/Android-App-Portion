@@ -209,10 +209,6 @@ public class MainActivity extends AppCompatActivity {
 
                         Float f = Float.parseFloat(byteStrings.get(3)); // init initial float
 
-                        /*for(int i = 0; i<=6; i++){
-                            f += Float.parseFloat(byteStrings.get(i));
-                            //add values of bass bins
-                        }*/
 
                         Float f1= f;
                         Float f2=f;
@@ -221,24 +217,12 @@ public class MainActivity extends AppCompatActivity {
 
                         if((byteStrings.size()>7)){
                             f1 = Float.parseFloat(byteStrings.get(10));
-                            /*for(int i = 8; i<14; i++){
-                                f1 += Float.parseFloat(byteStrings.get(i));
-                                //add values of bass bins
-                            }*/
                         }
                         if((byteStrings.size()>14)){
                             f2 = Float.parseFloat(byteStrings.get(17));
-                            /*for(int i = 15; i<21; i++){
-                                f2 += Float.parseFloat(byteStrings.get(i));
-                                //add values of bass bins
-                            }*/
                         }
                         if((byteStrings.size()>21)){
                             f3 = Float.parseFloat(byteStrings.get(24));
-                            /*for(int i = 22; i<28; i++){
-                                f3 += Float.parseFloat(byteStrings.get(i));
-                                //add values of bass bins
-                            }*/
                         }
 
 
