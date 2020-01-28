@@ -6,6 +6,8 @@ This fragment handles the audio player in the app
 import android.os.Bundle;
 
 import androidx.annotation.DrawableRes;
+import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -42,6 +44,8 @@ public class AudioManagerFragment extends Fragment {
     private MediaPlayer player;
 
     private Visualizer mVisualizer;
+    private MyVisualizer visualizerView;
+
     private MediaPlayer.OnCompletionListener completeListener;
 
     ByteBuffer byteBuffer;
@@ -49,6 +53,17 @@ public class AudioManagerFragment extends Fragment {
     LinkedList<String> byteStrings;
 
 
+    ImageView visHex1;
+    ImageView visHex2;
+    ImageView visHex3;
+    ImageView visHex4;
+
+    ConstraintLayout visualizerContainer;
+
+    float HEX1SCALE = 0.7087f;
+    float HEX2SCALE = 0.5748f;
+    float HEX3SCALE = 0.5354f;
+    float HEX4SCALE =0.3386f;
 
     public AudioManagerFragment() {
         // Required empty public constructor
@@ -56,11 +71,15 @@ public class AudioManagerFragment extends Fragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
         View view = inflater.inflate(R.layout.fragment_audiomanager,container,false);
+
+
+        Log.d("PLAY","AUDIO MANAGER LOADED ");
+
 
         byteStrings = new LinkedList<String>();
 
@@ -69,9 +88,21 @@ public class AudioManagerFragment extends Fragment {
 
 
         //create play button
-        final ImageButton playBack = view.findViewById(R.id.btn_PlayPause);
+        ImageButton playBack = view.findViewById(R.id.btn_PlayPause);
 
+        visualizerContainer = view.findViewById(R.id.VisualizerContainer);
 
+        visHex1 = view.findViewById(R.id.img_visHex1);
+        visHex2 = view.findViewById(R.id.img_visHex2);
+        visHex3 = view.findViewById(R.id.img_visHex3);
+        visHex4 = view.findViewById(R.id.img_visHex4);
+
+        visualizerView = view.findViewById(R.id.visualizer);
+
+        visualizerView.scaleHexagons(visHex1,HEX1SCALE);
+        visualizerView.scaleHexagons(visHex2,HEX2SCALE);
+        visualizerView.scaleHexagons(visHex3,HEX3SCALE);
+        visualizerView.scaleHexagons(visHex4,HEX4SCALE);
 
 
         //set isPlaying boolean
@@ -89,46 +120,63 @@ public class AudioManagerFragment extends Fragment {
                 //turn off the visualizer
                 mVisualizer.setEnabled(false);
                 //turn the button text to play again
-                playBack.setBackgroundResource(R.drawable.ic_play_arrow_black_24dp);
+                //playBack.setBackgroundResource(R.drawable.ic_play_arrow_black_24dp);
             }
         };
 
-        playBack.setOnClickListener(new View.OnClickListener() {
+
+
+
+       playBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d("PLAY","play click");
                 //check if a song is playing
                 if (isPlaying) {
+                    Log.d("PLAY","is Playing true");
                     //if a song is playing, the button will stop playback
                     player.stop();
                     player.release();
                     isPlaying = false;
-                    mVisualizer.setEnabled(false);
-                    ((Button) v).setBackgroundResource(R.drawable.ic_play_arrow_black_24dp);
+                    //mVisualizer.setEnabled(false);
+                    ((ImageButton) v).setImageResource(R.drawable.ic_play_arrow_black_24dp);
                     byteStrings.clear();//clears the byte strings
                     //reset hexagon scale NEEDS TO BE MOVED
-                    /*visualizerView.lerpScaleHexagons(visHex1,1,HEX1SCALE);
+                    visualizerView.lerpScaleHexagons(visHex1,1,HEX1SCALE);
                     visualizerView.lerpScaleHexagons(visHex2,2,HEX2SCALE);
                     visualizerView.lerpScaleHexagons(visHex3,3,HEX3SCALE);
-                    visualizerView.lerpScaleHexagons(visHex4,4,HEX4SCALE);*/
+                    visualizerView.lerpScaleHexagons(visHex4,4,HEX4SCALE);
                 } else {
                     //otherwise, the play button will instantiate the song and the visualizer responding to it
                     try {
+                        Log.d("PLAY"," Try to play music");
                         //instantiate the mediaplayer
                         player = new MediaPlayer();
+                        Log.d("PLAY"," Create Media Player");
                         //assign the song to play
-                        AssetFileDescriptor assetFileDescriptor = getResources().openRawResourceFd(R.raw.gorrilaz); //pulling a RAW FILE, not from device storage!
+                        AssetFileDescriptor assetFileDescriptor = getResources().openRawResourceFd(R.raw.wowwow); //pulling a RAW FILE, not from device storage!
+                        Log.d("PLAY","Load Song");
                         player.setDataSource(assetFileDescriptor);
+                        Log.d("PLAY","Set Song");
                         //check for song completion
                         player.setOnCompletionListener(completeListener);
+                        Log.d("PLAY","CompletionListenr");
                         player.prepare();
+                        Log.d("PLAY","Song Prepared");
                         //set up visualizer function
-                        setupVisualizerFxAndUI();
+
+
+                        //setupVisualizerFxAndUI();
+
+
                         //start playback
                         player.start();
+                        Log.d("PLAY","Song Started");
                         mVisualizer.setEnabled(true);
                         isPlaying = true;
+                        Log.d("PLAY","IsPlaying True");
                         //change button text to stop
-                        ((Button) v).setBackgroundResource(R.drawable.ic_pause_black_24dp);
+                        ((ImageButton) v).setImageResource(R.drawable.ic_pause_black_24dp);
                     } catch (IOException e) {
                         //if the "try" above fails, do this
                         e.printStackTrace();
@@ -137,8 +185,12 @@ public class AudioManagerFragment extends Fragment {
                 }
             }
         });
-        return inflater.inflate(R.layout.fragment_audiomanager, container, false);
+
+
+        return view;
     }
+
+
 
     private void setupVisualizerFxAndUI() {
         // Create the Visualizer object and attach it to our media player.
@@ -154,8 +206,8 @@ public class AudioManagerFragment extends Fragment {
                 new Visualizer.OnDataCaptureListener() {
                     public void onWaveFormDataCapture(Visualizer visualizer, byte[] bytes, int samplingRate) {
                         //update the visualizer view with the waveform
-                        //visualizerView.updateVisualizer(bytes);
-                        //CALL TO OPEN VISUALZIER TO UPDATE IT
+                        visualizerView.updateVisualizer(bytes);
+
 
                     }
 
@@ -195,10 +247,10 @@ public class AudioManagerFragment extends Fragment {
 
 
                         //scale hexagon in visualizer
-                       /* visualizerView.lerpScaleHexagons(visHex1,1,f);
+                        visualizerView.lerpScaleHexagons(visHex1,1,f);
                         visualizerView.lerpScaleHexagons(visHex2,2,f1);
                         visualizerView.lerpScaleHexagons(visHex3,3,f2);
-                        visualizerView.lerpScaleHexagons(visHex4,4,f3);*/
+                        visualizerView.lerpScaleHexagons(visHex4,4,f3);
                     }
                 }, Visualizer.getMaxCaptureRate() / 2, true, true);
     }

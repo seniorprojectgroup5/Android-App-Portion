@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onCreate(Bundle savedInstanceState){
 
-        askPermission();//ask permission for the audiomanager stuff to wrok
+        askPermission();//ask permission for the audiomanager stuff to work
 
         Log.d("AppCrash","Oncreate called");
         super.onCreate(savedInstanceState);
@@ -87,11 +87,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
 
         if (savedInstanceState == null) {
+            //load home fragment
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer_main,
                     new HomeFragment()).commit();
+            navigationView.setCheckedItem(R.id.navigation_home);
+
+
+            //load audiomanager frament
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer_audioManager,
                     new AudioManagerFragment()).commit();
-            navigationView.setCheckedItem(R.id.navigation_home);
+
         }
 
     }
@@ -103,6 +108,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer_main,
                         new HomeFragment()).commit();
                 currentFragment = 0;
+
                 break;
             case R.id.navigation_songs:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer_main,
