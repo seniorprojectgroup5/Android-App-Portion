@@ -36,6 +36,7 @@
                 android:id="@+id/fragmentContainer_main"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="@+id/mainConstraintLayout"
                 app:layout_constraintStart_toStartOf="@+id/mainConstraintLayout"
                 app:layout_constraintTop_toTopOf="@+id/mainConstraintLayout">

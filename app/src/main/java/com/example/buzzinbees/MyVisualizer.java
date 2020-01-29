@@ -43,19 +43,23 @@ public class MyVisualizer extends View{
     //constructors, do not delete!
     public MyVisualizer(Context context) {
         super(context);
+        Log.d("VIZ","Visualizer Initializer 1");
         initialize();
     }
     public MyVisualizer(Context context, AttributeSet attrs) {
         super(context, attrs);
+        Log.d("VIZ","Visualizer Initializer 2");
         initialize();
     }
     public MyVisualizer(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        Log.d("VIZ","Visualizer Initializer 3");
         initialize();
     }
 
     //initialize drawing variables
     void initialize(){
+        Log.d("VIZ","Visualizer Initialized");
         mBytes=null;
         mForePaint.setStrokeWidth(10f);
         mForePaint.setAntiAlias(true);

@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onCreate(Bundle savedInstanceState){
 
-        askPermission();//ask permission for the audiomanager stuff to work
+
 
         Log.d("AppCrash","Oncreate called");
         super.onCreate(savedInstanceState);
@@ -96,6 +96,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             //load audiomanager frament
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer_audioManager,
                     new AudioManagerFragment()).commit();
+
+            askPermission();//ask permission for the audiomanager stuff to work
 
         }
 

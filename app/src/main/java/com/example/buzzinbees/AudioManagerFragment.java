@@ -138,7 +138,7 @@ public class AudioManagerFragment extends Fragment {
                     player.stop();
                     player.release();
                     isPlaying = false;
-                    //mVisualizer.setEnabled(false);
+                    mVisualizer.setEnabled(false);
                     ((ImageButton) v).setImageResource(R.drawable.ic_play_arrow_black_24dp);
                     byteStrings.clear();//clears the byte strings
                     //reset hexagon scale NEEDS TO BE MOVED
@@ -164,11 +164,7 @@ public class AudioManagerFragment extends Fragment {
                         player.prepare();
                         Log.d("PLAY","Song Prepared");
                         //set up visualizer function
-
-
-                        //setupVisualizerFxAndUI();
-
-
+                        setupVisualizerFxAndUI();
                         //start playback
                         player.start();
                         Log.d("PLAY","Song Started");
@@ -207,7 +203,7 @@ public class AudioManagerFragment extends Fragment {
                     public void onWaveFormDataCapture(Visualizer visualizer, byte[] bytes, int samplingRate) {
                         //update the visualizer view with the waveform
                         visualizerView.updateVisualizer(bytes);
-
+                        //visualizerView.scaleHexagons(visHex1,visHex2,visHex3,visHex4);
 
                     }
 
@@ -254,7 +250,6 @@ public class AudioManagerFragment extends Fragment {
                     }
                 }, Visualizer.getMaxCaptureRate() / 2, true, true);
     }
-
 
 
 
