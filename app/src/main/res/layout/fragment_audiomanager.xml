@@ -4,54 +4,73 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".AudioManagerFragment">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/aM_mainContainer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/VisualizerContainer"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginLeft="12dp"
-            android:layout_marginRight="12dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
             android:layout_weight="1"
-            android:visibility="visible"
+            android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@+id/playerControlsContainer"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintEnd_toEndOf="@+id/aM_mainContainer"
+            app:layout_constraintStart_toStartOf="@+id/aM_mainContainer"
+            app:layout_constraintTop_toTopOf="@+id/aM_mainContainer">
 
             <ImageView
                 android:id="@+id/img_visHex1"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
                 android:tint="#373737"
+                app:layout_constraintBottom_toBottomOf="@+id/VisualizerContainer"
+                app:layout_constraintEnd_toEndOf="@+id/VisualizerContainer"
+                app:layout_constraintStart_toStartOf="@+id/VisualizerContainer"
+                app:layout_constraintTop_toTopOf="@+id/VisualizerContainer"
                 app:srcCompat="@drawable/ic_vis_filled_hexagon" />
 
             <ImageView
                 android:id="@+id/img_visHex2"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
                 android:tint="#646464"
+                app:layout_constraintBottom_toBottomOf="@+id/VisualizerContainer"
+                app:layout_constraintEnd_toEndOf="@+id/VisualizerContainer"
+                app:layout_constraintStart_toStartOf="@+id/VisualizerContainer"
+                app:layout_constraintTop_toTopOf="@+id/VisualizerContainer"
                 app:srcCompat="@drawable/ic_vis_filled_hexagon" />
 
             <ImageView
                 android:id="@+id/img_visHex3"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
                 android:background="#00FFFFFF"
                 android:tint="#9B9B9B"
+                app:layout_constraintBottom_toBottomOf="@+id/VisualizerContainer"
+                app:layout_constraintEnd_toEndOf="@+id/VisualizerContainer"
+                app:layout_constraintStart_toStartOf="@+id/VisualizerContainer"
+                app:layout_constraintTop_toTopOf="@+id/VisualizerContainer"
                 app:srcCompat="@drawable/ic_vis_filled_hexagon" />
+
 
             <ImageView
                 android:id="@+id/img_visHex4"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
                 android:tint="#C8C8C8"
+                app:layout_constraintBottom_toBottomOf="@+id/VisualizerContainer"
+                app:layout_constraintEnd_toEndOf="@+id/VisualizerContainer"
+                app:layout_constraintStart_toStartOf="@+id/VisualizerContainer"
+                app:layout_constraintTop_toTopOf="@+id/VisualizerContainer"
                 app:srcCompat="@drawable/ic_vis_filled_hexagon" />
 
             <com.example.buzzinbees.MyVisualizer
@@ -59,8 +78,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                tools:layout_editor_absoluteX="0dp"
-                tools:layout_editor_absoluteY="76dp" />
+                app:layout_constraintBottom_toBottomOf="@+id/VisualizerContainer"
+                app:layout_constraintEnd_toEndOf="@+id/VisualizerContainer"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/VisualizerContainer"
+                app:layout_constraintTop_toTopOf="@+id/VisualizerContainer"
+                app:layout_constraintVertical_bias="0" />
+
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -68,9 +93,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="visible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintBottom_toBottomOf="@+id/aM_mainContainer"
+            app:layout_constraintEnd_toEndOf="@+id/aM_mainContainer"
+            app:layout_constraintStart_toStartOf="@+id/aM_mainContainer">
 
 
             <TextView

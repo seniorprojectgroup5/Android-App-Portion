@@ -6,12 +6,15 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -29,6 +32,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     int currentFragment = 0;
 
     private DrawerLayout drawer;
+
+    FrameLayout audioContainer;
+    ConstraintLayout visualizerContainer;
 
     //check permissions
     List<String> permissions = new ArrayList<String>();
@@ -73,6 +79,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         Log.d("AppCrash","contentView set");
 
+        audioContainer = findViewById(R.id.fragmentContainer_audioManager);
+
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -110,36 +119,43 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer_main,
                         new HomeFragment()).commit();
                 currentFragment = 0;
-
+                audioContainer.setVisibility(View.VISIBLE);
                 break;
             case R.id.navigation_songs:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer_main,
                         new ML_List_SongsFragment()).commit();
+                audioContainer.setVisibility(View.GONE);
                 currentFragment = 1;
                 break;
             case R.id.navigation_playlists:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer_main,
                         new ML_List_PlaylistsFragment()).commit();
+                audioContainer.setVisibility(View.GONE);
                 currentFragment = 2;
                 break;
             case R.id.navigation_albums:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer_main,
                         new ML_List_AlbumsFragment()).commit();
+                audioContainer.setVisibility(View.GONE);
                 currentFragment = 3;
                 break;
             case R.id.navigation_artists:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer_main,
                         new ML_List_ArtstisFragment()).commit();
+                audioContainer.setVisibility(View.GONE);
                 currentFragment = 4;
                 break;
             case R.id.navigation_visualizer:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer_main,
                         new VisualizerFragment()).commit();
+                audioContainer.setVisibility(View.VISIBLE);
+
                 currentFragment = 5;
                 break;
             case R.id.navigation_options:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer_main,
                         new OptionsFragment()).commit();
+                audioContainer.setVisibility(View.GONE);
                 currentFragment = 6;
                 break;
         }
