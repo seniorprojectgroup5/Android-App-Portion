@@ -18,6 +18,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 
 import com.google.android.material.navigation.NavigationView;
@@ -34,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private DrawerLayout drawer;
 
     FrameLayout audioContainer;
-    ConstraintLayout visualizerContainer;
+
 
     //check permissions
     List<String> permissions = new ArrayList<String>();
@@ -71,8 +72,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onCreate(Bundle savedInstanceState){
 
-
-
         Log.d("AppCrash","Oncreate called");
         super.onCreate(savedInstanceState);
         Log.d("AppCrash","SaveInstance");
@@ -96,11 +95,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
 
         if (savedInstanceState == null) {
-            //load home fragment
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer_main,
-                    new HomeFragment()).commit();
-            navigationView.setCheckedItem(R.id.navigation_home);
-
 
             //load audiomanager frament
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer_audioManager,
@@ -108,8 +102,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             askPermission();//ask permission for the audiomanager stuff to work
 
-        }
+            //load home fragment
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer_main,
+                    new HomeFragment()).commit();
+            navigationView.setCheckedItem(R.id.navigation_home);
+            currentFragment = 0;
 
+        }
     }
 
     public boolean onNavigationItemSelected(@NonNull MenuItem item){
@@ -159,7 +158,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 currentFragment = 6;
                 break;
         }
-
+        //audioManagerFragment.toggleVisualizer(currentFragment);
+        toggleVisualizer();
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
@@ -174,6 +174,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             //else usual back btn function, closes app currently
         }
 
+    }
+
+    public void toggleVisualizer(){
+        FragmentManager fragmentManager = getSupportFragmentManager();
+
+        AudioManagerFragment audioManagerFragment = (AudioManagerFragment)fragmentManager.findFragmentById(R.id.fragmentContainer_audioManager);
+        audioManagerFragment.toggleVisualizer(currentFragment);
     }
 
 

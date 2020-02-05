@@ -186,7 +186,15 @@ public class AudioManagerFragment extends Fragment {
         return view;
     }
 
-
+    public void toggleVisualizer(int curFrag){
+        if(curFrag == 5){
+            //5 for visualizer page
+            visualizerContainer.setVisibility(View.VISIBLE);
+        }
+        else{
+            visualizerContainer.setVisibility(View.GONE);
+        }
+    }
 
     private void setupVisualizerFxAndUI() {
         // Create the Visualizer object and attach it to our media player.
