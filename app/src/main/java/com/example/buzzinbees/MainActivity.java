@@ -71,6 +71,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
+        //called at app load
 
         Log.d("AppCrash","Oncreate called");
         super.onCreate(savedInstanceState);
@@ -79,28 +80,32 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Log.d("AppCrash","contentView set");
 
         audioContainer = findViewById(R.id.fragmentContainer_audioManager);
-
+        //reference to entire audio manager fragment container
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+        //tool bar reference for nav button
 
         drawer = findViewById(R.id.mainContainer);
+        //ref to navigation drawer layout
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawer,toolbar,
                 R.string.navigation_drawer_open,R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+        //sets up drawer open/close listener
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        //loads nav menu
 
         if (savedInstanceState == null) {
 
-            //load audiomanager frament
+            //load audio manager fragment
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer_audioManager,
                     new AudioManagerFragment()).commit();
 
-            askPermission();//ask permission for the audiomanager stuff to work
+            askPermission();//ask permission for the audio manager stuff to work
 
             //load home fragment
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer_main,
@@ -117,50 +122,52 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.navigation_home:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer_main,
                         new HomeFragment()).commit();
-                currentFragment = 0;
+                //update main fragment with chosen page
+                currentFragment = Constant.FRAGVAL_HOME;
+                // set fragment tracker to corresponding fragment value
                 audioContainer.setVisibility(View.VISIBLE);
+                //toggle visibility of entire audio manager fragment
                 break;
             case R.id.navigation_songs:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer_main,
                         new ML_List_SongsFragment()).commit();
                 audioContainer.setVisibility(View.GONE);
-                currentFragment = 1;
+                currentFragment = Constant.FRAGVAL_SONGS;
                 break;
             case R.id.navigation_playlists:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer_main,
                         new ML_List_PlaylistsFragment()).commit();
                 audioContainer.setVisibility(View.GONE);
-                currentFragment = 2;
+                currentFragment = Constant.FRAGVAL_PLAYLISTS;
                 break;
             case R.id.navigation_albums:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer_main,
                         new ML_List_AlbumsFragment()).commit();
                 audioContainer.setVisibility(View.GONE);
-                currentFragment = 3;
+                currentFragment = Constant.FRAGVAL_ALBUMS;
                 break;
             case R.id.navigation_artists:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer_main,
                         new ML_List_ArtstisFragment()).commit();
                 audioContainer.setVisibility(View.GONE);
-                currentFragment = 4;
+                currentFragment = Constant.FRAGVAL_ARTISTS;
                 break;
             case R.id.navigation_visualizer:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer_main,
                         new VisualizerFragment()).commit();
                 audioContainer.setVisibility(View.VISIBLE);
-
-                currentFragment = 5;
+                currentFragment = Constant.FRAGVAL_VISUALIZER;
                 break;
             case R.id.navigation_options:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer_main,
                         new OptionsFragment()).commit();
                 audioContainer.setVisibility(View.GONE);
-                currentFragment = 6;
+                currentFragment = Constant.FRAGVAL_OPTIONS;
                 break;
         }
-        //audioManagerFragment.toggleVisualizer(currentFragment);
-        toggleVisualizer();
-        drawer.closeDrawer(GravityCompat.START);
+
+        toggleVisualizer();//toggle visibility of visualizer
+        drawer.closeDrawer(GravityCompat.START);//close nav drawer
         return true;
     }
 
@@ -177,14 +184,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public void toggleVisualizer(){
-        FragmentManager fragmentManager = getSupportFragmentManager();
+        //creates reference to audio manager fragment to call method for visualizer visibility
 
+        FragmentManager fragmentManager = getSupportFragmentManager();
         AudioManagerFragment audioManagerFragment = (AudioManagerFragment)fragmentManager.findFragmentById(R.id.fragmentContainer_audioManager);
+        //create instance of audio manager fragment that is currently running
         audioManagerFragment.toggleVisualizer(currentFragment);
+        //calls method from fragment's java class
     }
 
 
     private boolean loadFragment(Fragment frag) {
+        //loadsfragment - not used
         if(frag != null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer_main, frag).commit();
 

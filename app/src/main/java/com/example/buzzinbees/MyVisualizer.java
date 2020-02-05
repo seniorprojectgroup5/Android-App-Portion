@@ -85,16 +85,16 @@ public class MyVisualizer extends View{
 
         switch(id){
             case(1):
-                mapVal = map(value,-130f,130f,HEX1MIN,HEX1MAX,true);
+                mapVal = map(value,-130f,130f,Constant.HEX1MIN,Constant.HEX1MAX,true);
                 break;
             case(2):
-                mapVal = map(value,-130f,130f,HEX2MIN,HEX2MAX,true);
+                mapVal = map(value,-130f,130f,Constant.HEX2MIN,Constant.HEX2MAX,true);
                 break;
             case(3):
-                mapVal = map(value,-130f,130f,HEX3MIN,HEX3MAX,true);
+                mapVal = map(value,-130f,130f,Constant.HEX3MIN,Constant.HEX3MAX,true);
                 break;
             case(4):
-                mapVal = map(value,-130f,130f,HEX4MIN,HEX4MAX,true);
+                mapVal = map(value,-130f,130f,Constant.HEX4MIN,Constant.HEX4MAX,true);
                 break;
         }
         Log.d("FFT","Map Val:"+Float.toString(mapVal));

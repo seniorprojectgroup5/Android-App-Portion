@@ -82,28 +82,32 @@ public class AudioManagerFragment extends Fragment {
 
 
         byteStrings = new LinkedList<String>();
+        //this stores the fft bytes
 
-        //create media player to handle the playback
         player = new MediaPlayer();
+        //create media player to handle the playback
 
 
-        //create play button
         ImageButton playBack = view.findViewById(R.id.btn_PlayPause);
+        //create play button
 
         visualizerContainer = view.findViewById(R.id.VisualizerContainer);
+        //ref to entire visualizer container
 
         visHex1 = view.findViewById(R.id.img_visHex1);
         visHex2 = view.findViewById(R.id.img_visHex2);
         visHex3 = view.findViewById(R.id.img_visHex3);
         visHex4 = view.findViewById(R.id.img_visHex4);
+        //ref to drawable hexagons for visualizer
 
         visualizerView = view.findViewById(R.id.visualizer);
+        //ref to visualizer view (runs the canvas and draw updates)
 
-        visualizerView.scaleHexagons(visHex1,HEX1SCALE);
-        visualizerView.scaleHexagons(visHex2,HEX2SCALE);
-        visualizerView.scaleHexagons(visHex3,HEX3SCALE);
-        visualizerView.scaleHexagons(visHex4,HEX4SCALE);
-
+        visualizerView.scaleHexagons(visHex1,Constant.HEX1SCALE);
+        visualizerView.scaleHexagons(visHex2,Constant.HEX2SCALE);
+        visualizerView.scaleHexagons(visHex3,Constant.HEX3SCALE);
+        visualizerView.scaleHexagons(visHex4,Constant.HEX4SCALE);
+        //scale hexagons to proper size
 
         //set isPlaying boolean
         isPlaying = false;
@@ -120,7 +124,11 @@ public class AudioManagerFragment extends Fragment {
                 //turn off the visualizer
                 mVisualizer.setEnabled(false);
                 //turn the button text to play again
-                //playBack.setBackgroundResource(R.drawable.ic_play_arrow_black_24dp);
+                visualizerView.scaleHexagons(visHex1,Constant.HEX1SCALE);
+                visualizerView.scaleHexagons(visHex2,Constant.HEX2SCALE);
+                visualizerView.scaleHexagons(visHex3,Constant.HEX3SCALE);
+                visualizerView.scaleHexagons(visHex4,Constant.HEX4SCALE);
+                //reset hexagons
             }
         };
 
@@ -141,11 +149,11 @@ public class AudioManagerFragment extends Fragment {
                     mVisualizer.setEnabled(false);
                     ((ImageButton) v).setImageResource(R.drawable.ic_play_arrow_black_24dp);
                     byteStrings.clear();//clears the byte strings
-                    //reset hexagon scale NEEDS TO BE MOVED
-                    visualizerView.lerpScaleHexagons(visHex1,1,HEX1SCALE);
-                    visualizerView.lerpScaleHexagons(visHex2,2,HEX2SCALE);
-                    visualizerView.lerpScaleHexagons(visHex3,3,HEX3SCALE);
-                    visualizerView.lerpScaleHexagons(visHex4,4,HEX4SCALE);
+                    //reset hexagon scale
+                    visualizerView.scaleHexagons(visHex1,Constant.HEX1SCALE);
+                    visualizerView.scaleHexagons(visHex2,Constant.HEX2SCALE);
+                    visualizerView.scaleHexagons(visHex3,Constant.HEX3SCALE);
+                    visualizerView.scaleHexagons(visHex4,Constant.HEX4SCALE);
                 } else {
                     //otherwise, the play button will instantiate the song and the visualizer responding to it
                     try {
@@ -187,8 +195,8 @@ public class AudioManagerFragment extends Fragment {
     }
 
     public void toggleVisualizer(int curFrag){
-        if(curFrag == 5){
-            //5 for visualizer page
+        if(curFrag == Constant.FRAGVAL_VISUALIZER){
+            //current fragment in main activity is the visualizer page
             visualizerContainer.setVisibility(View.VISIBLE);
         }
         else{
