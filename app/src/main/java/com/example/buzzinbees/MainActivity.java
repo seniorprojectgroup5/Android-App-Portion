@@ -15,6 +15,8 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -46,7 +48,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 permissions.add(Manifest.permission.RECORD_AUDIO);
             }
             if (!permissions.isEmpty()) {
-                requestPermissions(permissions.toArray(new String[permissions.size()]), 1);
+                requestPermissions(permissions.toArray(new String[permissions.size()]), Constant.AUDIO_PERMS);
+            } else
+                return false;
+        } else
+            return false;
+        return true;
+    }
+    private boolean askDataPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            int RECORD_AUDIO = checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE );
+            if (RECORD_AUDIO != PackageManager.PERMISSION_GRANTED) {
+                permissions.add(Manifest.permission.READ_EXTERNAL_STORAGE);
+            }
+            if (!permissions.isEmpty()) {
+                requestPermissions(permissions.toArray(new String[permissions.size()]), Constant.DATA_PERMS);
             } else
                 return false;
         } else
@@ -56,10 +72,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        if (requestCode == 1) {
+        if (requestCode == Constant.AUDIO_PERMS) {
             boolean result = true;
             for (int i = 0; i < permissions.length; i++) {
                 result = result && grantResults[i] == PackageManager.PERMISSION_GRANTED;
+            }
+            if (!result) {
+                Toast.makeText(this, "..", Toast.LENGTH_LONG).show();
+            } else {
+            }
+        }
+        else if (requestCode == Constant.DATA_PERMS) {
+            boolean result = true;
+            for (int i = 0; i < permissions.length; i++) {
+                result = result && grantResults[i] == PackageManager.PERMISSION_GRANTED;
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer_main,
+                        new ML_List_SongsFragment()).commit();
+                audioContainer.setVisibility(View.GONE);
+                currentFragment = Constant.FRAGVAL_SONGS;
             }
             if (!result) {
                 Toast.makeText(this, "..", Toast.LENGTH_LONG).show();
@@ -129,10 +159,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 //toggle visibility of entire audio manager fragment
                 break;
             case R.id.navigation_songs:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer_main,
-                        new ML_List_SongsFragment()).commit();
-                audioContainer.setVisibility(View.GONE);
-                currentFragment = Constant.FRAGVAL_SONGS;
+                //check permissions
+                if(ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    if(ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                        ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, Constant.DATA_PERMS);
+                    } else {
+                        ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, Constant.DATA_PERMS);
+                    }
+                } else {
+                    //if permissions are granted, do the things
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer_main,
+                            new ML_List_SongsFragment()).commit();
+                    audioContainer.setVisibility(View.GONE);
+                    currentFragment = Constant.FRAGVAL_SONGS;
+                }
                 break;
             case R.id.navigation_playlists:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer_main,

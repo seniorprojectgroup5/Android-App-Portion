@@ -26,6 +26,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.SeekBar;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -36,6 +37,9 @@ import java.nio.FloatBuffer;
 
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class AudioManagerFragment extends Fragment {
 
@@ -51,6 +55,9 @@ public class AudioManagerFragment extends Fragment {
     ByteBuffer byteBuffer;
     FloatBuffer floatBuffer;
     LinkedList<String> byteStrings;
+
+    private ScheduledExecutorService exec;
+    private Runnable seekbarPositionUpdateTask;
 
 
     ImageView visHex1;
@@ -193,6 +200,7 @@ public class AudioManagerFragment extends Fragment {
 
         return view;
     }
+
 
     public void toggleVisualizer(int curFrag){
         if(curFrag == Constant.FRAGVAL_VISUALIZER){

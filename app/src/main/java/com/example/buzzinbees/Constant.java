@@ -3,6 +3,9 @@ package com.example.buzzinbees;
 public class Constant {
     //Constant Java class is used for values that appear in two or more java classes across the app
 
+    public static final int AUDIO_PERMS = 1;
+    public static final int DATA_PERMS = 2;
+
     public static final int FRAGVAL_HOME = 0;
     public static final int FRAGVAL_SONGS = 1;
     public static final int FRAGVAL_PLAYLISTS = 2;
