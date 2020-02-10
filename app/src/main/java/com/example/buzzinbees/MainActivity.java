@@ -31,7 +31,6 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-
     int currentFragment = 0;
 
     private DrawerLayout drawer;
@@ -57,8 +56,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
     private boolean askDataPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            int RECORD_AUDIO = checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE );
-            if (RECORD_AUDIO != PackageManager.PERMISSION_GRANTED) {
+            int ACCESS_DATA = checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE );
+            if (ACCESS_DATA != PackageManager.PERMISSION_GRANTED) {
                 permissions.add(Manifest.permission.READ_EXTERNAL_STORAGE);
             }
             if (!permissions.isEmpty()) {
