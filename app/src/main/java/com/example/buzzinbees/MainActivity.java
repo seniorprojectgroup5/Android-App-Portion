@@ -37,6 +37,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     FrameLayout audioContainer;
 
+    AudioManagerFragment audioManagerFragment;
+
+    //public Song songPlaying;
+
 
     //check permissions
     List<String> permissions = new ArrayList<String>();
@@ -111,6 +115,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         audioContainer = findViewById(R.id.fragmentContainer_audioManager);
         //reference to entire audio manager fragment container
 
+
+
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -135,6 +142,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     new AudioManagerFragment()).commit();
 
             askPermission();//ask permission for the audio manager stuff to work
+
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            audioManagerFragment = (AudioManagerFragment)fragmentManager.findFragmentById(R.id.fragmentContainer_audioManager);
 
             //load home fragment
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer_main,
@@ -226,7 +236,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //creates reference to audio manager fragment to call method for visualizer visibility
 
         FragmentManager fragmentManager = getSupportFragmentManager();
-        AudioManagerFragment audioManagerFragment = (AudioManagerFragment)fragmentManager.findFragmentById(R.id.fragmentContainer_audioManager);
+        audioManagerFragment = (AudioManagerFragment)fragmentManager.findFragmentById(R.id.fragmentContainer_audioManager);
         //create instance of audio manager fragment that is currently running
         audioManagerFragment.toggleVisualizer(currentFragment);
         //calls method from fragment's java class

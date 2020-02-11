@@ -27,6 +27,7 @@ public class ML_List_SongsFragment extends Fragment {
     ListView listView;
     SongAdapter adapter;
 
+    MainActivity main;
 
     public ML_List_SongsFragment() {
         // Required empty public constructor
@@ -39,6 +40,9 @@ public class ML_List_SongsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_list_songs, null);
         showMusic(view);
         // Inflate the layout for this fragment
+
+
+
         return view;
     }
 
@@ -74,12 +78,14 @@ public class ML_List_SongsFragment extends Fragment {
             //get song title and artist from device
             int songTitle = songCursor.getColumnIndex(MediaStore.Audio.Media.TITLE);
             int songArtist = songCursor.getColumnIndex(MediaStore.Audio.Media.ARTIST);
+            int songPath = songCursor.getColumnIndex(MediaStore.Audio.Media.DATA);
 
             do {
                 //generate an instance of Song
                 String currentTitle = songCursor.getString(songTitle);
                 String currentArtist = songCursor.getString(songArtist);
-                Song newSong = new Song(currentTitle, currentArtist);
+                String currentPath = songCursor.getString(songPath);
+                Song newSong = new Song(currentTitle, currentArtist,currentPath);
 
                 //add this to the arrayList
                 arrayList.add(newSong);

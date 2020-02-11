@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -44,6 +46,10 @@ import java.util.concurrent.TimeUnit;
 public class AudioManagerFragment extends Fragment {
 
     //create variables
+
+
+    MainActivity main;
+
     private boolean isPlaying;
     private MediaPlayer player;
 
@@ -52,25 +58,28 @@ public class AudioManagerFragment extends Fragment {
 
     private MediaPlayer.OnCompletionListener completeListener;
 
+    public Song songPlaying;
+
     ByteBuffer byteBuffer;
     FloatBuffer floatBuffer;
     LinkedList<String> byteStrings;
-
-    private ScheduledExecutorService exec;
-    private Runnable seekbarPositionUpdateTask;
-
 
     ImageView visHex1;
     ImageView visHex2;
     ImageView visHex3;
     ImageView visHex4;
 
+    SeekBar songSeekbar;
+    Boolean isSeeking;
+
+    Handler mHandler;
+
+
     ConstraintLayout visualizerContainer;
 
-    float HEX1SCALE = 0.7087f;
-    float HEX2SCALE = 0.5748f;
-    float HEX3SCALE = 0.5354f;
-    float HEX4SCALE =0.3386f;
+    TextView songDisplay;
+
+
 
     public AudioManagerFragment() {
         // Required empty public constructor
@@ -84,6 +93,7 @@ public class AudioManagerFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_audiomanager,container,false);
 
+        main = (MainActivity) getActivity();
 
         Log.d("PLAY","AUDIO MANAGER LOADED ");
 
@@ -94,6 +104,8 @@ public class AudioManagerFragment extends Fragment {
         player = new MediaPlayer();
         //create media player to handle the playback
 
+        //lets make a song
+        songPlaying = new Song();
 
         ImageButton playBack = view.findViewById(R.id.btn_PlayPause);
         //create play button
@@ -115,6 +127,10 @@ public class AudioManagerFragment extends Fragment {
         visualizerView.scaleHexagons(visHex3,Constant.HEX3SCALE);
         visualizerView.scaleHexagons(visHex4,Constant.HEX4SCALE);
         //scale hexagons to proper size
+
+        //import seekbar
+        songSeekbar = view.findViewById(R.id.song_seekBar);
+        isSeeking = false;
 
         //set isPlaying boolean
         isPlaying = false;
@@ -169,9 +185,13 @@ public class AudioManagerFragment extends Fragment {
                         player = new MediaPlayer();
                         Log.d("PLAY"," Create Media Player");
                         //assign the song to play
-                        AssetFileDescriptor assetFileDescriptor = getResources().openRawResourceFd(R.raw.sleepyhead); //pulling a RAW FILE, not from device storage!
                         Log.d("PLAY","Load Song");
-                        player.setDataSource(assetFileDescriptor);
+                        player.setDataSource(songPlaying.path);
+
+                       //to play pre loaded
+                        //AssetFileDescriptor assetFileDescriptor = getResources().openRawResourceFd(R.raw.sleepyhead); //pulling a RAW FILE, not from device storage!
+                        //player.setDataSource(assetFileDescriptor);
+
                         Log.d("PLAY","Set Song");
                         //check for song completion
                         player.setOnCompletionListener(completeListener);
@@ -185,6 +205,16 @@ public class AudioManagerFragment extends Fragment {
                         Log.d("PLAY","Song Started");
                         mVisualizer.setEnabled(true);
                         isPlaying = true;
+
+                        //SEEKBAR STUFF
+
+                        songSeekbar.setMax(player.getDuration()/1000); //set bar to length of song
+
+                        mHandler = new Handler();
+
+
+
+
                         Log.d("PLAY","IsPlaying True");
                         //change button text to stop
                         ((ImageButton) v).setImageResource(R.drawable.ic_pause_black_24dp);
@@ -200,6 +230,18 @@ public class AudioManagerFragment extends Fragment {
 
         return view;
     }
+
+   /* public void run(){
+        if(player != null){
+            int mCurPos = player.getCurrentPosition()/1000;
+            songSeekbar.setProgress(mCurPos);
+        }
+        mHandler.postDelayed(this,1000);
+    }*/
+
+   public void setSongDisplay(){
+
+   }
 
 
     public void toggleVisualizer(int curFrag){
