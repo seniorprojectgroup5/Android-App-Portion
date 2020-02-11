@@ -1,8 +1,12 @@
 package com.example.buzzinbees;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -19,6 +23,7 @@ public class SongAdapter extends ArrayAdapter<Song> {
     FragmentActivity activity;
     MainActivity main;
 
+
     //constructor DO NOT DELETE
     public SongAdapter(Context context, ArrayList<Song> songs) {
         super(context, 0, songs);
@@ -33,7 +38,7 @@ public class SongAdapter extends ArrayAdapter<Song> {
 
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         //get data for snog
         Song song = getItem(position);
         //checked if the song_view is reused, otherwise inflate the view
@@ -60,8 +65,35 @@ public class SongAdapter extends ArrayAdapter<Song> {
 
                 Song song = getItem(position);
                 main.audioManagerFragment.songPlaying = new Song(song.songName,song.songArtist,song.path);
+                main.audioManagerFragment.setSongDisplay();
+
+                main.onNavigationItemSelected(main.navigationView.getMenu().findItem(R.id.navigation_visualizer));
+                //main.audioManagerFragment.setIsPlay(false);
+                main.audioManagerFragment.resetPlayer();
+                main.audioManagerFragment.playBack.performClick();
             }
         });
+
+        songBtn.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+                switch(event.getAction()){
+
+                    case MotionEvent.ACTION_DOWN:
+                        v.setBackgroundColor(Color.GRAY);
+                        break;
+
+                    case MotionEvent.ACTION_UP:
+                        v.setBackgroundColor(Color.TRANSPARENT);
+                        v.performClick();
+                        break;
+
+                }
+                return false;
+            }
+        });
+
 
 
 

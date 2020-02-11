@@ -78,6 +78,7 @@ public class AudioManagerFragment extends Fragment {
     ConstraintLayout visualizerContainer;
 
     TextView songDisplay;
+    ImageButton playBack;
 
 
 
@@ -107,7 +108,7 @@ public class AudioManagerFragment extends Fragment {
         //lets make a song
         songPlaying = new Song();
 
-        ImageButton playBack = view.findViewById(R.id.btn_PlayPause);
+        playBack = view.findViewById(R.id.btn_PlayPause);
         //create play button
 
         visualizerContainer = view.findViewById(R.id.VisualizerContainer);
@@ -127,6 +128,9 @@ public class AudioManagerFragment extends Fragment {
         visualizerView.scaleHexagons(visHex3,Constant.HEX3SCALE);
         visualizerView.scaleHexagons(visHex4,Constant.HEX4SCALE);
         //scale hexagons to proper size
+
+        //song name display over seekbar
+        songDisplay = view.findViewById(R.id.txt_SongArtistTitle);
 
         //import seekbar
         songSeekbar = view.findViewById(R.id.song_seekBar);
@@ -240,6 +244,31 @@ public class AudioManagerFragment extends Fragment {
     }*/
 
    public void setSongDisplay(){
+
+       String songInfo = songPlaying.songName + " - " + songPlaying.songArtist;
+       songDisplay.setText(songInfo);
+
+   }
+
+   public void setIsPlay(Boolean p){
+       isPlaying = p;
+   }
+
+   public void resetPlayer(){
+       if(player !=null){
+           player.stop();
+           player.release();
+           isPlaying = false;
+           if(mVisualizer != null){
+               mVisualizer.setEnabled(false);
+           }
+           byteStrings.clear();//clears the byte strings
+           //reset hexagon scale
+           visualizerView.scaleHexagons(visHex1,Constant.HEX1SCALE);
+           visualizerView.scaleHexagons(visHex2,Constant.HEX2SCALE);
+           visualizerView.scaleHexagons(visHex3,Constant.HEX3SCALE);
+           visualizerView.scaleHexagons(visHex4,Constant.HEX4SCALE);
+       }
 
    }
 
