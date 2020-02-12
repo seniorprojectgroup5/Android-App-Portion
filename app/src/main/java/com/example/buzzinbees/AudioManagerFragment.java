@@ -256,9 +256,12 @@ public class AudioManagerFragment extends Fragment {
 
    public void resetPlayer(){
        if(player !=null){
-           player.stop();
+           if (isPlaying == true){
+               player.stop();
+               isPlaying = false;
+           }
+
            player.release();
-           isPlaying = false;
            if(mVisualizer != null){
                mVisualizer.setEnabled(false);
            }
