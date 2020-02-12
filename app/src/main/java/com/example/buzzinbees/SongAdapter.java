@@ -1,5 +1,6 @@
 package com.example.buzzinbees;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -37,6 +38,7 @@ public class SongAdapter extends ArrayAdapter<Song> {
     }
 
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         //get data for snog
@@ -54,6 +56,7 @@ public class SongAdapter extends ArrayAdapter<Song> {
         tvSong.setText(song.songName);
         tvArtist.setText(song.songArtist);
 
+
         songBtn = convertView.findViewById(R.id.songBox);
 
         songBtn.setTag(position);
@@ -64,11 +67,11 @@ public class SongAdapter extends ArrayAdapter<Song> {
                 int position = (Integer) v.getTag();
 
                 Song song = getItem(position);
-                main.audioManagerFragment.songPlaying = new Song(song.songName,song.songArtist,song.path);
+                main.audioManagerFragment.songPlaying = new Song(song.songName,song.songArtist,song.path,song.index);
                 main.audioManagerFragment.setSongDisplay();
 
                 main.onNavigationItemSelected(main.navigationView.getMenu().findItem(R.id.navigation_visualizer));
-                //main.audioManagerFragment.setIsPlay(false);
+
                 main.audioManagerFragment.resetPlayer();
                 main.audioManagerFragment.playBack.performClick();
             }

@@ -3,6 +3,8 @@ package com.example.buzzinbees;
 This fragment handles the audio player in the app
  */
 
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.DrawableRes;
@@ -79,7 +81,14 @@ public class AudioManagerFragment extends Fragment {
 
     TextView songDisplay;
     ImageButton playBack;
+    ImageButton btnNext;
+    ImageButton btnPrev;
 
+    ImageButton btnLoop;
+    ImageButton btnShuffle;
+
+    Boolean isLooping;
+    Boolean isShuffled;
 
 
     public AudioManagerFragment() {
@@ -108,8 +117,16 @@ public class AudioManagerFragment extends Fragment {
         //lets make a song
         songPlaying = new Song();
 
+        //create buttons
         playBack = view.findViewById(R.id.btn_PlayPause);
-        //create play button
+        btnNext = view.findViewById(R.id.btn_Next);
+        btnPrev = view.findViewById(R.id.btn_Prev);
+
+        btnLoop = view.findViewById(R.id.btn_Loop);
+        btnShuffle = view.findViewById(R.id.btn_Shuffle);
+
+        btnLoop.setForegroundTintList(ColorStateList.valueOf(Color.GRAY));
+        btnShuffle.setForegroundTintList(ColorStateList.valueOf(Color.GRAY));
 
         visualizerContainer = view.findViewById(R.id.VisualizerContainer);
         //ref to entire visualizer container
@@ -138,6 +155,8 @@ public class AudioManagerFragment extends Fragment {
 
         //set isPlaying boolean
         isPlaying = false;
+        isLooping = false;
+        isShuffled = false;
 
         //decide what happens when the song is done playing
         completeListener = new MediaPlayer.OnCompletionListener() {
@@ -156,11 +175,24 @@ public class AudioManagerFragment extends Fragment {
                 visualizerView.scaleHexagons(visHex3,Constant.HEX3SCALE);
                 visualizerView.scaleHexagons(visHex4,Constant.HEX4SCALE);
                 //reset hexagons
+
+                if(!isLooping && !isShuffled){
+                    //not looping, not shuffle order
+                    changeSong(1);
+                }
+                else if (isLooping){
+                    //looping one song
+                    changeSong(0);
+                }
+                else if (isShuffled){
+                    //shuffled play order
+                    //shuffle case
+                }
+
+                setSongDisplay();
+                playBack.performClick();
             }
         };
-
-
-
 
        playBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -218,7 +250,6 @@ public class AudioManagerFragment extends Fragment {
 
 
 
-
                         Log.d("PLAY","IsPlaying True");
                         //change button text to stop
                         ((ImageButton) v).setImageResource(R.drawable.ic_pause_black_24dp);
@@ -228,6 +259,40 @@ public class AudioManagerFragment extends Fragment {
                         //Toast.makeText(AudioManagerFragment.this, "No song to play", Toast.LENGTH_SHORT).show();
                     }
                 }
+            }
+        });
+
+       btnPrev.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               changeSong(-1);
+               resetPlayer();
+               setSongDisplay();
+               playBack.performClick();
+           }
+       });
+        btnNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changeSong(1);
+                resetPlayer();
+                setSongDisplay();
+                playBack.performClick();
+            }
+        });
+
+        btnLoop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!isLooping){
+                    isLooping = true;
+                    btnLoop.setForegroundTintList(ColorStateList.valueOf(Color.BLACK));
+                }
+                else{
+                    isLooping = false;
+                    btnLoop.setForegroundTintList(ColorStateList.valueOf(Color.GRAY));
+                }
+
             }
         });
 
@@ -250,9 +315,6 @@ public class AudioManagerFragment extends Fragment {
 
    }
 
-   public void setIsPlay(Boolean p){
-       isPlaying = p;
-   }
 
    public void resetPlayer(){
        if(player !=null){
@@ -284,6 +346,28 @@ public class AudioManagerFragment extends Fragment {
         else{
             visualizerContainer.setVisibility(View.GONE);
         }
+    }
+
+    public void changeSong(int order){
+
+       int toIndex = songPlaying.index + order;
+
+       if (toIndex > (main.arraySongList.size()-1)){
+           toIndex = 0;
+       }
+       else if (toIndex < 0){
+           toIndex = (main.arraySongList.size()-1);
+       }
+
+       if(main.arraySongList.get(toIndex) != null){
+           songPlaying = main.arraySongList.get(toIndex);
+       }
+       else{
+
+           CharSequence s = "invalid song index";
+           Toast.makeText(getContext(),s,Toast.LENGTH_LONG).show();
+       }
+
     }
 
     private void setupVisualizerFxAndUI() {

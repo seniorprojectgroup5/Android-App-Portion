@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     NavigationView navigationView;
 
-    //public Song songPlaying;
+    public ArrayList<Song> arraySongList = new ArrayList<>();
 
 
     //check permissions
@@ -114,10 +114,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         Log.d("AppCrash","contentView set");
 
+
         audioContainer = findViewById(R.id.fragmentContainer_audioManager);
         //reference to entire audio manager fragment container
-
-
 
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -155,6 +154,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             currentFragment = 0;
 
         }
+
+        arraySongList = new ArrayList<Song>();
+        Log.d("SONGLIST",arraySongList.toString());
+        //arraySongList.add(new Song());
+        // init song list array
+
     }
 
     public boolean onNavigationItemSelected(@NonNull MenuItem item){

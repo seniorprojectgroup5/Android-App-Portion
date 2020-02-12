@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,8 +39,15 @@ public class ML_List_SongsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_list_songs, null);
-        showMusic(view);
         // Inflate the layout for this fragment
+
+
+        main = (MainActivity) getActivity();
+        Log.d("SONGLIST",main.arraySongList.toString());
+
+
+        showMusic(view);
+        Log.d("SONGLIST",main.arraySongList.toString());
 
 
 
@@ -49,14 +57,17 @@ public class ML_List_SongsFragment extends Fragment {
     public void showMusic(View view) {
         //initialize listview and arraylist
         listView = view.findViewById(R.id.listSongs_container);
-        arrayList = new ArrayList<>();
+        arrayList = new ArrayList<Song>();
 
         //get the music from the device
         getMusic();
 
+        main.arraySongList = (ArrayList<Song>)arrayList.clone();
+
         //initialize the adapter and assign the arrrayList to it so it has data
-        adapter = new SongAdapter(this.getContext(), arrayList);
+        adapter = new SongAdapter(this.getContext(), main.arraySongList);
         //apply the adapter to the listview to show list
+
         listView.setAdapter(adapter);
 
         //on click function for song row
@@ -74,6 +85,8 @@ public class ML_List_SongsFragment extends Fragment {
         Uri songUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
         Cursor songCursor = contentResolver.query(songUri, null, null, null, null);
 
+        int i = 0;
+
         if (songCursor != null && songCursor.moveToFirst()) {
             //get song title and artist from device
             int songTitle = songCursor.getColumnIndex(MediaStore.Audio.Media.TITLE);
@@ -85,10 +98,12 @@ public class ML_List_SongsFragment extends Fragment {
                 String currentTitle = songCursor.getString(songTitle);
                 String currentArtist = songCursor.getString(songArtist);
                 String currentPath = songCursor.getString(songPath);
-                Song newSong = new Song(currentTitle, currentArtist,currentPath);
+                Song newSong = new Song(currentTitle, currentArtist,currentPath, i);
 
                 //add this to the arrayList
                 arrayList.add(newSong);
+
+                i++;
             } while (songCursor.moveToNext()); //continue to the next file
         }
     }

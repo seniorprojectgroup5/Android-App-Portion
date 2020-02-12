@@ -178,6 +178,7 @@
                 android:layout_marginStart="108dp"
                 android:layout_marginBottom="24dp"
                 android:background="@android:color/transparent"
+                android:backgroundTint="#A2A2A2"
                 android:src="@drawable/ic_repeat_black_24dp"
                 app:layout_constraintBottom_toBottomOf="@+id/playerControlsContainer"
                 app:layout_constraintStart_toStartOf="@+id/playerControlsContainer"
