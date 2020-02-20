@@ -5,18 +5,20 @@
     android:id="@+id/mainContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
+    android:background="@color/NavyBlue"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
+    tools:context=".MainActivity"
     tools:openDrawer="start">
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="visible">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id = "@+id/mainConstraintLayout"
+            android:id="@+id/mainConstraintLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -65,7 +67,10 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
+        android:background="@color/NavyBlue"
         app:headerLayout="@layout/nav_header"
+        app:itemIconTint="@color/YellowGold"
+        app:itemTextColor="@color/PowderBlue"
         app:menu="@menu/drawer_menu" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/NavyBlue"
     tools:context=".ML_List_SongsFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -15,7 +16,7 @@
             android:id="@+id/fragLstSongsToolbar"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="?attr/colorPrimary"
+            android:background="@color/DarkNavy"
             android:minHeight="?attr/actionBarSize"
             android:theme="?attr/actionBarTheme"
             app:layout_constraintEnd_toEndOf="parent"
@@ -41,7 +42,7 @@
                         android:text="@string/title_musicLibrary_allSongs"
                         android:textAlignment="viewStart"
                         android:textAllCaps="true"
-                        android:textColor="@android:color/primary_text_dark"
+                        android:textColor="@color/PowderBlue"
                         android:textSize="24sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -58,9 +59,11 @@
             android:layout_width="match_parent"
             android:layout_height="33dp"
             android:layout_marginTop="16dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
             android:alpha="100"
-            android:background="#00AFAFAF"
-            android:backgroundTint="#2D000000"
+            android:background="@color/DarkNavy"
+            android:backgroundTint="@color/DarkNavy"
             app:layout_constraintTop_toBottomOf="@+id/fragLstSongsToolbar"
             tools:layout_editor_absoluteX="0dp" />
 
@@ -71,7 +74,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/listSongs_search"/>
+            app:layout_constraintTop_toBottomOf="@+id/listSongs_search" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

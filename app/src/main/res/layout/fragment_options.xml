@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/NavyBlue"
     tools:context=".OptionsFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -15,7 +16,7 @@
             android:id="@+id/fragPgOptionsToolBar"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="?attr/colorPrimary"
+            android:background="@color/DarkNavy"
             android:minHeight="?attr/actionBarSize"
             android:theme="?attr/actionBarTheme"
             app:layout_constraintEnd_toEndOf="parent"
@@ -41,7 +42,7 @@
                         android:text="@string/title_options"
                         android:textAlignment="viewStart"
                         android:textAllCaps="true"
-                        android:textColor="@android:color/primary_text_dark"
+                        android:textColor="@color/PowderBlue"
                         android:textSize="24sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -67,6 +68,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@color/NavyBlue"
                 android:orientation="vertical"
                 android:paddingLeft="12dp"
                 android:paddingRight="12dp">
@@ -75,7 +77,8 @@
                     android:id="@+id/txt_DeviceCardTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Device Settings" />
+                    android:text="Device Settings"
+                    android:textColor="@color/YellowGold" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -87,6 +90,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Vibration Strength"
+                        android:textColor="@color/PowderBlue"
                         android:textSize="24sp" />
 
                     <SeekBar
@@ -94,7 +98,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginStart="6dp"
-                        android:layout_marginEnd="6dp" />
+                        android:layout_marginEnd="6dp"
+                        android:progressBackgroundTint="@color/PaleHoney"
+                        android:progressTint="@color/YellowGold"
+                        android:thumbTint="@color/YellowGold" />
                 </LinearLayout>
 
                 <TableLayout
@@ -110,6 +117,7 @@
                             android:layout_width="344dp"
                             android:layout_height="wrap_content"
                             android:text="Battery Power"
+                            android:textColor="@color/PowderBlue"
                             android:textSize="24sp" />
 
                         <TextView
@@ -118,6 +126,7 @@
                             android:layout_height="wrap_content"
                             android:text="100"
                             android:textAlignment="textEnd"
+                            android:textColor="@color/GreyBlue"
                             android:textSize="18sp" />
 
                         <TextView
@@ -127,6 +136,7 @@
                             android:gravity="end"
                             android:text="%"
                             android:textAlignment="textEnd"
+                            android:textColor="@color/GreyBlue"
                             android:textSize="18sp" />
 
                     </TableRow>
@@ -140,6 +150,7 @@
                             android:layout_width="302dp"
                             android:layout_height="wrap_content"
                             android:text="Bluetooth Settings"
+                            android:textColor="@color/PowderBlue"
                             android:textSize="24sp" />
 
                         <ImageButton
@@ -148,7 +159,8 @@
                             android:layout_height="match_parent"
                             android:background="@android:color/transparent"
                             android:scaleType="fitXY"
-                            android:src="@drawable/ic_navigate_next_black_24dp" />
+                            android:src="@drawable/ic_navigate_next_black_24dp"
+                            android:tint="@color/YellowGold" />
 
                     </TableRow>
                 </TableLayout>
@@ -172,6 +184,7 @@
             <TableLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@color/NavyBlue"
                 android:paddingLeft="12dp"
                 android:paddingRight="12dp">
 
@@ -183,7 +196,8 @@
                         android:id="@+id/txt_AppCardTitle"
                         android:layout_width="295dp"
                         android:layout_height="wrap_content"
-                        android:text="App Settings" />
+                        android:text="App Settings"
+                        android:textColor="@color/YellowGold" />
                 </TableRow>
 
                 <TableRow
@@ -195,12 +209,17 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Dark Mode"
+                        android:textColor="@color/PowderBlue"
                         android:textSize="24sp" />
 
                     <Switch
                         android:id="@+id/switch_darkMode"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/PaleHoney"
+                        android:buttonTint="@color/YellowGold"
+                        android:thumbTint="@color/HoneyGold"
+                        android:trackTint="@color/PaleHoney" />
                 </TableRow>
 
                 <TableRow
@@ -212,6 +231,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Info"
+                        android:textColor="@color/PowderBlue"
                         android:textSize="24sp" />
 
                     <TextView
@@ -219,7 +239,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/var_VersionNum"
-                        android:textAlignment="textEnd" />
+                        android:textAlignment="textEnd"
+                        android:textColor="@color/GreyBlue" />
                 </TableRow>
 
                 <TableRow

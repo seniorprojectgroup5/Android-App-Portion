@@ -11,7 +11,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/aM_mainContainer"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/NavyBlue">
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -31,7 +32,7 @@
                 android:id="@+id/img_visHex1"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:tint="#373737"
+                android:tint="@color/VisDark"
                 app:layout_constraintBottom_toBottomOf="@+id/VisualizerContainer"
                 app:layout_constraintEnd_toEndOf="@+id/VisualizerContainer"
                 app:layout_constraintStart_toStartOf="@+id/VisualizerContainer"
@@ -42,7 +43,7 @@
                 android:id="@+id/img_visHex2"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:tint="#646464"
+                android:tint="@color/VisMid"
                 app:layout_constraintBottom_toBottomOf="@+id/VisualizerContainer"
                 app:layout_constraintEnd_toEndOf="@+id/VisualizerContainer"
                 app:layout_constraintStart_toStartOf="@+id/VisualizerContainer"
@@ -54,7 +55,7 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:background="#00FFFFFF"
-                android:tint="#9B9B9B"
+                android:tint="@color/VisLight"
                 app:layout_constraintBottom_toBottomOf="@+id/VisualizerContainer"
                 app:layout_constraintEnd_toEndOf="@+id/VisualizerContainer"
                 app:layout_constraintStart_toStartOf="@+id/VisualizerContainer"
@@ -66,7 +67,7 @@
                 android:id="@+id/img_visHex4"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:tint="#C8C8C8"
+                android:tint="@color/VisBright"
                 app:layout_constraintBottom_toBottomOf="@+id/VisualizerContainer"
                 app:layout_constraintEnd_toEndOf="@+id/VisualizerContainer"
                 app:layout_constraintStart_toStartOf="@+id/VisualizerContainer"
@@ -92,6 +93,7 @@
             android:id="@+id/playerControlsContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/NavyBlue"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="@+id/aM_mainContainer"
             app:layout_constraintEnd_toEndOf="@+id/aM_mainContainer"
@@ -107,6 +109,7 @@
                 android:layout_marginEnd="32dp"
                 android:layout_marginBottom="8dp"
                 android:text="Song Title - Artist"
+                android:textColor="@color/PowderBlue"
                 app:layout_constraintBottom_toTopOf="@+id/song_seekBar"
                 app:layout_constraintEnd_toEndOf="@+id/playerControlsContainer"
                 app:layout_constraintStart_toStartOf="@+id/playerControlsContainer"
@@ -119,6 +122,9 @@
                 android:layout_marginStart="32dp"
                 android:layout_marginEnd="32dp"
                 android:layout_marginBottom="185dp"
+                android:progressBackgroundTint="@color/PaleHoney"
+                android:progressTint="@color/YellowGold"
+                android:thumbTint="@color/YellowGold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/playerControlsContainer"
                 app:layout_constraintStart_toStartOf="@+id/playerControlsContainer"
@@ -136,6 +142,7 @@
                 android:scaleX="2"
                 android:scaleY="2"
                 android:src="@drawable/ic_play_arrow_black_24dp"
+                android:tint="@color/YellowGold"
                 app:layout_constraintBottom_toBottomOf="@+id/playerControlsContainer"
                 app:layout_constraintEnd_toStartOf="@+id/btn_Next"
                 app:layout_constraintStart_toEndOf="@+id/btn_Prev"
@@ -152,6 +159,7 @@
                 android:scaleX="2"
                 android:scaleY="2"
                 android:src="@drawable/ic_skip_next_black_24dp"
+                android:tint="@color/YellowGold"
                 app:layout_constraintBottom_toBottomOf="@+id/playerControlsContainer"
                 app:layout_constraintEnd_toEndOf="@+id/playerControlsContainer"
                 app:layout_constraintTop_toBottomOf="@+id/song_seekBar" />
@@ -167,6 +175,7 @@
                 android:scaleX="2"
                 android:scaleY="2"
                 android:src="@drawable/ic_skip_previous_black_24dp"
+                android:tint="@color/YellowGold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/playerControlsContainer"
                 app:layout_constraintTop_toBottomOf="@+id/song_seekBar" />
@@ -180,6 +189,7 @@
                 android:background="@android:color/transparent"
                 android:backgroundTint="#A2A2A2"
                 android:src="@drawable/ic_repeat_black_24dp"
+                android:tint="@color/PowderBlue"
                 app:layout_constraintBottom_toBottomOf="@+id/playerControlsContainer"
                 app:layout_constraintStart_toStartOf="@+id/playerControlsContainer"
                 app:layout_constraintTop_toBottomOf="@+id/btn_Prev" />
@@ -192,6 +202,7 @@
                 android:layout_marginBottom="24dp"
                 android:background="@android:color/transparent"
                 android:src="@drawable/ic_shuffle_black_24dp"
+                android:tint="@color/PowderBlue"
                 app:layout_constraintBottom_toBottomOf="@+id/playerControlsContainer"
                 app:layout_constraintEnd_toEndOf="@+id/playerControlsContainer"
                 app:layout_constraintHorizontal_bias="1.0"
