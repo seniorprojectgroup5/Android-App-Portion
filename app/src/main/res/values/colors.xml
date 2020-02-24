@@ -13,10 +13,11 @@
     <color name="DarkGrey">#636363</color>
     <color name="GreyBlue">#93a4a9</color>
 
-    <color name="VisDark">#3d485c</color>
-    <color name="VisMid">#455c77</color>
+    <color name="VisDark">#3D485C</color>
+    <color name="VisMid">#455C77</color>
     <color name="VisLight">#587091</color>
-    <color name="VisBright">#7283ab</color>
+    <color name="VisBright">#7283AB</color>
+    <color name="VisMidAlpha">#BE455C77</color>
 
     <color name="HoneyGold">#DAA927</color>
     <color name="PaleHoney">#FCDD8D</color>
