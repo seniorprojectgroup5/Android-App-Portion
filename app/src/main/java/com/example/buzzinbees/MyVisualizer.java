@@ -147,11 +147,14 @@ public class MyVisualizer extends View{
 
         for (int i = 0; i < mBytes.length - 1; i++) {
             mPoints[i * 4] = mRect.width() * i / (mBytes.length - 1);
+
             mPoints[i * 4 + 1] = mRect.height() / 2
-                    + ((byte) (mBytes[i] + 128)) * (mRect.height() / 2) / 128;
+                    + ((byte) (mBytes[i] + 128)) * (mRect.height() / 4) / 128;
+            //positioning line
             mPoints[i * 4 + 2] = mRect.width() * (i + 1) / (mBytes.length - 1);
             mPoints[i * 4 + 3] = mRect.height() / 2
-                    + ((byte) (mBytes[i + 1] + 128)) * (mRect.height() / 2) / 128;
+                    + ((byte) (mBytes[i + 1] + 128)) * (mRect.height() / 4) / 128;
+            //limiting line values
         }
 
         canvas.drawLines(mPoints, mForePaint);

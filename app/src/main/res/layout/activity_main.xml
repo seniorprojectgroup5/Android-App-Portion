@@ -5,7 +5,7 @@
     android:id="@+id/mainContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/NavyBlue"
+    android:background="@drawable/gradient"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
     tools:context=".MainActivity"
@@ -33,8 +33,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/fragmentContainer_main"
-                app:theme="@style/MyToolbar"
-                app:popupTheme="@style/MyToolbar" />
+                app:popupTheme="@style/MyToolbar"
+                app:theme="@style/MyToolbar" />
 
             <FrameLayout
                 android:id="@+id/fragmentContainer_main"

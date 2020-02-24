@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/NavyBlue"
+    android:background="@android:color/transparent"
     tools:context=".ML_List_SongsFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -58,8 +58,8 @@
             android:id="@+id/listSongs_search"
             android:layout_width="match_parent"
             android:layout_height="33dp"
-            android:layout_marginTop="16dp"
             android:layout_marginLeft="12dp"
+            android:layout_marginTop="16dp"
             android:layout_marginRight="12dp"
             android:alpha="100"
             android:background="@color/DarkNavy"

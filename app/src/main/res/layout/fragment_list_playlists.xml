@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/NavyBlue"
+    android:background="@android:color/transparent"
     tools:context=".ML_List_SongsFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -86,7 +86,9 @@
                     android:id="@+id/card_PlaylistContainer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:cardBackgroundColor="@color/NavyBlue"
+                    app:cardBackgroundColor="@android:color/transparent"
+                    app:cardElevation="0dp"
+                    app:cardMaxElevation="0dp"
                     app:contentPaddingBottom="6dp"
                     app:contentPaddingLeft="32dp"
                     app:contentPaddingRight="12dp"
@@ -127,7 +129,9 @@
                     android:id="@+id/card_AlphabetLetter"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    app:cardBackgroundColor="@color/NavyBlue"
+                    app:cardBackgroundColor="@android:color/transparent"
+                    app:cardElevation="0dp"
+                    app:cardMaxElevation="0dp"
                     app:contentPaddingLeft="32dp">
 
                     <TextView

@@ -12,7 +12,7 @@
         android:id="@+id/aM_mainContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/NavyBlue">
+        android:background="@android:color/transparent">
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -93,7 +93,7 @@
             android:id="@+id/playerControlsContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/NavyBlue"
+            android:background="@android:color/transparent"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="@+id/aM_mainContainer"
             app:layout_constraintEnd_toEndOf="@+id/aM_mainContainer"
