@@ -4,6 +4,8 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -12,6 +14,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +31,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+import static android.app.Activity.RESULT_OK;
+
 public class BLE_Manager extends Fragment {
     private OnFragmentInteractionListener mListener;
 
@@ -39,6 +45,8 @@ public class BLE_Manager extends Fragment {
     private static final String DEVICE_LIST_SELECTED = "temp device selected";
 
     private static final String TAG = "Bluetooth Manager - ";
+
+    private static final int SETTINGS = 20;
 
     private Button searchBtn, connectBtn;
     private ListView lView;
@@ -100,6 +108,8 @@ public class BLE_Manager extends Fragment {
 //                intent.putExtra(DEVICE_UUID, bleDeviceUUID.toString());
 //                intent.putExtra(BUFFER_SIZE, mBufferSize);
 //                startActivity(intent);
+
+                mListener.setUpBluetooth(device, bleDeviceUUID.toString());
             }});
 
         // Inflate the layout for this fragment
@@ -273,6 +283,40 @@ public class BLE_Manager extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+
+
+
+    /// badddd
+    // bluetooth specific?
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case Constant.BT_ENABLE_REQUEST:
+                if (resultCode == RESULT_OK) {
+                    msg("Bluetooth Enabled successfully");
+                    new SearchDevices().execute();
+                } else {
+                    msg("Bluetooth couldn't be enabled");
+                }
+
+                break;
+            case SETTINGS: //If the settings have been updated
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+                String uuid = prefs.getString("prefUuid", "Null");
+                bleDeviceUUID = UUID.fromString(uuid);
+                Log.d(TAG, "UUID: " + uuid);
+                String bufSize = prefs.getString("prefTextBuffer", "Null");
+
+                String orientation = prefs.getString("prefOrientation", "Null");
+                Log.d(TAG, "Orientation: " + orientation);
+
+                break;
+            default:
+                break;
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
 
