@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     //BLUETOOTH
+    private BluetoothAdapter bleAdapter;
     private BluetoothDevice bleDevice;
     private UUID bleDeviceUUID;
     private BluetoothSocket bleSocket;
@@ -138,6 +139,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         audioContainer = findViewById(R.id.fragmentContainer_audioManager);
         //reference to entire audio manager fragment container
 
+        // bluetooth adapter
+        bleAdapter = BluetoothAdapter.getDefaultAdapter();
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -302,6 +305,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void setUpBluetooth(BluetoothDevice bleD, String uuid){
         bleDeviceUUID = UUID.fromString(uuid);
         bleDevice = bleD;
+
+        new ConnectBT().execute();
     }
 
 
@@ -406,16 +411,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Log.d(TAG, "Paused");
         super.onPause();
     }
-
-    @Override
-    protected void onResume() {
-        if (bleSocket == null || !mIsBluetoothConnected) {
-            new ConnectBT().execute();
-        }
-        Log.d(TAG, "Resumed");
-        super.onResume();
-    }
-
+//
+//    @Override
+//    protected void onResume() {
+//        if (bleSocket == null || !mIsBluetoothConnected) {
+//            new ConnectBT().execute();
+//        }
+//        Log.d(TAG, "Resumed");
+//        super.onResume();
+//    }
+//
     @Override
     protected void onStop() {
         Log.d(TAG, "Stopped");
@@ -431,10 +436,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private class ConnectBT extends AsyncTask<Void, Void, Void> {
         private boolean mConnectSuccessful = true;
 
-        @Override
-        protected void onPreExecute() {
-            progressDialog = ProgressDialog.show(getApplicationContext(), "Hold on", "Connecting");// http://stackoverflow.com/a/11130220/1287554
-        }
+//        @Override
+//        protected void onPreExecute() {
+//            progressDialog = ProgressDialog.show(getApplicationContext(), "Hold on", "Connecting");// http://stackoverflow.com/a/11130220/1287554
+//        }
 
         @Override
         protected Void doInBackground(Void... devices) {
