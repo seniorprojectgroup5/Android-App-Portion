@@ -1,6 +1,7 @@
 package com.example.buzzinbees;
 
 import android.Manifest;
+import android.bluetooth.BluetoothDevice;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
@@ -28,6 +29,7 @@ import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, OnFragmentInteractionListener {
@@ -44,6 +46,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public ArrayList<Song> arraySongList = new ArrayList<>();
 
+
+    //BLUETOOTH
+    private BluetoothDevice bleDevice;
+    private UUID bleDeviceUUID;
 
     //check permissions
     List<String> permissions = new ArrayList<String>();
