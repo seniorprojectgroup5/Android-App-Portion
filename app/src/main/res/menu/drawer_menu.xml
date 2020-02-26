@@ -36,5 +36,9 @@
             android:id="@+id/navigation_options"
             android:icon="@drawable/ic_settings_black_24dp"
             android:title="@string/title_options" />
+        <item
+            android:id="@+id/navigation_bluetooth"
+            android:icon="@drawable/ic_queenbeetopdown_fill"
+            android:title="@string/title_bluetooth"/>
     </group>
 </menu>

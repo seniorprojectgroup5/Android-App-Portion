@@ -2,6 +2,7 @@ package com.example.buzzinbees;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -29,7 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, OnFragmentInteractionListener {
 
     int currentFragment = 0;
 
@@ -220,6 +221,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 audioContainer.setVisibility(View.GONE);
                 currentFragment = Constant.FRAGVAL_OPTIONS;
                 break;
+            case R.id.navigation_bluetooth:
+                openBluetoothFragment();
         }
 
         toggleVisualizer();//toggle visibility of visualizer
@@ -265,5 +268,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onPointerCaptureChanged(boolean hasCapture) {
 
+    }
+
+
+
+    //** BLUETOOTH **//
+    public void openBluetoothFragment(){
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer_main,
+                new BLE_Manager()).commit();
+        audioContainer.setVisibility(View.GONE);
+        currentFragment = Constant.FRAGVAL_BLUETOOTH;
     }
 }

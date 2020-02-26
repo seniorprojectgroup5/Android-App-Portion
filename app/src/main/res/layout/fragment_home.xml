@@ -99,8 +99,8 @@
                 <Button
                     android:id="@+id/btn_Connect"
                     style="@android:style/Widget.Material.Light.Button.Borderless.Colored"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="272dp"
+                    android:layout_height="267dp"
                     android:layout_marginBottom="52dp"
                     android:backgroundTint="@android:color/transparent"
                     android:text="Connect"
@@ -110,9 +110,10 @@
                     app:iconTint="@android:color/transparent"
                     app:layout_constraintBottom_toBottomOf="@+id/img_QueenBeeInactive"
                     app:layout_constraintEnd_toEndOf="@+id/img_QueenBeeInactive"
+                    app:layout_constraintHorizontal_bias="0.416"
                     app:layout_constraintStart_toStartOf="@+id/img_QueenBeeInactive"
                     app:layout_constraintTop_toBottomOf="@+id/txt_DeviceNotFound"
-                    app:layout_constraintVertical_bias="0.5" />
+                    app:layout_constraintVertical_bias="0.705" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
