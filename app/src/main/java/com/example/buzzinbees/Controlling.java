@@ -318,7 +318,7 @@ public class Controlling extends AppCompatActivity {
             } else {
                 msg("Connected to device");
                 mIsBluetoothConnected = true;
-                mReadThread = new ReadInput(); // Kick off input reader
+                //mReadThread = new ReadInput(); // Kick off input reader
             }
             progressDialog.dismiss();
         }

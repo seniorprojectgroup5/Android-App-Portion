@@ -39,7 +39,7 @@ import java.util.UUID;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, OnFragmentInteractionListener {
-    private static final String TAG = "BLUETOOTH DED";
+    private static final String TAG = "ble - ";
 
     int currentFragment = 0;
 
@@ -306,7 +306,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         bleDeviceUUID = UUID.fromString(uuid);
         bleDevice = bleD;
 
-        new ConnectBT().execute();
+        if (bleSocket == null || !mIsBluetoothConnected) {
+            msg("connected");
+            //progressDialog = ProgressDialog.show(getApplicationContext(), "Hold on", "Connecting");
+            new ConnectBT().execute();
+        }else {
+            msg("no");
+        }
     }
 
 
@@ -420,7 +426,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //        Log.d(TAG, "Resumed");
 //        super.onResume();
 //    }
-//
+
     @Override
     protected void onStop() {
         Log.d(TAG, "Stopped");
@@ -448,8 +454,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             try {
                 if (bleSocket == null || !mIsBluetoothConnected) {
                     bleSocket = bleDevice.createInsecureRfcommSocketToServiceRecord(bleDeviceUUID);
-                    BluetoothAdapter.getDefaultAdapter().cancelDiscovery();
+
+                    bleAdapter.getDefaultAdapter().cancelDiscovery();
+
                     bleSocket.connect();
+
+                    if(bleSocket == null){
+                        Log.d(TAG, "bad");
+                    }else{
+                        Log.d(TAG, "good");
+                    }
                 }
             } catch (IOException e) {
                 // Unable to connect to device`
@@ -469,9 +483,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             } else {
                 msg("Connected to device");
                 mIsBluetoothConnected = true;
-                mReadThread = new ReadInput(); // Kick off input reader
+                //mReadThread = new ReadInput(); // Kick off input reader
             }
-            progressDialog.dismiss();
         }
     }
 
