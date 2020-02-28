@@ -412,12 +412,6 @@ public class AudioManagerFragment extends Fragment {
                         }
 //                        Log.d("FFT",byteStrings.toString());
 
-                        try {
-                            mListener.sendEffect1();
-                            Log.d("AM", "data sent");
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
 
                         Float f = Float.parseFloat(byteStrings.get(3)); // init initial float
 
@@ -463,12 +457,30 @@ public class AudioManagerFragment extends Fragment {
             }
             if (i == 1) {
                 currentEffectID = 1;
+                try {
+                    mListener.sendEffect1();
+                    Log.d("Eff - ", "1");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
             if (i == 4) {
-                currentEffectID = 1;
+                currentEffectID = 4;
+                try {
+                    mListener.sendEffect4();
+                    Log.d("Eff - ", "4");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
             if (i == 7) {
-                currentEffectID = 1;
+                currentEffectID = 7;
+                try {
+                    mListener.sendEffect7();
+                    Log.d("Eff - ", "7");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
