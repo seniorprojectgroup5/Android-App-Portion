@@ -43,7 +43,7 @@ public class Controlling extends AppCompatActivity {
 
 
     private ProgressDialog progressDialog;
-    Button btn1,btn4,btn7,btn24,btn47,btnOff;
+    Button btn1,btn4,btn7,btn24,btn47,btnOff,btnMA;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +59,7 @@ public class Controlling extends AppCompatActivity {
         btn47 = findViewById(R.id.Ebtn_47);
 
         btnOff = findViewById(R.id.effects_off);
+        btnMA = findViewById(R.id.startMainActivity);
 
 
         Intent intent = getIntent();
@@ -142,6 +143,14 @@ public class Controlling extends AppCompatActivity {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+            }
+        });
+
+        btnMA.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
             }
         });
     }

@@ -103,13 +103,13 @@ public class BLE_Manager extends Fragment {
             @Override
             public void onClick(View arg0) {
                 BluetoothDevice device = ((MyAdapter) (lView.getAdapter())).getSelectedItem();
-                Intent intent = new Intent(getContext(), Controlling.class);
-                intent.putExtra(DEVICE_EXTRA, device);
-                intent.putExtra(DEVICE_UUID, bleDeviceUUID.toString());
-                //intent.putExtra(BUFFER_SIZE, mBufferSize);
-                startActivity(intent);
+//                Intent intent = new Intent(getContext(), Controlling.class);
+//                intent.putExtra(DEVICE_EXTRA, device);
+//                intent.putExtra(DEVICE_UUID, bleDeviceUUID.toString());
+//                //intent.putExtra(BUFFER_SIZE, mBufferSize);
+//                startActivity(intent);
 
-                //mListener.setUpBluetooth(device, bleDeviceUUID.toString());
+                mListener.setUpBluetooth(device, bleDeviceUUID.toString());
             }});
 
         // Inflate the layout for this fragment
