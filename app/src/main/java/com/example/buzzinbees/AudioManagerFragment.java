@@ -3,6 +3,7 @@ package com.example.buzzinbees;
 This fragment handles the audio player in the app
  */
 
+import android.bluetooth.BluetoothSocket;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -46,6 +47,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class AudioManagerFragment extends Fragment {
+    private OnFragmentInteractionListener mListener;
 
     //create variables
 
@@ -107,6 +109,8 @@ public class AudioManagerFragment extends Fragment {
 
         Log.d("PLAY","AUDIO MANAGER LOADED ");
 
+
+        mListener = (OnFragmentInteractionListener) getActivity();
 
         byteStrings = new LinkedList<String>();
         //this stores the fft bytes
@@ -284,17 +288,21 @@ public class AudioManagerFragment extends Fragment {
         btnLoop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!isLooping){
-                    isLooping = true;
-                    btnLoop.setForegroundTintList(ColorStateList.valueOf(Color.BLACK));
-                }
-                else{
-                    isLooping = false;
-                    btnLoop.setForegroundTintList(ColorStateList.valueOf(Color.GRAY));
-                }
+                // TODO: this is the proper code un comment when don vibration tests
+//                if(!isLooping){
+//                    isLooping = true;
+//                    btnLoop.setForegroundTintList(ColorStateList.valueOf(Color.BLACK));
+//                }
+//                else{
+//                    isLooping = false;
+//                    btnLoop.setForegroundTintList(ColorStateList.valueOf(Color.GRAY));
+//                }
 
+                mListener.sendEffect1();
             }
         });
+
+
 
 
         return view;

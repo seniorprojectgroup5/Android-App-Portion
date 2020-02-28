@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private BluetoothAdapter bleAdapter;
     private BluetoothDevice bleDevice;
     private UUID bleDeviceUUID;
-    private BluetoothSocket bleSocket;
+    public BluetoothSocket bleSocket;
     private boolean mIsUserInitiatedDisconnect = false;
     private boolean mIsBluetoothConnected = false;
     private ReadInput mReadThread = null;
@@ -293,6 +293,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
+    // send effects
+    public void sendEffect1(){
+        Log.d(TAG, "trying to send effect 1");
+        if (bleSocket != null) {
+            Log.d(TAG, "yes bluetooth");
+            try {
+                bleSocket.getOutputStream().write(Constant.VIBRATION_EFFECT_1.getBytes());
+                Log.d(TAG, Constant.VIBRATION_EFFECT_1);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }else {
+            Log.d(TAG, "no bluetooth");
+        }
+
+    }
+
 
     //** BLUETOOTH **//
     public void openBluetoothFragment(){
@@ -307,11 +324,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         bleDevice = bleD;
 
         if (bleSocket == null || !mIsBluetoothConnected) {
-            msg("connected");
+            msg("connecting");
             //progressDialog = ProgressDialog.show(getApplicationContext(), "Hold on", "Connecting");
             new ConnectBT().execute();
         }else {
-            msg("no");
+            msg("no blue");
         }
     }
 
