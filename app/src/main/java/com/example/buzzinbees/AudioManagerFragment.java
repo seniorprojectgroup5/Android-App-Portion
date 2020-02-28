@@ -50,7 +50,8 @@ public class AudioManagerFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
 
     //create variables
-
+    private int effectID;
+    private int currentEffectID;
 
     MainActivity main;
 
@@ -107,10 +108,13 @@ public class AudioManagerFragment extends Fragment {
 
         main = (MainActivity) getActivity();
 
-        Log.d("PLAY","AUDIO MANAGER LOADED ");
+//        Log.d("PLAY","AUDIO MANAGER LOADED ");
 
 
         mListener = (OnFragmentInteractionListener) getActivity();
+        effectID = 0;
+        currentEffectID = 0;
+
 
         byteStrings = new LinkedList<String>();
         //this stores the fft bytes
@@ -204,7 +208,7 @@ public class AudioManagerFragment extends Fragment {
                 Log.d("PLAY","play click");
                 //check if a song is playing
                 if (isPlaying) {
-                    Log.d("PLAY","is Playing true");
+//                    Log.d("PLAY","is Playing true");
                     //if a song is playing, the button will stop playback
                     player.stop();
                     player.release();
@@ -220,29 +224,29 @@ public class AudioManagerFragment extends Fragment {
                 } else {
                     //otherwise, the play button will instantiate the song and the visualizer responding to it
                     try {
-                        Log.d("PLAY"," Try to play music");
+//                        Log.d("PLAY"," Try to play music");
                         //instantiate the mediaplayer
                         player = new MediaPlayer();
-                        Log.d("PLAY"," Create Media Player");
+//                        Log.d("PLAY"," Create Media Player");
                         //assign the song to play
-                        Log.d("PLAY","Load Song");
+//                        Log.d("PLAY","Load Song");
                         player.setDataSource(songPlaying.path);
 
                        //to play pre loaded
                         //AssetFileDescriptor assetFileDescriptor = getResources().openRawResourceFd(R.raw.sleepyhead); //pulling a RAW FILE, not from device storage!
                         //player.setDataSource(assetFileDescriptor);
 
-                        Log.d("PLAY","Set Song");
+//                        Log.d("PLAY","Set Song");
                         //check for song completion
                         player.setOnCompletionListener(completeListener);
-                        Log.d("PLAY","CompletionListenr");
+//                        Log.d("PLAY","CompletionListenr");
                         player.prepare();
-                        Log.d("PLAY","Song Prepared");
+//                        Log.d("PLAY","Song Prepared");
                         //set up visualizer function
                         setupVisualizerFxAndUI();
                         //start playback
                         player.start();
-                        Log.d("PLAY","Song Started");
+//                        Log.d("PLAY","Song Started");
                         mVisualizer.setEnabled(true);
                         isPlaying = true;
 
@@ -254,7 +258,7 @@ public class AudioManagerFragment extends Fragment {
 
 
 
-                        Log.d("PLAY","IsPlaying True");
+//                        Log.d("PLAY","IsPlaying True");
                         //change button text to stop
                         ((ImageButton) v).setImageResource(R.drawable.ic_pause_black_24dp);
                     } catch (IOException e) {
@@ -288,17 +292,14 @@ public class AudioManagerFragment extends Fragment {
         btnLoop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: this is the proper code un comment when don vibration tests
-//                if(!isLooping){
-//                    isLooping = true;
-//                    btnLoop.setForegroundTintList(ColorStateList.valueOf(Color.BLACK));
-//                }
-//                else{
-//                    isLooping = false;
-//                    btnLoop.setForegroundTintList(ColorStateList.valueOf(Color.GRAY));
-//                }
-
-                mListener.sendEffect1();
+                if(!isLooping){
+                    isLooping = true;
+                    btnLoop.setForegroundTintList(ColorStateList.valueOf(Color.BLACK));
+                }
+                else{
+                    isLooping = false;
+                    btnLoop.setForegroundTintList(ColorStateList.valueOf(Color.GRAY));
+                }
             }
         });
 
@@ -401,7 +402,7 @@ public class AudioManagerFragment extends Fragment {
                         //code for fft data capture, likely a print to screen to start
                         //base frequencies 60-250 hz
 
-                        Log.d("BYTES", Arrays.toString(bytes));
+//                        Log.d("BYTES", Arrays.toString(bytes));
 
                         for(int i = 0; i<=6; i++){
                             //convert first 6 bins of fft data to string
@@ -409,9 +410,14 @@ public class AudioManagerFragment extends Fragment {
                             byteStrings.add(i,b.toString());
                             //continuously replace first 6 elements of linked list with first 6 bin values
                         }
-                        Log.d("FFT",byteStrings.toString());
+//                        Log.d("FFT",byteStrings.toString());
 
-
+                        try {
+                            mListener.sendEffect1();
+                            Log.d("AM", "data sent");
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
 
                         Float f = Float.parseFloat(byteStrings.get(3)); // init initial float
 
@@ -423,12 +429,18 @@ public class AudioManagerFragment extends Fragment {
 
                         if((byteStrings.size()>7)){
                             f1 = Float.parseFloat(byteStrings.get(10));
+                            effectID = 1;
+                            decideWhatEffectToSend(effectID);
                         }
                         if((byteStrings.size()>14)){
                             f2 = Float.parseFloat(byteStrings.get(17));
+                            effectID = 4;
+                            decideWhatEffectToSend(effectID);
                         }
                         if((byteStrings.size()>21)){
                             f3 = Float.parseFloat(byteStrings.get(24));
+                            effectID = 7;
+                            decideWhatEffectToSend(effectID);
                         }
 
 
@@ -442,5 +454,22 @@ public class AudioManagerFragment extends Fragment {
     }
 
 
-
+    public void decideWhatEffectToSend(int i){
+        if(i == currentEffectID){
+            return;
+        }else {
+            if (i == 0) {
+                return;
+            }
+            if (i == 1) {
+                currentEffectID = 1;
+            }
+            if (i == 4) {
+                currentEffectID = 1;
+            }
+            if (i == 7) {
+                currentEffectID = 1;
+            }
+        }
+    }
 }

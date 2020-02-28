@@ -8,4 +8,7 @@ public interface OnFragmentInteractionListener {
 
     //send effects
     void sendEffect1();
+    void sendEffect4();
+    void sendEffect7();
+    void sendEffect24();
 }

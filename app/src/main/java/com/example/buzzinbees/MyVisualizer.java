@@ -97,12 +97,12 @@ public class MyVisualizer extends View{
                 mapVal = map(value,-130f,130f,Constant.HEX4MIN,Constant.HEX4MAX,true);
                 break;
         }
-        Log.d("FFT","Map Val:"+Float.toString(mapVal));
+//        Log.d("FFT","Map Val:"+Float.toString(mapVal));
 
         float vX = lerp(sX,mapVal , 0.3f);
         float vY = lerp(sY,mapVal , 0.3f);
 
-        Log.d("FFT","["+Float.toString(vX)+","+Float.toString(vY)+"]");
+//        Log.d("FFT","["+Float.toString(vX)+","+Float.toString(vY)+"]");
         hex.setScaleX(vX);
         hex.setScaleY(vY);
     }
