@@ -35,8 +35,13 @@ public class AudioManagerFragment extends Fragment {
 
     public static final int PLAYBACK_POSITION_REFRESH_INTERVAL_MS = 1000;
 
+    // old seekbar stuff
     private ScheduledExecutorService exec;
     private Runnable seekbarPositionUpdateTask;
+
+    // new seek bar stuff
+    private Runnable seekbarUpdate;
+
 
     //create variables
     private int effectID;
@@ -149,11 +154,43 @@ public class AudioManagerFragment extends Fragment {
         //import seekbar
         songSeekbar = view.findViewById(R.id.song_seekBar);
         isSeeking = false;
+        mHandler = new Handler();
 
         //set isPlaying boolean
         isPlaying = false;
         isLooping = false;
         isShuffled = false;
+
+        // TODO: new seekbar stuff
+        player.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+                songSeekbar.setMax(player.getDuration());
+                player.start();
+                changeSeekBar();
+            }
+        });
+
+        songSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if(fromUser){
+                    player.seekTo(progress);
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+
 
         //decide what happens when the song is done playing
         completeListener = new MediaPlayer.OnCompletionListener() {
@@ -240,14 +277,14 @@ public class AudioManagerFragment extends Fragment {
                         isPlaying = true;
 
                         //SEEKBAR STUFF
-
                         songSeekbar.setMax(player.getDuration()/1000); //set bar to length of song
-                        initializeSeekbar();
+                        // todo: new seekbar things
+                        changeSeekBar();
 
-                        mHandler = new Handler();
 
-                        // TODO: seekbar things
-                        startUpdatingCallbackWithPosition();
+                        // TODO: old seekbar things
+                        // initializeSeekbar();
+                        //startUpdatingCallbackWithPosition();
 
 
 
@@ -482,10 +519,24 @@ public class AudioManagerFragment extends Fragment {
 //        }
     }
 
+    // TODO: actually make the seekbar work
+    private void changeSeekBar(){
+       songSeekbar.setProgress(player.getCurrentPosition());
+
+       if(player.isPlaying()){
+           seekbarUpdate = new Runnable(){
+               @Override
+               public void run(){
+                   changeSeekBar();
+               }
+           };
+           mHandler.postDelayed(seekbarUpdate, 1000);
+       }
+    }
 
 
-    /// shoved code
 
+    /// TODO: "maybe get rid of idk" shoved code -------------------------------------------------------------------------
     private void initializeSeekbar () {
         //create the seekbar and check for changes
         songSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -514,8 +565,6 @@ public class AudioManagerFragment extends Fragment {
             }
         });
     }
-
-
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
