@@ -63,6 +63,7 @@ public class AudioManagerFragment extends Fragment {
     private MediaPlayer.OnCompletionListener completeListener;
 
     public Song songPlaying;
+    public int qIndex;
 
     ByteBuffer byteBuffer;
     FloatBuffer floatBuffer;
@@ -197,8 +198,8 @@ public class AudioManagerFragment extends Fragment {
                     //shuffled play order
                     //shuffle case
                     updateShuffleIndex(1);//update index of shuffle index
-                    int iSHFL = shflIndex.get(curShuffleIndex);//get index value of next song to be played
-
+                    changeSong(0);
+                    //int iSHFL = shflIndex.get(curShuffleIndex);//get index value of next song to be played
                 }
 
                 setSongDisplay();
@@ -234,11 +235,8 @@ public class AudioManagerFragment extends Fragment {
                         Log.d("PLAY"," Create Media Player");
                         //assign the song to play
                         Log.d("PLAY","Load Song");
-                        player.setDataSource(songPlaying.path);
-
-                       //to play pre loaded
-                        //AssetFileDescriptor assetFileDescriptor = getResources().openRawResourceFd(R.raw.sleepyhead); //pulling a RAW FILE, not from device storage!
-                        //player.setDataSource(assetFileDescriptor);
+                        if (songPlaying.index != -1) {
+                            player.setDataSource(songPlaying.path);
 
                         Log.d("PLAY","Set Song");
                         //check for song completion
@@ -263,6 +261,15 @@ public class AudioManagerFragment extends Fragment {
                         Log.d("PLAY","IsPlaying True");
                         //change button text to stop
                         ((ImageButton) v).setImageResource(R.drawable.ic_pause_black_24dp);
+                        }
+                        else {
+                            //to play pre loaded
+                            //AssetFileDescriptor assetFileDescriptor = getResources().openRawResourceFd(R.raw.sleepyhead); //pulling a RAW FILE, not from device storage!
+                            //player.setDataSource(assetFileDescriptor);
+
+                            main.onNavigationItemSelected(main.navigationView.getMenu().findItem(R.id.navigation_songs));
+                            //navigate to song list
+                        }
                     } catch (IOException e) {
                         //if the "try" above fails, do this
                         e.printStackTrace();
@@ -275,7 +282,13 @@ public class AudioManagerFragment extends Fragment {
        btnPrev.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
-               changeSong(-1);
+               if (isShuffled){
+                   updateShuffleIndex(1);//update index of shuffle index
+                   changeSong(0);
+               }
+               else {
+                   changeSong(-1);
+               }
                resetPlayer();
                setSongDisplay();
                playBack.performClick();
@@ -284,7 +297,13 @@ public class AudioManagerFragment extends Fragment {
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                changeSong(1);
+                if (isShuffled){
+                    updateShuffleIndex(1);//update index of shuffle index
+                    changeSong(0);
+                }
+                else {
+                    changeSong(1);
+                }
                 resetPlayer();
                 setSongDisplay();
                 playBack.performClick();
@@ -296,11 +315,13 @@ public class AudioManagerFragment extends Fragment {
             public void onClick(View v) {
                 if(!isLooping){
                     isLooping = true;
-                    btnLoop.setForegroundTintList(ColorStateList.valueOf(Color.BLACK));
+                    btnLoop.setColorFilter(getResources().getColor(R.color.PowderBlue));
+                    Log.d("BTN","Loop Pressed, Loop ON");
                 }
                 else{
                     isLooping = false;
-                    btnLoop.setForegroundTintList(ColorStateList.valueOf(Color.GRAY));
+                    btnLoop.setColorFilter(getResources().getColor(R.color.VisDark));
+                    Log.d("BTN","Loop Pressed, Loop OFF");
                 }
 
             }
@@ -313,11 +334,13 @@ public class AudioManagerFragment extends Fragment {
                 if(!isShuffled){
                     isShuffled= true;
                     shuffleSongQueue();
-                    btnShuffle.setForegroundTintList(ColorStateList.valueOf(Color.BLACK));
+                    btnShuffle.setColorFilter(getResources().getColor(R.color.PowderBlue));
+                    Log.d("BTN","Shuffle Pressed, Shuffle ON");
                 }
                 else{
                     isShuffled = false;
-                    btnShuffle.setForegroundTintList(ColorStateList.valueOf(Color.GRAY));
+                    btnShuffle.setColorFilter(getResources().getColor(R.color.VisDark));
+                    Log.d("BTN","Shuffle Pressed, Shuffle OFF");
                 }
             }
         });
@@ -376,24 +399,31 @@ public class AudioManagerFragment extends Fragment {
 
     public void changeSong(int order){
 
-       int toIndex = songPlaying.index + order;
-       //calculate index of next song
 
-       if (toIndex > (main.playingQueue.size()-1)){
+        if(isShuffled){
+            order = shflIndex.get(curShuffleIndex) - qIndex;
+            Log.d("SHUFFLE", Integer.toString(order));
+        }
+
+        int toIndex= qIndex + order;
+        //calculate index of next song
+
+        if (toIndex > (main.playingQueue.size()-1)){
            toIndex = 0;
-       }
-       else if (toIndex < 0){
+        }
+        else if (toIndex < 0){
            toIndex = (main.playingQueue.size()-1);
-       } //ensure the song queue wraps around & never reaches an out of bounds index
+        } //ensure the song queue wraps around & never reaches an out of bounds index
 
-       if(main.arraySongList.get(toIndex) != null){
+        if(main.playingQueue.get(toIndex) != null){
            songPlaying = main.playingQueue.get(toIndex);
-       }//ensures song at index isnt null
-       else{
-
+        }//ensures song at index isnt null
+        else{
            CharSequence s = "invalid song index";
            Toast.makeText(getContext(),s,Toast.LENGTH_LONG).show();
-       }
+        }
+
+        qIndex = toIndex;
 
     }
 
@@ -413,11 +443,12 @@ public class AudioManagerFragment extends Fragment {
             shflIndex.clear();
             //clear array
             for (int i = 0; i < main.playingQueue.size(); i++){
-                shflIndex.add(main.playingQueue.get(i).index); // fill shlfIndex with indecies of songs stored in arraylist
+                shflIndex.add(i); // fill shlfIndex with indecies of songs stored in arraylist
             }
             Collections.shuffle(shflIndex); // shuffle array
             curShuffleIndex = 0;
         }
+        Log.d("SHUFFLE",shflIndex.toString());
     }
 
     private void setupVisualizerFxAndUI() {

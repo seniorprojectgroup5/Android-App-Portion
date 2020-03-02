@@ -69,6 +69,7 @@ public class SongAdapter extends ArrayAdapter<Song> {
                 Song song = getItem(position);
                 main.audioManagerFragment.songPlaying = new Song(song.songName,song.songArtist,song.path,song.index);
                 main.audioManagerFragment.setSongDisplay();
+                main.audioManagerFragment.qIndex = position;
 
                 //set playingQueue value
                 switch(main.currentFragment){
