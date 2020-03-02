@@ -331,16 +331,23 @@ public class AudioManagerFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 //toggles shuffle state on and off
-                if(!isShuffled){
-                    isShuffled= true;
-                    shuffleSongQueue();
-                    btnShuffle.setColorFilter(getResources().getColor(R.color.PowderBlue));
-                    Log.d("BTN","Shuffle Pressed, Shuffle ON");
-                }
-                else{
+                Log.d("SHUFFLE","Playing queue:"+ main.playingQueue.toString());
+                Log.d("SHUFFLE","Playing queue size:"+ main.playingQueue.size());
+                if(main.playingQueue.size()>0) {
+                    if (!isShuffled) {
+                        isShuffled = true;
+                        shuffleSongQueue();
+                        btnShuffle.setColorFilter(getResources().getColor(R.color.PowderBlue));
+                        Log.d("BTN", "Shuffle Pressed, Shuffle ON");
+                    } else {
+                        isShuffled = false;
+                        btnShuffle.setColorFilter(getResources().getColor(R.color.VisDark));
+                        Log.d("BTN", "Shuffle Pressed, Shuffle OFF");
+                    }
+                }else{
                     isShuffled = false;
                     btnShuffle.setColorFilter(getResources().getColor(R.color.VisDark));
-                    Log.d("BTN","Shuffle Pressed, Shuffle OFF");
+                    Log.d("BTN", "Shuffle Pressed, Shuffle OFF");
                 }
             }
         });
@@ -442,10 +449,12 @@ public class AudioManagerFragment extends Fragment {
         if (shflIndex != null){
             shflIndex.clear();
             //clear array
+
             for (int i = 0; i < main.playingQueue.size(); i++){
                 shflIndex.add(i); // fill shlfIndex with indecies of songs stored in arraylist
             }
             Collections.shuffle(shflIndex); // shuffle array
+
             curShuffleIndex = 0;
         }
         Log.d("SHUFFLE",shflIndex.toString());
