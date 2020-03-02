@@ -162,14 +162,7 @@ public class AudioManagerFragment extends Fragment {
         isShuffled = false;
 
         // TODO: new seekbar stuff
-        player.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer mp) {
-                songSeekbar.setMax(player.getDuration());
-                player.start();
-                changeSeekBar();
-            }
-        });
+        //player = new MediaPlayer();
 
         songSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -252,12 +245,23 @@ public class AudioManagerFragment extends Fragment {
                     try {
 //                        Log.d("PLAY"," Try to play music");
                         //instantiate the mediaplayer
+                        // todo: uncomment below later
                         player = new MediaPlayer();
 //                        Log.d("PLAY"," Create Media Player");
                         //assign the song to play
 //                        Log.d("PLAY","Load Song");
                         player.setDataSource(songPlaying.path);
 
+                        // todo mediaplayer attempt
+                        //player = MediaPlayer.create(getContext(), songPlaying.path);
+                        player.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                            @Override
+                            public void onPrepared(MediaPlayer mp) {
+                                songSeekbar.setMax(player.getDuration());
+                                player.start();
+                                changeSeekBar();
+                            }
+                        });
                        //to play pre loaded
                         //AssetFileDescriptor assetFileDescriptor = getResources().openRawResourceFd(R.raw.sleepyhead); //pulling a RAW FILE, not from device storage!
                         //player.setDataSource(assetFileDescriptor);
@@ -271,15 +275,14 @@ public class AudioManagerFragment extends Fragment {
                         //set up visualizer function
                         setupVisualizerFxAndUI();
                         //start playback
-                        player.start();
+                        //player.start();
 //                        Log.d("PLAY","Song Started");
                         mVisualizer.setEnabled(true);
                         isPlaying = true;
 
                         //SEEKBAR STUFF
-                        songSeekbar.setMax(player.getDuration()/1000); //set bar to length of song
+                        //songSeekbar.setMax(player.getDuration()/1000); //set bar to length of song
                         // todo: new seekbar things
-                        changeSeekBar();
 
 
                         // TODO: old seekbar things
