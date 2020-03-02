@@ -3,44 +3,28 @@ package com.example.buzzinbees;
 This fragment handles the audio player in the app
  */
 
-import android.bluetooth.BluetoothSocket;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.media.MediaPlayer;
+import android.media.audiofx.Visualizer;
 import android.os.Bundle;
-
-import androidx.annotation.DrawableRes;
-import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.fragment.app.Fragment;
-
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import android.Manifest;
-import android.content.pm.PackageManager;
-import android.content.res.AssetFileDescriptor;
-import android.media.MediaPlayer;
-import android.media.audiofx.Visualizer;
-import android.os.Build;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.Fragment;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
-
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -48,6 +32,11 @@ import java.util.concurrent.TimeUnit;
 
 public class AudioManagerFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
+
+    public static final int PLAYBACK_POSITION_REFRESH_INTERVAL_MS = 1000;
+
+    private ScheduledExecutorService exec;
+    private Runnable seekbarPositionUpdateTask;
 
     //create variables
     private int effectID;
@@ -205,7 +194,7 @@ public class AudioManagerFragment extends Fragment {
        playBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("PLAY","play click");
+//                Log.d("PLAY","play click");
                 //check if a song is playing
                 if (isPlaying) {
 //                    Log.d("PLAY","is Playing true");
@@ -253,8 +242,12 @@ public class AudioManagerFragment extends Fragment {
                         //SEEKBAR STUFF
 
                         songSeekbar.setMax(player.getDuration()/1000); //set bar to length of song
+                        initializeSeekbar();
 
                         mHandler = new Handler();
+
+                        // TODO: seekbar things
+                        startUpdatingCallbackWithPosition();
 
 
 
@@ -342,6 +335,9 @@ public class AudioManagerFragment extends Fragment {
            visualizerView.scaleHexagons(visHex2,Constant.HEX2SCALE);
            visualizerView.scaleHexagons(visHex3,Constant.HEX3SCALE);
            visualizerView.scaleHexagons(visHex4,Constant.HEX4SCALE);
+
+            // todo: seek bar things
+           stopUpdatingCallbackWithPosition(true);
        }
 
    }
@@ -448,40 +444,166 @@ public class AudioManagerFragment extends Fragment {
     }
 
 
+    // send in 300 chunks per second
     public void decideWhatEffectToSend(int i){
-        if(i == currentEffectID){
-            return;
-        }else {
-            if (i == 0) {
-                return;
+//        if(i == currentEffectID){
+//            return;
+//        }else {
+//            if (i == 0) {
+//                return;
+//            }
+//            if (i == 1) {
+//                currentEffectID = 1;
+//                try {
+//                    mListener.sendEffect1();
+//                    Log.d("Eff - ", "1");
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//            if (i == 4) {
+//                currentEffectID = 4;
+//                try {
+//                    mListener.sendEffect4();
+//                    Log.d("Eff - ", "4");
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//            if (i == 7) {
+//                currentEffectID = 7;
+//                try {
+//                    mListener.sendEffect7();
+//                    Log.d("Eff - ", "7");
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }
+    }
+
+
+
+    /// shoved code
+
+    private void initializeSeekbar () {
+        //create the seekbar and check for changes
+        songSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            //set initial seekbar position
+            int userSelectPosition = 0;
+
+            //when the user touches the seekbar, start tracking it
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                isSeeking = true;
             }
-            if (i == 1) {
-                currentEffectID = 1;
-                try {
-                    mListener.sendEffect1();
-                    Log.d("Eff - ", "1");
-                } catch (Exception e) {
-                    e.printStackTrace();
+
+            //if the user moves their finger on the seekbar, check their progress
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if(fromUser) {
+                    userSelectPosition = progress;
                 }
             }
-            if (i == 4) {
-                currentEffectID = 4;
-                try {
-                    mListener.sendEffect4();
-                    Log.d("Eff - ", "4");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+
+            //when the user lifts their finger from the seekbar, change the song playback time and set the seekbar to that final point
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                isSeeking = false;
+                seekTo(userSelectPosition);
             }
-            if (i == 7) {
-                currentEffectID = 7;
-                try {
-                    mListener.sendEffect7();
-                    Log.d("Eff - ", "7");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
+        });
+    }
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//
+//    @Override
+//    public void release() {
+//        if(player != null) {
+//            logToUI("release() and mediaplayer = null");
+//            player.release();
+//            player = null;
+//        }
+//    }
+//
+//    @Override
+//    public boolean isPlaying() {
+//        if(player != null) {
+//            return player.isPlaying();
+//        }
+//        return false;
+//    }
+//
+//    @Override
+//    public void play() {
+//        if(player != null && !player.isPlaying()) {
+//            player.start();
+//            startUpdatingCallbackWithPosition();
+//        }
+//    }
+//
+//    @Override
+//    public void reset() {
+//        if(player != null) {
+//            logToUI("playbackReset()");
+//            player.reset();
+//            stopUpdatingCallbackWithPosition(true);
+//        }
+//    }
+//
+//    @Override
+//    public void pause() {
+//        if(player != null && player.isPlaying()) {
+//            player.pause();
+//        }
+//    }
+
+
+    public void seekTo(int position) {
+        if(player != null) {
+            logToUI(String.format("seekTo() %d ms", position));
+            player.seekTo(position);
         }
     }
+
+    private void startUpdatingCallbackWithPosition() {
+        if(exec == null) {
+            exec = Executors.newSingleThreadScheduledExecutor();
+        }
+        if(seekbarPositionUpdateTask == null) {
+            seekbarPositionUpdateTask = new Runnable() {
+                @Override
+                public void run() {
+                    updateProgressCallbackTask();
+                }
+            };
+        }
+        exec.scheduleAtFixedRate(seekbarPositionUpdateTask,0,PLAYBACK_POSITION_REFRESH_INTERVAL_MS, TimeUnit.MILLISECONDS);
+    }
+
+
+    //Reports media playback position to PlaybackProgressCallback
+    private void stopUpdatingCallbackWithPosition (boolean resetUIPlaybackPosition) {
+        if(exec != null) {
+            exec.shutdownNow();
+            exec = null;
+            seekbarPositionUpdateTask = null;
+        }
+    }
+
+    private void updateProgressCallbackTask() {
+        if(player != null && player.isPlaying()) {
+            int currentPosition = player.getCurrentPosition();
+        }
+    }
+
+    public void initializeProgressCallback() {
+        final int duration = player.getDuration();
+    }
+
+    private void logToUI(String message) {
+    }
+
 }
