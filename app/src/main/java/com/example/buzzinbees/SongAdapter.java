@@ -70,6 +70,21 @@ public class SongAdapter extends ArrayAdapter<Song> {
                 main.audioManagerFragment.songPlaying = new Song(song.songName,song.songArtist,song.path,song.index);
                 main.audioManagerFragment.setSongDisplay();
 
+                //set playingQueue value
+                switch(main.currentFragment){
+                    //check value of current fragment
+                    case Constant.FRAGVAL_SONGS:{
+                        main.playingQueue = (ArrayList<Song>)main.arraySongList.clone();
+                        //if playing from all songs page, clone array of all songs
+                        break;
+                    }
+                    case Constant.FRAGVAL_PLAYLISTPAGE:{
+                        //determine ID of playlist on page
+                        //clone that playlist's array of songs
+                        break;
+                    }
+                }
+
                 main.onNavigationItemSelected(main.navigationView.getMenu().findItem(R.id.navigation_visualizer));
 
                 main.audioManagerFragment.resetPlayer();

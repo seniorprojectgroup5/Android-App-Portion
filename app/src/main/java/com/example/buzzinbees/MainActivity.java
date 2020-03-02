@@ -42,6 +42,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     NavigationView navigationView;
 
     public ArrayList<Song> arraySongList = new ArrayList<>();
+    //main list of songs loaded into the app
+    public ArrayList<Song> playingQueue = new ArrayList<>();
+    //clone of arraylist set to play from
 
 
     //check permissions

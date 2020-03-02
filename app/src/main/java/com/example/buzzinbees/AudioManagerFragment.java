@@ -39,7 +39,9 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -90,6 +92,9 @@ public class AudioManagerFragment extends Fragment {
     Boolean isLooping;
     Boolean isShuffled;
 
+    ArrayList<Integer> shflIndex;
+    int curShuffleIndex;
+
 
     public AudioManagerFragment() {
         // Required empty public constructor
@@ -116,6 +121,10 @@ public class AudioManagerFragment extends Fragment {
 
         //lets make a song
         songPlaying = new Song();
+
+        shflIndex = new ArrayList<>();
+        //create arraylist of indecies to be shuffled
+        curShuffleIndex = 0;
 
         //create buttons
         playBack = view.findViewById(R.id.btn_PlayPause);
@@ -187,6 +196,9 @@ public class AudioManagerFragment extends Fragment {
                 else if (isShuffled){
                     //shuffled play order
                     //shuffle case
+                    updateShuffleIndex(1);//update index of shuffle index
+                    int iSHFL = shflIndex.get(curShuffleIndex);//get index value of next song to be played
+
                 }
 
                 setSongDisplay();
@@ -248,8 +260,6 @@ public class AudioManagerFragment extends Fragment {
 
                         mHandler = new Handler();
 
-
-
                         Log.d("PLAY","IsPlaying True");
                         //change button text to stop
                         ((ImageButton) v).setImageResource(R.drawable.ic_pause_black_24dp);
@@ -293,6 +303,22 @@ public class AudioManagerFragment extends Fragment {
                     btnLoop.setForegroundTintList(ColorStateList.valueOf(Color.GRAY));
                 }
 
+            }
+        });
+
+        btnShuffle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //toggles shuffle state on and off
+                if(!isShuffled){
+                    isShuffled= true;
+                    shuffleSongQueue();
+                    btnShuffle.setForegroundTintList(ColorStateList.valueOf(Color.BLACK));
+                }
+                else{
+                    isShuffled = false;
+                    btnShuffle.setForegroundTintList(ColorStateList.valueOf(Color.GRAY));
+                }
             }
         });
 
@@ -351,23 +377,47 @@ public class AudioManagerFragment extends Fragment {
     public void changeSong(int order){
 
        int toIndex = songPlaying.index + order;
+       //calculate index of next song
 
-       if (toIndex > (main.arraySongList.size()-1)){
+       if (toIndex > (main.playingQueue.size()-1)){
            toIndex = 0;
        }
        else if (toIndex < 0){
-           toIndex = (main.arraySongList.size()-1);
-       }
+           toIndex = (main.playingQueue.size()-1);
+       } //ensure the song queue wraps around & never reaches an out of bounds index
 
        if(main.arraySongList.get(toIndex) != null){
-           songPlaying = main.arraySongList.get(toIndex);
-       }
+           songPlaying = main.playingQueue.get(toIndex);
+       }//ensures song at index isnt null
        else{
 
            CharSequence s = "invalid song index";
            Toast.makeText(getContext(),s,Toast.LENGTH_LONG).show();
        }
 
+    }
+
+    public void updateShuffleIndex(int n){
+       //updates the index of the shuffle array if shuffle is active
+        curShuffleIndex += n;
+        if(curShuffleIndex > (shflIndex.size()-1)){
+            curShuffleIndex = 0;
+        }
+        else if (curShuffleIndex  < 0){
+            curShuffleIndex  = (shflIndex.size()-1);
+        }
+    }
+
+    public void shuffleSongQueue(){
+        if (shflIndex != null){
+            shflIndex.clear();
+            //clear array
+            for (int i = 0; i < main.playingQueue.size(); i++){
+                shflIndex.add(main.playingQueue.get(i).index); // fill shlfIndex with indecies of songs stored in arraylist
+            }
+            Collections.shuffle(shflIndex); // shuffle array
+            curShuffleIndex = 0;
+        }
     }
 
     private void setupVisualizerFxAndUI() {
