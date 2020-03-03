@@ -306,7 +306,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 canSendData = true;
             }
         };
-        mHandler.postDelayed(sendData, 5000);
+        mHandler.postDelayed(sendData, 1000);
     }
 
     public void sendEffect1(){
