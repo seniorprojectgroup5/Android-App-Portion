@@ -291,6 +291,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     // send effects
+    public class sendEffects implements Runnable{
+        @Override
+        public void run() {
+            Log.d(TAG, "trying to send effect 1");
+            if (bleSocket != null) {
+                Log.d(TAG, "yes bluetooth");
+                try {
+                    bleSocket.getOutputStream().write(Constant.VIBRATION_EFFECT_1.getBytes());
+                    Log.d(TAG, Constant.VIBRATION_EFFECT_1);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                Log.d(TAG, "no bluetooth");
+            }
+        }
+    };
+
     public void sendEffect1(){
         Log.d(TAG, "trying to send effect 1");
         if (bleSocket != null) {

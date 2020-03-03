@@ -510,6 +510,10 @@ public class AudioManagerFragment extends Fragment {
 
     // send in 300 chunks per second
     public void decideWhatEffectToSend(int i){
+        Log.d("Eff - ", String.valueOf(i));
+
+//        Runnable sndEff = main.sendEffects;
+//
 //        if(i == currentEffectID){
 //            return;
 //        }else {
@@ -520,7 +524,6 @@ public class AudioManagerFragment extends Fragment {
 //                currentEffectID = 1;
 //                try {
 //                    mListener.sendEffect1();
-//                    Log.d("Eff - ", "1");
 //                } catch (Exception e) {
 //                    e.printStackTrace();
 //                }
@@ -529,7 +532,6 @@ public class AudioManagerFragment extends Fragment {
 //                currentEffectID = 4;
 //                try {
 //                    mListener.sendEffect4();
-//                    Log.d("Eff - ", "4");
 //                } catch (Exception e) {
 //                    e.printStackTrace();
 //                }
@@ -538,7 +540,6 @@ public class AudioManagerFragment extends Fragment {
 //                currentEffectID = 7;
 //                try {
 //                    mListener.sendEffect7();
-//                    Log.d("Eff - ", "7");
 //                } catch (Exception e) {
 //                    e.printStackTrace();
 //                }
