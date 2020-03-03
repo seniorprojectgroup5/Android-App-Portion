@@ -357,6 +357,8 @@ public class AudioManagerFragment extends Fragment {
                     isLooping = false;
                     btnLoop.setForegroundTintList(ColorStateList.valueOf(Color.GRAY));
                 }
+
+                decideWhatEffectToSend(1);
             }
         });
 
@@ -510,41 +512,38 @@ public class AudioManagerFragment extends Fragment {
 
     // send in 300 chunks per second
     public void decideWhatEffectToSend(int i){
-        Log.d("Eff - ", String.valueOf(i));
+        if(main.canSendData){
+            Log.d("Data", "can send data - " + String.valueOf(i));
 
-//        Runnable sndEff = main.sendEffects;
-//
-//        if(i == currentEffectID){
-//            return;
-//        }else {
-//            if (i == 0) {
-//                return;
-//            }
-//            if (i == 1) {
-//                currentEffectID = 1;
-//                try {
-//                    mListener.sendEffect1();
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//            if (i == 4) {
-//                currentEffectID = 4;
-//                try {
-//                    mListener.sendEffect4();
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//            if (i == 7) {
-//                currentEffectID = 7;
-//                try {
-//                    mListener.sendEffect7();
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }
+            if (i == 1) {
+                currentEffectID = 1;
+                try {
+                    mListener.sendEffect1();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            if (i == 4) {
+                currentEffectID = 4;
+                try {
+                    mListener.sendEffect4();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            if (i == 7) {
+                currentEffectID = 7;
+                try {
+                    mListener.sendEffect7();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+
+            Log.d("Data", "restart waiter");
+            mListener.waitToSendInfo();
+        }
     }
 
     // TODO: actually make the seekbar work

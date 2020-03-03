@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -60,6 +61,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private boolean mIsBluetoothConnected = false;
     private ReadInput mReadThread = null;
     private ProgressDialog progressDialog;
+
+    private Runnable sendData;
+
+    private Handler mHandler;
+    public boolean canSendData;
 
 
     //check permissions
@@ -138,6 +144,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         // bluetooth adapter
         bleAdapter = BluetoothAdapter.getDefaultAdapter();
+        mHandler = new Handler();
+        canSendData = true;
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -291,9 +299,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     // send effects
-    public class sendEffects implements Runnable{
-        @Override
-        public void run() {
+    public void waitToSendInfo(){
+        sendData = new Runnable() {
+            @Override
+            public void run() {
+                canSendData = true;
+            }
+        };
+        mHandler.postDelayed(sendData, 5000);
+    }
+
+    public void sendEffect1(){
+            canSendData = false;
             Log.d(TAG, "trying to send effect 1");
             if (bleSocket != null) {
                 Log.d(TAG, "yes bluetooth");
@@ -306,67 +323,56 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             } else {
                 Log.d(TAG, "no bluetooth");
             }
-        }
-    };
-
-    public void sendEffect1(){
-        Log.d(TAG, "trying to send effect 1");
-        if (bleSocket != null) {
-            Log.d(TAG, "yes bluetooth");
-            try {
-                bleSocket.getOutputStream().write(Constant.VIBRATION_EFFECT_1.getBytes());
-                Log.d(TAG, Constant.VIBRATION_EFFECT_1);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }else {
-            Log.d(TAG, "no bluetooth");
-        }
     }
 
     public void sendEffect4(){
-        Log.d(TAG, "trying to send effect 4");
-        if (bleSocket != null) {
-            Log.d(TAG, "yes bluetooth");
-            try {
-                bleSocket.getOutputStream().write(Constant.VIBRATION_EFFECT_4.getBytes());
-                Log.d(TAG, Constant.VIBRATION_EFFECT_4);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }else {
-            Log.d(TAG, "no bluetooth");
-        }
+        canSendData = false;
+                Log.d(TAG, "trying to send effect 1");
+                if (bleSocket != null) {
+                    Log.d(TAG, "yes bluetooth");
+                    try {
+                        bleSocket.getOutputStream().write(Constant.VIBRATION_EFFECT_4.getBytes());
+                        Log.d(TAG, Constant.VIBRATION_EFFECT_1);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }else {
+                    Log.d(TAG, "no bluetooth");
+                }
     }
 
     public void sendEffect7(){
-        Log.d(TAG, "trying to send effect 7");
-        if (bleSocket != null) {
-            Log.d(TAG, "yes bluetooth");
-            try {
-                bleSocket.getOutputStream().write(Constant.VIBRATION_EFFECT_7.getBytes());
-                Log.d(TAG, Constant.VIBRATION_EFFECT_7);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }else {
-            Log.d(TAG, "no bluetooth");
-        }
+        canSendData = false;
+                Log.d(TAG, "trying to send effect 1");
+                if (bleSocket != null) {
+                    Log.d(TAG, "yes bluetooth");
+                    try {
+                        bleSocket.getOutputStream().write(Constant.VIBRATION_EFFECT_7.getBytes());
+                        Log.d(TAG, Constant.VIBRATION_EFFECT_1);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }else {
+                    Log.d(TAG, "no bluetooth");
+                }
+
+
     }
 
     public void sendEffect24(){
-        Log.d(TAG, "trying to send effect 24");
-        if (bleSocket != null) {
-            Log.d(TAG, "yes bluetooth");
-            try {
-                bleSocket.getOutputStream().write(Constant.VIBRATION_EFFECT_24.getBytes());
-                Log.d(TAG, Constant.VIBRATION_EFFECT_24);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }else {
-            Log.d(TAG, "no bluetooth");
-        }
+        canSendData = false;
+                Log.d(TAG, "trying to send effect 1");
+                if (bleSocket != null) {
+                    Log.d(TAG, "yes bluetooth");
+                    try {
+                        bleSocket.getOutputStream().write(Constant.VIBRATION_EFFECT_24.getBytes());
+                        Log.d(TAG, Constant.VIBRATION_EFFECT_1);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }else {
+                    Log.d(TAG, "no bluetooth");
+                }
     }
 
 
