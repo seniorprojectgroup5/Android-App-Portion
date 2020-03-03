@@ -9,6 +9,7 @@ import android.media.MediaPlayer;
 import android.media.audiofx.Visualizer;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -113,7 +114,7 @@ public class AudioManagerFragment extends Fragment {
         byteStrings = new LinkedList<String>();
         //this stores the fft bytes
 
-        player = new MediaPlayer();
+        player = null;
         //create media player to handle the playback
 
         //lets make a song
@@ -168,7 +169,10 @@ public class AudioManagerFragment extends Fragment {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 if(fromUser){
-                    player.seekTo(progress);
+                    if(player != null) {
+                        player.seekTo(progress);
+                        Log.d("SEEK", "seeked to " + progress);
+                    }
                 }
             }
 
@@ -192,6 +196,7 @@ public class AudioManagerFragment extends Fragment {
                 //stop the music and release the media player
                 player.stop();
                 player.release();
+                player = null;
                 //reset isPlaying to false
                 isPlaying = false;
                 //turn off the visualizer
@@ -228,9 +233,11 @@ public class AudioManagerFragment extends Fragment {
                 //check if a song is playing
                 if (isPlaying) {
 //                    Log.d("PLAY","is Playing true");
+                    player.pause();
                     //if a song is playing, the button will stop playback
-                    player.stop();
-                    player.release();
+                    //player.stop();
+                    //player.release();
+
                     isPlaying = false;
                     mVisualizer.setEnabled(false);
                     ((ImageButton) v).setImageResource(R.drawable.ic_play_arrow_black_24dp);
@@ -240,24 +247,38 @@ public class AudioManagerFragment extends Fragment {
                     visualizerView.scaleHexagons(visHex2,Constant.HEX2SCALE);
                     visualizerView.scaleHexagons(visHex3,Constant.HEX3SCALE);
                     visualizerView.scaleHexagons(visHex4,Constant.HEX4SCALE);
+
+                    //changeSeekBar();
+
                 } else {
                     //otherwise, the play button will instantiate the song and the visualizer responding to it
                     try {
-//                        Log.d("PLAY"," Try to play music");
+                        Log.d("SEEK"," Try to play music");
                         //instantiate the mediaplayer
                         // todo: uncomment below later
-                        player = new MediaPlayer();
+                        if(player == null) {
+                            Log.d("SEEK", "player is null");
+                            player = new MediaPlayer();
 //                        Log.d("PLAY"," Create Media Player");
+                            Log.d("SEEK", player.toString());
+                            Log.d("SEEK", "player is " + player + ": song path " + songPlaying.path);
+                            player.setDataSource(songPlaying.path);
+
+                            //player.prepareAsync();
+                        }
+
+
                         //assign the song to play
-//                        Log.d("PLAY","Load Song");
-                        player.setDataSource(songPlaying.path);
+
 
                         // todo mediaplayer attempt
                         //player = MediaPlayer.create(getContext(), songPlaying.path);
                         player.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                             @Override
                             public void onPrepared(MediaPlayer mp) {
+                                Log.d("SEEK", "preped to go");
                                 songSeekbar.setMax(player.getDuration());
+                                player.seekTo(songSeekbar.getProgress());
                                 player.start();
                                 changeSeekBar();
                             }
@@ -271,6 +292,7 @@ public class AudioManagerFragment extends Fragment {
                         player.setOnCompletionListener(completeListener);
 //                        Log.d("PLAY","CompletionListenr");
                         player.prepare();
+                      //  player.prepareAsync();
 //                        Log.d("PLAY","Song Prepared");
                         //set up visualizer function
                         setupVisualizerFxAndUI();
@@ -523,18 +545,27 @@ public class AudioManagerFragment extends Fragment {
     }
 
     // TODO: actually make the seekbar work
-    private void changeSeekBar(){
-       songSeekbar.setProgress(player.getCurrentPosition());
+    private void changeSeekBar() {
+        if (player != null) {
+            Log.d("SEEK",player.toString() + ": player is valid");
+            songSeekbar.setProgress(player.getCurrentPosition());
 
-       if(player.isPlaying()){
-           seekbarUpdate = new Runnable(){
-               @Override
-               public void run(){
-                   changeSeekBar();
-               }
-           };
-           mHandler.postDelayed(seekbarUpdate, 1000);
-       }
+            if (isPlaying) {
+                seekbarUpdate = new Runnable() {
+                    @Override
+                    public void run() {
+                       // changeSeekBar();
+                        if(player != null) {
+                            songSeekbar.setProgress(player.getCurrentPosition());
+                        }
+                    }
+                };
+                mHandler.postDelayed(seekbarUpdate, 1000);
+            }
+        }
+        else{
+           Log.d("SEEK","player is null");
+        }
     }
 
 
