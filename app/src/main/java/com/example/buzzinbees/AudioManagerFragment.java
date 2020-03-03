@@ -256,7 +256,7 @@ public class AudioManagerFragment extends Fragment {
                         Log.d("SEEK"," Try to play music");
                         //instantiate the mediaplayer
                         // todo: uncomment below later
-                        if(player == null) {
+                     //   if(player == null) {
                             Log.d("SEEK", "player is null");
                             player = new MediaPlayer();
 //                        Log.d("PLAY"," Create Media Player");
@@ -265,7 +265,7 @@ public class AudioManagerFragment extends Fragment {
                             player.setDataSource(songPlaying.path);
 
                             //player.prepareAsync();
-                        }
+                    //    }
 
 
                         //assign the song to play
@@ -328,6 +328,7 @@ public class AudioManagerFragment extends Fragment {
        btnPrev.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
+               songSeekbar.setProgress(0);
                changeSong(-1);
                resetPlayer();
                setSongDisplay();
@@ -337,6 +338,7 @@ public class AudioManagerFragment extends Fragment {
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                songSeekbar.setProgress(0);
                 changeSong(1);
                 resetPlayer();
                 setSongDisplay();
