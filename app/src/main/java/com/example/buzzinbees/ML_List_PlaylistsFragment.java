@@ -10,6 +10,10 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ListView;
+
+import java.util.ArrayList;
 
 
 /**
@@ -17,6 +21,13 @@ import android.view.ViewGroup;
  */
 public class ML_List_PlaylistsFragment extends Fragment {
 
+
+    //listview variables
+    ArrayList<Song> arrayList;
+    ListView listView;
+    PlaylistAdapter adapter;
+
+    MainActivity main;
 
     public ML_List_PlaylistsFragment() {
         // Required empty public constructor
@@ -26,8 +37,38 @@ public class ML_List_PlaylistsFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_list_playlists, null);
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_list_playlists, null);
+
+
+        main = (MainActivity) getActivity();
+
+        showPlaylists(view);
+
+        return view;
     }
+
+    public void showPlaylists(View view) {
+        //initialize listview and arraylist
+        listView = view.findViewById(R.id.listPlaylists_container);
+        arrayList = new ArrayList<Song>();
+
+
+        //initialize the adapter and assign the arrrayList to it so it has data
+        adapter = new PlaylistAdapter(this.getContext(), main.arrayPlaylists);
+        //apply the adapter to the listview to show list
+
+        listView.setAdapter(adapter);
+
+        //on click function for song row
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //play desired playlist
+            }
+        });
+    }
+
+
 
 }

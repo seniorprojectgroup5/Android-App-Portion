@@ -56,7 +56,7 @@ public class ML_List_SongsFragment extends Fragment {
 
     public void showMusic(View view) {
         //initialize listview and arraylist
-        listView = view.findViewById(R.id.listSongs_container);
+        listView = view.findViewById(R.id.listPlaylists_container);
         arrayList = new ArrayList<Song>();
 
         if(!main.songsLoaded) {
@@ -64,7 +64,7 @@ public class ML_List_SongsFragment extends Fragment {
             getMusic();
 
             //set all songs playlist
-            main.allSongs = new Playlist("All Songs", Constant.PLAYLIST_ALLSONGS_ID, arrayList);
+            main.allSongs = new Playlist(getString(R.string.name_songLibraryPlaylist), Constant.PLAYLIST_ALLSONGS_ID, arrayList);
 
             main.songsLoaded = true; //toggle bool flag to true to prevent reloading of songs
         }

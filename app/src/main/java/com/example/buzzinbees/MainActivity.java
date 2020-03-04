@@ -169,9 +169,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         playingQ = new Playlist();
         Log.d("SONGLIST",allSongs.songsArray.toString());
 
-        arrayPlaylists.add(new Playlist("Favourites",Constant.PLAYLIST_FAVOURITES_ID,new ArrayList<Song>()));
+        arrayPlaylists.add(new Playlist(getString(R.string.name_defaultPlaylist),Constant.PLAYLIST_FAVOURITES_ID,new ArrayList<Song>()));
 
-        // init song list array
+
 
     }
 
@@ -246,7 +246,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             drawer.closeDrawer(GravityCompat.START);
             //on backpress, if menu open, close menu
         }else{
-            super.onBackPressed();
+            switch(currentFragment){
+                case Constant.FRAGVAL_PLAYLISTPAGE:{
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer_main,
+                            new ML_List_PlaylistsFragment()).commit();
+                    audioContainer.setVisibility(View.GONE);
+                    currentFragment = Constant.FRAGVAL_PLAYLISTS;
+                    break;
+                }
+                default:{
+                    super.onBackPressed();
+                    break;
+                }
+            }
+
             //else usual back btn function, closes app currently
         }
 

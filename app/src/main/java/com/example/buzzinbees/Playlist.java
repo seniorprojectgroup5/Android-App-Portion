@@ -31,7 +31,7 @@ public class Playlist {
         this.ID =  id;
         //System.arraycopy(songs,0,songsArray,0,songs.size());
         this.songsArray = (ArrayList<Song>)songs.clone();
-        this.size = songsArray.size()-1;
+        this.size = songsArray.size();
     }
 
     public void setName(String n){
@@ -48,11 +48,11 @@ public class Playlist {
     }
 
     public void setSize(){
-        if(songsArray.size() == 0){
+        if(this.songsArray.size() <= 0){
             this.size = 0;
         }
         else {
-            this.size = songsArray.size()-1;
+            this.size = this.songsArray.size()-1;
         }
     }
     public Integer getSize(){
@@ -115,6 +115,13 @@ public class Playlist {
             return false; // if error occurs return false
         }
         return true;
+    }
+
+    public String toString(){
+
+        String s = "Name:" + this.name + " ID:" + this.ID + " Size"+this.size+ " Songs:" +songsArray.toString();
+
+        return s;
     }
 
 

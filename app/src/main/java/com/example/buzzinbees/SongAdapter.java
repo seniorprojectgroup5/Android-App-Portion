@@ -87,6 +87,7 @@ public class SongAdapter extends ArrayAdapter<Song> {
                 }
 
                 main.onNavigationItemSelected(main.navigationView.getMenu().findItem(R.id.navigation_visualizer));
+                main.navigationView.setCheckedItem(R.id.navigation_visualizer);
 
                 main.audioManagerFragment.resetPlayer();
                 main.audioManagerFragment.playBack.performClick();
