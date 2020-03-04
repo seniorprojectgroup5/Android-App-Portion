@@ -19,6 +19,9 @@ public class Constant {
     public static final int FRAGVAL_NEWPLAYLIST = 10;
     public static final int FRAGVAL_SONGTOPLAYLIST = 11;
 
+    public static final int PLAYLIST_FAVOURITES_ID = 0;
+    public static final int PLAYLIST_ALLSONGS_ID = -1000;
+
     public static final float HEX1SCALE = 0.7087f;
     public static final float HEX2SCALE = 0.5748f;
     public static final float HEX3SCALE = 0.5354f;

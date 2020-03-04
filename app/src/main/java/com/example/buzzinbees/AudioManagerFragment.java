@@ -90,6 +90,8 @@ public class AudioManagerFragment extends Fragment {
     ImageButton btnLoop;
     ImageButton btnShuffle;
 
+    ImageButton btnFav;
+
     Boolean isLooping;
     Boolean isShuffled;
 
@@ -135,8 +137,10 @@ public class AudioManagerFragment extends Fragment {
         btnLoop = view.findViewById(R.id.btn_Loop);
         btnShuffle = view.findViewById(R.id.btn_Shuffle);
 
-        btnLoop.setForegroundTintList(ColorStateList.valueOf(Color.GRAY));
-        btnShuffle.setForegroundTintList(ColorStateList.valueOf(Color.GRAY));
+        //btnLoop.setForegroundTintList(ColorStateList.valueOf(Color.GRAY));
+        //btnShuffle.setForegroundTintList(ColorStateList.valueOf(Color.GRAY));
+
+        btnFav = view.findViewById(R.id.btn_Fav);
 
         visualizerContainer = view.findViewById(R.id.VisualizerContainer);
         //ref to entire visualizer container
@@ -355,6 +359,44 @@ public class AudioManagerFragment extends Fragment {
             }
         });
 
+        btnFav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                songPlaying.toggleFav();
+                //find song in original queue & all songs queue
+
+                if(songPlaying.isFav){
+                    Boolean b = main.arrayPlaylists.get(Constant.PLAYLIST_FAVOURITES_ID).addSong(songPlaying);
+                    if (b){
+                        //add was successful
+                        Toast.makeText(getContext(),"Song added to Favourites",Toast.LENGTH_SHORT).show();
+                        ((ImageButton) btnFav).setImageResource(R.drawable.ic_favorite_black_24dp);
+                        btnFav.setColorFilter(getResources().getColor(R.color.PaleHoney));
+                    }
+                    else{
+                        //add was unsuccesful
+                        Toast.makeText(getContext(),"[ERROR: FAILED TO ADD SONG]",Toast.LENGTH_SHORT).show();
+                        songPlaying.isFav = false;
+                    }
+                }
+                else{
+                    Boolean b = main.arrayPlaylists.get(Constant.PLAYLIST_FAVOURITES_ID).removeSong(songPlaying);
+                    if (b) {
+                        //removal was successful
+                        Toast.makeText(getContext(), "Song removed from Favourites", Toast.LENGTH_SHORT).show();
+                        ((ImageButton) btnFav).setImageResource(R.drawable.ic_favorite_border_black_24dp);
+                        btnFav.setColorFilter(getResources().getColor(R.color.VisDark));
+                    }
+                    else{
+                        //removal was unsuccesful
+                        Toast.makeText(getContext(),"[ERROR: FAILED TO REMOVE SONG]",Toast.LENGTH_SHORT).show();
+                        songPlaying.isFav = true;
+                    }
+                }
+            }
+        });
+
 
         return view;
     }
@@ -368,9 +410,18 @@ public class AudioManagerFragment extends Fragment {
     }*/
 
    public void setSongDisplay(){
-
+    //updates song info display in audio player
        String songInfo = songPlaying.songName + " - " + songPlaying.songArtist;
        songDisplay.setText(songInfo);
+
+       if(songPlaying.isFav){
+           ((ImageButton) btnFav).setImageResource(R.drawable.ic_favorite_black_24dp);
+           btnFav.setColorFilter(getResources().getColor(R.color.PaleHoney));
+       }
+       else{
+           ((ImageButton) btnFav).setImageResource(R.drawable.ic_favorite_border_black_24dp);
+           btnFav.setColorFilter(getResources().getColor(R.color.VisDark));
+       }
 
    }
 
@@ -408,7 +459,6 @@ public class AudioManagerFragment extends Fragment {
     }
 
     public void changeSong(int order){
-
 
         if(isShuffled){
             order = shflIndex.get(curShuffleIndex) - qIndex;

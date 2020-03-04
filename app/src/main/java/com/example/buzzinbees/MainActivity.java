@@ -49,6 +49,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public ArrayList<Playlist> arrayPlaylists = new ArrayList<>();
     //list of all user and default playlists
 
+    public boolean songsLoaded;
+
 
     //check permissions
     List<String> permissions = new ArrayList<String>();
@@ -158,6 +160,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     new HomeFragment()).commit();
             navigationView.setCheckedItem(R.id.navigation_home);
             currentFragment = 0;
+            songsLoaded = false;
 
         }
 
@@ -166,8 +169,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         playingQ = new Playlist();
         Log.d("SONGLIST",allSongs.songsArray.toString());
 
-        //arrayPlaylists.add();
-        //arraySongList.add(new Song());
+        arrayPlaylists.add(new Playlist("Favourites",Constant.PLAYLIST_FAVOURITES_ID,new ArrayList<Song>()));
+
         // init song list array
 
     }

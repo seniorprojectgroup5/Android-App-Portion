@@ -62,10 +62,7 @@ public class ML_List_SongsFragment extends Fragment {
         //get the music from the device
         getMusic();
 
-        //main.arraySongList = (ArrayList<Song>)arrayList.clone();
-
-
-        main.allSongs = new Playlist("All Songs",0,arrayList);
+        main.allSongs = new Playlist("All Songs",Constant.PLAYLIST_ALLSONGS_ID,arrayList);
 
 
         //initialize the adapter and assign the arrrayList to it so it has data
@@ -102,7 +99,7 @@ public class ML_List_SongsFragment extends Fragment {
                 String currentTitle = songCursor.getString(songTitle);
                 String currentArtist = songCursor.getString(songArtist);
                 String currentPath = songCursor.getString(songPath);
-                Song newSong = new Song(currentTitle, currentArtist,currentPath, i);
+                Song newSong = new Song(currentTitle, currentArtist,currentPath, i,false);
 
                 //add this to the arrayList
                 arrayList.add(newSong);

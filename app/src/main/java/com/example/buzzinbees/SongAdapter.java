@@ -67,7 +67,7 @@ public class SongAdapter extends ArrayAdapter<Song> {
                 int position = (Integer) v.getTag();
 
                 Song song = getItem(position);
-                main.audioManagerFragment.songPlaying = new Song(song.songName,song.songArtist,song.path,song.index);
+                main.audioManagerFragment.songPlaying = song;
                 main.audioManagerFragment.setSongDisplay();
                 main.audioManagerFragment.qIndex = position;
 
@@ -75,7 +75,7 @@ public class SongAdapter extends ArrayAdapter<Song> {
                 switch(main.currentFragment){
                     //check value of current fragment
                     case Constant.FRAGVAL_SONGS:{
-                        main.playingQ = new Playlist(main.allSongs.getName(),main.allSongs.getID(),main.allSongs.songsArray);
+                        main.playingQ = main.allSongs;
                         //if playing from all songs page, clone array of all songs
                         break;
                     }
