@@ -51,11 +51,11 @@
                 android:id="@+id/fragmentContainer_audioManager"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
                 android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="@+id/mainConstraintLayout"
                 app:layout_constraintEnd_toEndOf="@+id/mainConstraintLayout"
-                app:layout_constraintStart_toStartOf="@+id/mainConstraintLayout"
-                app:layout_constraintTop_toBottomOf="@+id/fragmentContainer_main">
+                app:layout_constraintStart_toStartOf="@+id/mainConstraintLayout">
 
             </FrameLayout>
 

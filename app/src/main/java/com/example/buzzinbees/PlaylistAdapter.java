@@ -86,7 +86,7 @@ public class PlaylistAdapter extends ArrayAdapter<Playlist> {
             }
         });
 
-        playlistBtn.setOnTouchListener(new View.OnTouchListener() {
+       /* playlistBtn.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
 
@@ -104,7 +104,7 @@ public class PlaylistAdapter extends ArrayAdapter<Playlist> {
                 }
                 return false;
             }
-        });
+        });*/
 
         ImageButton btnGoToPlaylist = convertView.findViewById(R.id.btn_goToPlaylist);
         btnGoToPlaylist.setTag(position);

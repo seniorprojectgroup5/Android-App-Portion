@@ -225,7 +225,7 @@ public class AudioManagerFragment extends Fragment {
                     //player.release();
                     isPlaying = false;
                     mVisualizer.setEnabled(false);
-                    ((ImageButton) v).setImageResource(R.drawable.ic_play_arrow_black_24dp);
+                    ((ImageButton) v).setImageResource(R.drawable.ic_play_arrow_black_48dp);
                     byteStrings.clear();//clears the byte strings
                     //reset hexagon scale
                     visualizerView.scaleHexagons(visHex1,Constant.HEX1SCALE);
@@ -266,7 +266,7 @@ public class AudioManagerFragment extends Fragment {
 
                         Log.d("PLAY","IsPlaying True");
                         //change button text to stop
-                        ((ImageButton) v).setImageResource(R.drawable.ic_pause_black_24dp);
+                        ((ImageButton) v).setImageResource(R.drawable.ic_pause_black_48dp);
                         }
                         else {
                             //to play pre loaded

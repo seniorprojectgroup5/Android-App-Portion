@@ -58,6 +58,8 @@ public class MyVisualizer extends View{
     void initialize(){
         mBytes=null;
         mForePaint.setStrokeWidth(10f);
+        mForePaint.setStrokeCap(Paint.Cap.ROUND);
+        mForePaint.setStrokeJoin(Paint.Join.BEVEL);
         mForePaint.setAntiAlias(true);
         mForePaint.setColor(Color.rgb(224, 181, 86));
 

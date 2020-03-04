@@ -102,7 +102,7 @@ public class SongAdapter extends ArrayAdapter<Song> {
             }
         });
 
-        songBtn.setOnTouchListener(new View.OnTouchListener() {
+        /*songBtn.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
 
@@ -120,7 +120,7 @@ public class SongAdapter extends ArrayAdapter<Song> {
                 }
                 return false;
             }
-        });
+        });*/
 
 
 

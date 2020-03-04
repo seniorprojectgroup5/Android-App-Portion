@@ -55,6 +55,11 @@ public class ML_List_PlaylistsFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
+                main.currentFragment = Constant.FRAGVAL_NEWPLAYLIST;
+                main.getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer_main,
+                        new ML_Add_NewPlaylistFragment()).commit();
+
+
             }
         });
 

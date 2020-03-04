@@ -110,6 +110,7 @@ public class ML_List_SongsFragment extends Fragment {
 
                 i++;
             } while (songCursor.moveToNext()); //continue to the next file
+
         }
     }
 
