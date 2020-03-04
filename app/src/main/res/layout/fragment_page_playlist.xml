@@ -101,7 +101,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/fragPgPlaylistToolbar" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
+       <!-- <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/btn_playPlaylist"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -114,7 +114,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.90"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/listSongs_container" />
+            app:layout_constraintTop_toBottomOf="@+id/listSongs_container" /> -->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

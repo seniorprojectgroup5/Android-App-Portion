@@ -24,10 +24,17 @@ public class SongAdapter extends ArrayAdapter<Song> {
     FragmentActivity activity;
     MainActivity main;
 
+    Playlist viewedPlaylist;
 
     //constructor DO NOT DELETE
     public SongAdapter(Context context, ArrayList<Song> songs) {
         super(context, 0, songs);
+    }
+
+    public SongAdapter(Context context, Playlist p) {
+
+        super(context, 0, p.songsArray);
+        this.viewedPlaylist = p;
     }
 
     public SongAdapter(Context context, ArrayList<Song> songs,FragmentActivity activity) {
@@ -36,6 +43,8 @@ public class SongAdapter extends ArrayAdapter<Song> {
         this.activity = activity;
 
     }
+
+
 
 
     @SuppressLint("ClickableViewAccessibility")
@@ -80,8 +89,7 @@ public class SongAdapter extends ArrayAdapter<Song> {
                         break;
                     }
                     case Constant.FRAGVAL_PLAYLISTPAGE:{
-                        //determine ID of playlist on page
-                        //clone that playlist's array of songs
+                        main.playingQ = viewedPlaylist;
                         break;
                     }
                 }

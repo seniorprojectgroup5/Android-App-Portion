@@ -47,12 +47,12 @@ public class Playlist {
         return this.ID;
     }
 
-    public void setSize(){
+    public void updateSize(){
         if(this.songsArray.size() <= 0){
             this.size = 0;
         }
         else {
-            this.size = this.songsArray.size()-1;
+            this.size = this.songsArray.size();
         }
     }
     public Integer getSize(){
@@ -63,6 +63,7 @@ public class Playlist {
         //add individual song to the song array
         try{
             this.songsArray.add(s);
+            this.updateSize();
         }
         catch (ConcurrentModificationException e){
             return false; // if error occurs return false
@@ -96,6 +97,7 @@ public class Playlist {
         catch (ConcurrentModificationException e){
             return false; // if error occurs return false
         }
+        this.updateSize();
         return true;//else will return true
     }
 

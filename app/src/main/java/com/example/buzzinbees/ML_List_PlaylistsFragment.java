@@ -13,7 +13,10 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.util.ArrayList;
+
 
 
 /**
@@ -29,6 +32,8 @@ public class ML_List_PlaylistsFragment extends Fragment {
 
     MainActivity main;
 
+    FloatingActionButton addPlaylist;
+
     public ML_List_PlaylistsFragment() {
         // Required empty public constructor
     }
@@ -40,10 +45,20 @@ public class ML_List_PlaylistsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_list_playlists, null);
         // Inflate the layout for this fragment
 
-
         main = (MainActivity) getActivity();
 
         showPlaylists(view);
+
+        addPlaylist = view.findViewById(R.id.btn_addPlaylist);
+
+        addPlaylist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+
 
         return view;
     }

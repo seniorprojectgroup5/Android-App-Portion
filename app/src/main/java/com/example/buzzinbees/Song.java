@@ -35,4 +35,10 @@ public class Song {
         }
     }
 
+    public String toString(){
+
+        String s = this.songName + ", " +this.songArtist+", " +this.path+", Faved:"+this.isFav;
+        return s;
+    }
+
 }

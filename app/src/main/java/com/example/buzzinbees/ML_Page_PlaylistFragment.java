@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.core.view.GravityCompat;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,11 +74,11 @@ public class ML_Page_PlaylistFragment extends Fragment {
 
     public void showMusic(View view) {
         //initialize listview and arraylist
-        listView = view.findViewById(R.id.listPlaylists_container);
+        listView = view.findViewById(R.id.listSongs_container);
         arrayList = new ArrayList<Song>();
-
+        Log.d("PLAYLIST",list.toString());
         //initialize the adapter and assign the arrrayList to it so it has data
-        adapter = new SongAdapter(this.getContext(),list.songsArray);
+        adapter = new SongAdapter(this.getContext(),list);
         //apply the adapter to the listview to show list
 
         listView.setAdapter(adapter);
