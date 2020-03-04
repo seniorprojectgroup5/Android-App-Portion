@@ -1,7 +1,6 @@
 package com.example.buzzinbees;
 
 import android.Manifest;
-import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
@@ -60,7 +59,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private boolean mIsUserInitiatedDisconnect = false;
     private boolean mIsBluetoothConnected = false;
     private ReadInput mReadThread = null;
-    private ProgressDialog progressDialog;
 
     private Runnable sendData;
 
@@ -70,9 +68,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     //check permissions
     List<String> permissions = new ArrayList<String>();
+
     private boolean askPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            int RECORD_AUDIO = checkSelfPermission(Manifest.permission.RECORD_AUDIO );
+            int RECORD_AUDIO = checkSelfPermission(Manifest.permission.RECORD_AUDIO);
             if (RECORD_AUDIO != PackageManager.PERMISSION_GRANTED) {
                 permissions.add(Manifest.permission.RECORD_AUDIO);
             }
@@ -84,9 +83,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             return false;
         return true;
     }
+
     private boolean askDataPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            int ACCESS_DATA = checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE );
+            int ACCESS_DATA = checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE);
             if (ACCESS_DATA != PackageManager.PERMISSION_GRANTED) {
                 permissions.add(Manifest.permission.READ_EXTERNAL_STORAGE);
             }
@@ -110,8 +110,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Toast.makeText(this, "..", Toast.LENGTH_LONG).show();
             } else {
             }
-        }
-        else if (requestCode == Constant.DATA_PERMS) {
+        } else if (requestCode == Constant.DATA_PERMS) {
             boolean result = true;
             for (int i = 0; i < permissions.length; i++) {
                 result = result && grantResults[i] == PackageManager.PERMISSION_GRANTED;
@@ -129,14 +128,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState){
+    protected void onCreate(Bundle savedInstanceState) {
         //called at app load
 
-        Log.d("AppCrash","Oncreate called");
+        Log.d("AppCrash", "Oncreate called");
         super.onCreate(savedInstanceState);
-        Log.d("AppCrash","SaveInstance");
+        Log.d("AppCrash", "SaveInstance");
         setContentView(R.layout.activity_main);
-        Log.d("AppCrash","contentView set");
+        Log.d("AppCrash", "contentView set");
 
 
         audioContainer = findViewById(R.id.fragmentContainer_audioManager);
@@ -154,8 +153,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         drawer = findViewById(R.id.mainContainer);
         //ref to navigation drawer layout
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawer,toolbar,
-                R.string.navigation_drawer_open,R.string.navigation_drawer_close);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
+                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         //sets up drawer open/close listener
@@ -173,7 +172,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             askPermission();//ask permission for the audio manager stuff to work
 
             FragmentManager fragmentManager = getSupportFragmentManager();
-            audioManagerFragment = (AudioManagerFragment)fragmentManager.findFragmentById(R.id.fragmentContainer_audioManager);
+            audioManagerFragment = (AudioManagerFragment) fragmentManager.findFragmentById(R.id.fragmentContainer_audioManager);
 
             //load home fragment
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer_main,
@@ -184,13 +183,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         arraySongList = new ArrayList<Song>();
-        Log.d("SONGLIST",arraySongList.toString());
+        Log.d("SONGLIST", arraySongList.toString());
         //arraySongList.add(new Song());
         // init song list array
 
     }
 
-    public boolean onNavigationItemSelected(@NonNull MenuItem item){
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         //nav menu click lsiteners
         switch (item.getItemId()) {
             case R.id.navigation_home:
@@ -204,8 +203,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.navigation_songs:
                 //check permissions
-                if(ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                    if(ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
                         ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, Constant.DATA_PERMS);
                     } else {
                         ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, Constant.DATA_PERMS);
@@ -259,21 +258,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onBackPressed() {
-        if(drawer.isDrawerOpen(GravityCompat.START)){
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
             //on backpress, if menu open, close menu
-        }else{
+        } else {
             super.onBackPressed();
             //else usual back btn function, closes app currently
         }
 
     }
 
-    public void toggleVisualizer(){
+    public void toggleVisualizer() {
         //creates reference to audio manager fragment to call method for visualizer visibility
 
         FragmentManager fragmentManager = getSupportFragmentManager();
-        audioManagerFragment = (AudioManagerFragment)fragmentManager.findFragmentById(R.id.fragmentContainer_audioManager);
+        audioManagerFragment = (AudioManagerFragment) fragmentManager.findFragmentById(R.id.fragmentContainer_audioManager);
         //create instance of audio manager fragment that is currently running
         audioManagerFragment.toggleVisualizer(currentFragment);
         //calls method from fragment's java class
@@ -282,12 +281,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private boolean loadFragment(Fragment frag) {
         //loadsfragment - not used
-        if(frag != null) {
+        if (frag != null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer_main, frag).commit();
 
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
@@ -299,7 +297,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     // send effects
-    public void waitToSendInfo(){
+    public void waitToSendInfo() {
         sendData = new Runnable() {
             @Override
             public void run() {
@@ -309,82 +307,93 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mHandler.postDelayed(sendData, 1000);
     }
 
-    public void sendEffect1(){
-            canSendData = false;
-            Log.d(TAG, "trying to send effect 1");
-            if (bleSocket != null) {
-                Log.d(TAG, "yes bluetooth");
-                try {
-                    bleSocket.getOutputStream().write(Constant.VIBRATION_EFFECT_1.getBytes());
-                    Log.d(TAG, Constant.VIBRATION_EFFECT_1);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            } else {
-                Log.d(TAG, "no bluetooth");
+    public void sendEffect1() {
+        canSendData = false;
+        Log.d(TAG, "trying to send effect 1");
+        if (bleSocket != null) {
+            try {
+                bleSocket.getOutputStream().write(Constant.VIBRATION_EFFECT_1.getBytes());
+                Log.d(TAG, Constant.VIBRATION_EFFECT_1);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
+        } else {
+            Log.d(TAG, "no bluetooth");
+        }
     }
 
-    public void sendEffect4(){
+    public void sendEffect4() {
         canSendData = false;
-                Log.d(TAG, "trying to send effect 1");
-                if (bleSocket != null) {
-                    Log.d(TAG, "yes bluetooth");
-                    try {
-                        bleSocket.getOutputStream().write(Constant.VIBRATION_EFFECT_4.getBytes());
-                        Log.d(TAG, Constant.VIBRATION_EFFECT_1);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }else {
-                    Log.d(TAG, "no bluetooth");
-                }
+        Log.d(TAG, "trying to send effect 4");
+        if (bleSocket != null) {
+            try {
+                bleSocket.getOutputStream().write(Constant.VIBRATION_EFFECT_4.getBytes());
+                Log.d(TAG, Constant.VIBRATION_EFFECT_4);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            Log.d(TAG, "no bluetooth");
+        }
     }
 
-    public void sendEffect7(){
+    public void sendEffect7() {
         canSendData = false;
-                Log.d(TAG, "trying to send effect 1");
-                if (bleSocket != null) {
-                    Log.d(TAG, "yes bluetooth");
-                    try {
-                        bleSocket.getOutputStream().write(Constant.VIBRATION_EFFECT_7.getBytes());
-                        Log.d(TAG, Constant.VIBRATION_EFFECT_1);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }else {
-                    Log.d(TAG, "no bluetooth");
-                }
-
-
+        Log.d(TAG, "trying to send effect 7");
+        if (bleSocket != null) {
+            try {
+                bleSocket.getOutputStream().write(Constant.VIBRATION_EFFECT_7.getBytes());
+                Log.d(TAG, Constant.VIBRATION_EFFECT_7);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            Log.d(TAG, "no bluetooth");
+        }
     }
 
-    public void sendEffect24(){
+    public void sendEffect24() {
         canSendData = false;
-                Log.d(TAG, "trying to send effect 1");
-                if (bleSocket != null) {
-                    Log.d(TAG, "yes bluetooth");
-                    try {
-                        bleSocket.getOutputStream().write(Constant.VIBRATION_EFFECT_24.getBytes());
-                        Log.d(TAG, Constant.VIBRATION_EFFECT_1);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }else {
-                    Log.d(TAG, "no bluetooth");
-                }
+        Log.d(TAG, "trying to send effect 24");
+        if (bleSocket != null) {
+            Log.d(TAG, "yes bluetooth");
+            try {
+                bleSocket.getOutputStream().write(Constant.VIBRATION_EFFECT_24.getBytes());
+                Log.d(TAG, Constant.VIBRATION_EFFECT_24);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            Log.d(TAG, "no bluetooth");
+        }
+    }
+
+    public void sendEffect47() {
+        canSendData = false;
+        Log.d(TAG, "trying to send effect 47");
+        if (bleSocket != null) {
+            Log.d(TAG, "yes bluetooth");
+            try {
+                bleSocket.getOutputStream().write(Constant.VIBRATION_EFFECT_47.getBytes());
+                Log.d(TAG, Constant.VIBRATION_EFFECT_47);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            Log.d(TAG, "no bluetooth");
+        }
     }
 
 
     //** BLUETOOTH **//
-    public void openBluetoothFragment(){
+    public void openBluetoothFragment() {
         getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer_main,
                 new BLE_Manager()).commit();
         audioContainer.setVisibility(View.GONE);
         currentFragment = Constant.FRAGVAL_BLUETOOTH;
     }
 
-    public void setUpBluetooth(BluetoothDevice bleD, String uuid){
+    public void setUpBluetooth(BluetoothDevice bleD, String uuid) {
         bleDeviceUUID = UUID.fromString(uuid);
         bleDevice = bleD;
 
@@ -392,7 +401,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             msg("connecting");
             //progressDialog = ProgressDialog.show(getApplicationContext(), "Hold on", "Connecting");
             new ConnectBT().execute();
-        }else {
+        } else {
             msg("no blue");
         }
     }
@@ -499,15 +508,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Log.d(TAG, "Paused");
         super.onPause();
     }
-//
-//    @Override
-//    protected void onResume() {
-//        if (bleSocket == null || !mIsBluetoothConnected) {
-//            new ConnectBT().execute();
-//        }
-//        Log.d(TAG, "Resumed");
-//        super.onResume();
-//    }
 
     @Override
     protected void onStop() {
@@ -520,7 +520,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // TODO Auto-generated method stub
         super.onSaveInstanceState(outState);
     }
-
 
 
     private class ConnectBT extends AsyncTask<Void, Void, Void> {
@@ -541,9 +540,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                     bleSocket.connect();
 
-                    if(bleSocket == null){
+                    if (bleSocket == null) {
                         Log.d(TAG, "bad");
-                    }else{
+                    } else {
                         Log.d(TAG, "good");
                     }
                 }

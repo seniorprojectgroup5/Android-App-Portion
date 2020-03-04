@@ -11,6 +11,7 @@ public interface OnFragmentInteractionListener {
     void sendEffect4();
     void sendEffect7();
     void sendEffect24();
+    void sendEffect47();
 
     void waitToSendInfo();
 }

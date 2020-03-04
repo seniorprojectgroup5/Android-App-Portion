@@ -27,9 +27,7 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import java.util.LinkedList;
-import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 public class AudioManagerFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
@@ -45,8 +43,10 @@ public class AudioManagerFragment extends Fragment {
 
 
     //create variables
-    private int effectID;
-    private int currentEffectID;
+    private int eff1;
+    private int eff2;
+    private int eff3;
+    private int sequence;
 
     MainActivity main;
 
@@ -107,8 +107,10 @@ public class AudioManagerFragment extends Fragment {
 
 
         mListener = (OnFragmentInteractionListener) getActivity();
-        effectID = 0;
-        currentEffectID = 0;
+        eff1 = 1;
+        eff2 = 4;
+        eff3 = 7;
+        sequence = 1;
 
 
         byteStrings = new LinkedList<String>();
@@ -358,29 +360,15 @@ public class AudioManagerFragment extends Fragment {
                     btnLoop.setForegroundTintList(ColorStateList.valueOf(Color.GRAY));
                 }
 
-                decideWhatEffectToSend(1);
+                decideWhatEffectToSend(0);
             }
         });
-
-
-
-
         return view;
     }
 
-   /* public void run(){
-        if(player != null){
-            int mCurPos = player.getCurrentPosition()/1000;
-            songSeekbar.setProgress(mCurPos);
-        }
-        mHandler.postDelayed(this,1000);
-    }*/
-
    public void setSongDisplay(){
-
        String songInfo = songPlaying.songName + " - " + songPlaying.songArtist;
        songDisplay.setText(songInfo);
-
    }
 
 
@@ -401,11 +389,7 @@ public class AudioManagerFragment extends Fragment {
            visualizerView.scaleHexagons(visHex2,Constant.HEX2SCALE);
            visualizerView.scaleHexagons(visHex3,Constant.HEX3SCALE);
            visualizerView.scaleHexagons(visHex4,Constant.HEX4SCALE);
-
-            // todo: seek bar things
-           stopUpdatingCallbackWithPosition(true);
        }
-
    }
 
 
@@ -463,17 +447,12 @@ public class AudioManagerFragment extends Fragment {
                     public void onFftDataCapture(Visualizer visualizer, byte[] bytes, int samplingRate) {
                         //code for fft data capture, likely a print to screen to start
                         //base frequencies 60-250 hz
-
-//                        Log.d("BYTES", Arrays.toString(bytes));
-
                         for(int i = 0; i<=6; i++){
                             //convert first 6 bins of fft data to string
                             Byte b = bytes[i];
                             byteStrings.add(i,b.toString());
                             //continuously replace first 6 elements of linked list with first 6 bin values
                         }
-//                        Log.d("FFT",byteStrings.toString());
-
 
                         Float f = Float.parseFloat(byteStrings.get(3)); // init initial float
 
@@ -485,18 +464,15 @@ public class AudioManagerFragment extends Fragment {
 
                         if((byteStrings.size()>7)){
                             f1 = Float.parseFloat(byteStrings.get(10));
-                            effectID = 1;
-                            decideWhatEffectToSend(effectID);
+                            decideWhatEffectToSend(eff1);
                         }
                         if((byteStrings.size()>14)){
                             f2 = Float.parseFloat(byteStrings.get(17));
-                            effectID = 4;
-                            decideWhatEffectToSend(effectID);
+                            decideWhatEffectToSend(eff2);
                         }
                         if((byteStrings.size()>21)){
                             f3 = Float.parseFloat(byteStrings.get(24));
-                            effectID = 7;
-                            decideWhatEffectToSend(effectID);
+                            decideWhatEffectToSend(eff3);
                         }
 
 
@@ -512,34 +488,33 @@ public class AudioManagerFragment extends Fragment {
 
     // send in 300 chunks per second
     public void decideWhatEffectToSend(int i){
-        if(main.canSendData){
-            Log.d("Data", "can send data - " + String.valueOf(i));
-
-            if (i == 1) {
-                currentEffectID = 1;
-                try {
-                    mListener.sendEffect1();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+        if(main.canSendData) {
+            switch (sequence) {
+                case 1:
+                    try {
+                        mListener.sendEffect1();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    sequence++;
+                    break;
+                case 2:
+                    try {
+                        mListener.sendEffect4();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    sequence++;
+                    break;
+                case 3:
+                    try {
+                        mListener.sendEffect7();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    sequence = 1;
+                    break;
             }
-            if (i == 4) {
-                currentEffectID = 4;
-                try {
-                    mListener.sendEffect4();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-            if (i == 7) {
-                currentEffectID = 7;
-                try {
-                    mListener.sendEffect7();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-
 
             Log.d("Data", "restart waiter");
             mListener.waitToSendInfo();
@@ -569,126 +544,4 @@ public class AudioManagerFragment extends Fragment {
            Log.d("SEEK","player is null");
         }
     }
-
-
-
-    /// TODO: "maybe get rid of idk" shoved code -------------------------------------------------------------------------
-    private void initializeSeekbar () {
-        //create the seekbar and check for changes
-        songSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            //set initial seekbar position
-            int userSelectPosition = 0;
-
-            //when the user touches the seekbar, start tracking it
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-                isSeeking = true;
-            }
-
-            //if the user moves their finger on the seekbar, check their progress
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                if(fromUser) {
-                    userSelectPosition = progress;
-                }
-            }
-
-            //when the user lifts their finger from the seekbar, change the song playback time and set the seekbar to that final point
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                isSeeking = false;
-                seekTo(userSelectPosition);
-            }
-        });
-    }
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//
-//    @Override
-//    public void release() {
-//        if(player != null) {
-//            logToUI("release() and mediaplayer = null");
-//            player.release();
-//            player = null;
-//        }
-//    }
-//
-//    @Override
-//    public boolean isPlaying() {
-//        if(player != null) {
-//            return player.isPlaying();
-//        }
-//        return false;
-//    }
-//
-//    @Override
-//    public void play() {
-//        if(player != null && !player.isPlaying()) {
-//            player.start();
-//            startUpdatingCallbackWithPosition();
-//        }
-//    }
-//
-//    @Override
-//    public void reset() {
-//        if(player != null) {
-//            logToUI("playbackReset()");
-//            player.reset();
-//            stopUpdatingCallbackWithPosition(true);
-//        }
-//    }
-//
-//    @Override
-//    public void pause() {
-//        if(player != null && player.isPlaying()) {
-//            player.pause();
-//        }
-//    }
-
-
-    public void seekTo(int position) {
-        if(player != null) {
-            logToUI(String.format("seekTo() %d ms", position));
-            player.seekTo(position);
-        }
-    }
-
-    private void startUpdatingCallbackWithPosition() {
-        if(exec == null) {
-            exec = Executors.newSingleThreadScheduledExecutor();
-        }
-        if(seekbarPositionUpdateTask == null) {
-            seekbarPositionUpdateTask = new Runnable() {
-                @Override
-                public void run() {
-                    updateProgressCallbackTask();
-                }
-            };
-        }
-        exec.scheduleAtFixedRate(seekbarPositionUpdateTask,0,PLAYBACK_POSITION_REFRESH_INTERVAL_MS, TimeUnit.MILLISECONDS);
-    }
-
-
-    //Reports media playback position to PlaybackProgressCallback
-    private void stopUpdatingCallbackWithPosition (boolean resetUIPlaybackPosition) {
-        if(exec != null) {
-            exec.shutdownNow();
-            exec = null;
-            seekbarPositionUpdateTask = null;
-        }
-    }
-
-    private void updateProgressCallbackTask() {
-        if(player != null && player.isPlaying()) {
-            int currentPosition = player.getCurrentPosition();
-        }
-    }
-
-    public void initializeProgressCallback() {
-        final int duration = player.getDuration();
-    }
-
-    private void logToUI(String message) {
-    }
-
 }
