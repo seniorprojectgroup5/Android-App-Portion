@@ -41,10 +41,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     NavigationView navigationView;
 
-    public ArrayList<Song> arraySongList = new ArrayList<>();
+
+    public Playlist allSongs;
     //main list of songs loaded into the app
-    public ArrayList<Song> playingQueue = new ArrayList<>();
+    public Playlist playingQ;
     //clone of arraylist set to play from
+    public ArrayList<Playlist> arrayPlaylists = new ArrayList<>();
+    //list of all user and default playlists
 
 
     //check permissions
@@ -158,8 +161,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         }
 
-        arraySongList = new ArrayList<Song>();
-        Log.d("SONGLIST",arraySongList.toString());
+
+        allSongs = new Playlist();
+        playingQ = new Playlist();
+        Log.d("SONGLIST",allSongs.songsArray.toString());
+
+        //arrayPlaylists.add();
         //arraySongList.add(new Song());
         // init song list array
 

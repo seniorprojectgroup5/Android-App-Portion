@@ -43,11 +43,11 @@ public class ML_List_SongsFragment extends Fragment {
 
 
         main = (MainActivity) getActivity();
-        Log.d("SONGLIST",main.arraySongList.toString());
+        Log.d("SONGLIST",main.allSongs.songsArray.toString());
 
 
         showMusic(view);
-        Log.d("SONGLIST",main.arraySongList.toString());
+        Log.d("SONGLIST",main.allSongs.songsArray.toString());
 
 
 
@@ -62,10 +62,14 @@ public class ML_List_SongsFragment extends Fragment {
         //get the music from the device
         getMusic();
 
-        main.arraySongList = (ArrayList<Song>)arrayList.clone();
+        //main.arraySongList = (ArrayList<Song>)arrayList.clone();
+
+
+        main.allSongs = new Playlist("All Songs",0,arrayList);
+
 
         //initialize the adapter and assign the arrrayList to it so it has data
-        adapter = new SongAdapter(this.getContext(), main.arraySongList);
+        adapter = new SongAdapter(this.getContext(), main.allSongs.songsArray);
         //apply the adapter to the listview to show list
 
         listView.setAdapter(adapter);

@@ -75,7 +75,7 @@ public class SongAdapter extends ArrayAdapter<Song> {
                 switch(main.currentFragment){
                     //check value of current fragment
                     case Constant.FRAGVAL_SONGS:{
-                        main.playingQueue = (ArrayList<Song>)main.arraySongList.clone();
+                        main.playingQ = new Playlist(main.allSongs.getName(),main.allSongs.getID(),main.allSongs.songsArray);
                         //if playing from all songs page, clone array of all songs
                         break;
                     }

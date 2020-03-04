@@ -173,10 +173,11 @@ public class AudioManagerFragment extends Fragment {
             @Override
             public void onCompletion(MediaPlayer mp) {
                 //stop the music and release the media player
-                player.stop();
-                player.release();
+                resetPlayer();
+                //player.stop();
+                //player.release();
                 //reset isPlaying to false
-                isPlaying = false;
+                //isPlaying = false;
                 //turn off the visualizer
                 mVisualizer.setEnabled(false);
                 //turn the button text to play again
@@ -213,10 +214,11 @@ public class AudioManagerFragment extends Fragment {
                 Log.d("PLAY","play click");
                 //check if a song is playing
                 if (isPlaying) {
-                    Log.d("PLAY","is Playing true");
+                   // Log.d("PLAY","is Playing true");
+                    player.pause();
                     //if a song is playing, the button will stop playback
-                    player.stop();
-                    player.release();
+                    //player.stop();
+                    //player.release();
                     isPlaying = false;
                     mVisualizer.setEnabled(false);
                     ((ImageButton) v).setImageResource(R.drawable.ic_play_arrow_black_24dp);
@@ -273,7 +275,8 @@ public class AudioManagerFragment extends Fragment {
                     } catch (IOException e) {
                         //if the "try" above fails, do this
                         e.printStackTrace();
-                        //Toast.makeText(AudioManagerFragment.this, "No song to play", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(),"No Valid Songs to Play",Toast.LENGTH_SHORT).show();
+
                     }
                 }
             }
@@ -331,9 +334,9 @@ public class AudioManagerFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 //toggles shuffle state on and off
-                Log.d("SHUFFLE","Playing queue:"+ main.playingQueue.toString());
-                Log.d("SHUFFLE","Playing queue size:"+ main.playingQueue.size());
-                if(main.playingQueue.size()>0) {
+                Log.d("SHUFFLE","Playing queue:"+ main.playingQ.songsArray.toString());
+                Log.d("SHUFFLE","Playing queue size:"+ main.playingQ.songsArray.size());
+                if(main.playingQ.getSize()>0) {
                     if (!isShuffled) {
                         isShuffled = true;
                         shuffleSongQueue();
@@ -415,15 +418,15 @@ public class AudioManagerFragment extends Fragment {
         int toIndex= qIndex + order;
         //calculate index of next song
 
-        if (toIndex > (main.playingQueue.size()-1)){
+        if (toIndex > (main.playingQ.songsArray.size()-1)){
            toIndex = 0;
         }
         else if (toIndex < 0){
-           toIndex = (main.playingQueue.size()-1);
+           toIndex = (main.playingQ.songsArray.size()-1);
         } //ensure the song queue wraps around & never reaches an out of bounds index
 
-        if(main.playingQueue.get(toIndex) != null){
-           songPlaying = main.playingQueue.get(toIndex);
+        if(main.playingQ.songsArray.get(toIndex) != null){
+           songPlaying = main.playingQ.songsArray.get(toIndex);
         }//ensures song at index isnt null
         else{
            CharSequence s = "invalid song index";
@@ -450,7 +453,7 @@ public class AudioManagerFragment extends Fragment {
             shflIndex.clear();
             //clear array
 
-            for (int i = 0; i < main.playingQueue.size(); i++){
+            for (int i = 0; i < main.playingQ.songsArray.size(); i++){
                 shflIndex.add(i); // fill shlfIndex with indecies of songs stored in arraylist
             }
             Collections.shuffle(shflIndex); // shuffle array
