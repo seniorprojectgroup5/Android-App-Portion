@@ -59,11 +59,15 @@ public class ML_List_SongsFragment extends Fragment {
         listView = view.findViewById(R.id.listSongs_container);
         arrayList = new ArrayList<Song>();
 
-        //get the music from the device
-        getMusic();
+        if(!main.songsLoaded) {
+            //get the music from the device
+            getMusic();
 
-        main.allSongs = new Playlist("All Songs",Constant.PLAYLIST_ALLSONGS_ID,arrayList);
+            //set all songs playlist
+            main.allSongs = new Playlist("All Songs", Constant.PLAYLIST_ALLSONGS_ID, arrayList);
 
+            main.songsLoaded = true; //toggle bool flag to true to prevent reloading of songs
+        }
 
         //initialize the adapter and assign the arrrayList to it so it has data
         adapter = new SongAdapter(this.getContext(), main.allSongs.songsArray);
