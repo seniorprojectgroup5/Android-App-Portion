@@ -56,7 +56,7 @@ public class ML_List_SongsFragment extends Fragment {
 
     public void showMusic(View view) {
         //initialize listview and arraylist
-        listView = view.findViewById(R.id.listPlaylists_container);
+        listView = view.findViewById(R.id.listSongs_container);
         arrayList = new ArrayList<Song>();
 
         if(!main.songsLoaded) {

@@ -57,6 +57,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:backgroundTint="@android:color/transparent"
+                        android:clickable="true"
                         android:text="Done"
                         android:textColor="@color/YellowGold"
                         android:textSize="18sp"
@@ -69,7 +70,7 @@
 
                     <EditText
                         android:id="@+id/editTxt_PlaylistName"
-                        style="@style/Base.Widget.MaterialComponents.TextInputEditText"
+                        style="@style/Widget.AppCompat.EditText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
@@ -77,6 +78,9 @@
                         android:inputType="textPersonName"
                         android:text="Playlist Name"
                         android:textColor="@color/PowderBlue"
+                        android:textColorHighlight="@color/VisLight"
+                        android:textColorLink="@android:color/transparent"
+                        android:textCursorDrawable="?android:attr/textSelectHandleRight"
                         android:textSize="24sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -102,14 +106,13 @@
 
         <ListView
             android:id="@+id/listSongs_container"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/listSongs_search"/>
+            app:layout_constraintTop_toBottomOf="@+id/listSongs_search" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>

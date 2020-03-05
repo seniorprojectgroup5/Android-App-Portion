@@ -46,6 +46,8 @@ public class ML_Add_NewPlaylistFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
+
         View view = inflater.inflate(R.layout.fragment_add_new_playlist, null);
         // Inflate the layout for this fragment
         main = (MainActivity) getActivity();
@@ -58,6 +60,7 @@ public class ML_Add_NewPlaylistFragment extends Fragment {
         btnDone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d("PLAYLIST", "done btn click registered");
                 main.arrayPlaylists.add(new Playlist(playlistName.getText().toString(),main.arrayPlaylists.size(),selectedSongs));
                 main.currentFragment = Constant.FRAGVAL_PLAYLISTS;
                 main.getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer_main,
@@ -86,6 +89,7 @@ public class ML_Add_NewPlaylistFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.d("PLAYLIST","click at position"+position);
                 ImageButton btnSelected = view.findViewById(R.id.btn_songSelect);
                 Log.d("PLAYLIST",main.allSongs.songsArray.get(position).toString());
 

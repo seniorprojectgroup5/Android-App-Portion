@@ -21,6 +21,7 @@ public class SelectSongAdapter extends ArrayAdapter<Song> {
     ImageButton songSelectBtn;
     FragmentActivity activity;
     MainActivity main;
+    Context context;
     Playlist viewedPlaylist;
 
     ArrayList<Song> selectedSongs= new ArrayList<>();
@@ -28,12 +29,14 @@ public class SelectSongAdapter extends ArrayAdapter<Song> {
 
     //constructor DO NOT DELETE
     public SelectSongAdapter(Context context, ArrayList<Song> songs) {
+
         super(context, 0, songs);
     }
 
     public SelectSongAdapter(Context context, Playlist p) {
 
         super(context, 0, p.songsArray);
+        this.context = context;
         this.viewedPlaylist = p;
     }
 
@@ -54,8 +57,8 @@ public class SelectSongAdapter extends ArrayAdapter<Song> {
         Song song = getItem(position);
         //checked if the song_view is reused, otherwise inflate the view
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.song_view, parent, false);
-            convertView.setSelected(false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.song_select_view, parent, false);
+            //convertView.setSelected(false);
         }
 
         main = (MainActivity) convertView.getContext();
