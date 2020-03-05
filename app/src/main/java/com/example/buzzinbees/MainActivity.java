@@ -304,7 +304,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 canSendData = true;
             }
         };
-        mHandler.postDelayed(sendData, 1000);
+        mHandler.postDelayed(sendData, 0);
     }
 
     public void sendEffect1() {
@@ -313,7 +313,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (bleSocket != null) {
             try {
                 bleSocket.getOutputStream().write(Constant.VIBRATION_EFFECT_1.getBytes());
-                Log.d(TAG, Constant.VIBRATION_EFFECT_1);
+                Log.d(TAG, Constant.VIBRATION_EFFECT_1.getBytes().toString());
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -328,7 +328,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (bleSocket != null) {
             try {
                 bleSocket.getOutputStream().write(Constant.VIBRATION_EFFECT_4.getBytes());
-                Log.d(TAG, Constant.VIBRATION_EFFECT_4);
+                Log.d(TAG, Constant.VIBRATION_EFFECT_4.getBytes().toString());
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -343,7 +343,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (bleSocket != null) {
             try {
                 bleSocket.getOutputStream().write(Constant.VIBRATION_EFFECT_7.getBytes());
-                Log.d(TAG, Constant.VIBRATION_EFFECT_7);
+                Log.d(TAG, Constant.VIBRATION_EFFECT_7.getBytes().toString());
             } catch (IOException e) {
                 e.printStackTrace();
             }

@@ -164,8 +164,6 @@ public class AudioManagerFragment extends Fragment {
         isLooping = false;
         isShuffled = false;
 
-        // TODO: new seekbar stuff
-        //player = new MediaPlayer();
 
         songSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -257,8 +255,6 @@ public class AudioManagerFragment extends Fragment {
                     try {
                         Log.d("SEEK"," Try to play music");
                         //instantiate the mediaplayer
-                        // todo: uncomment below later
-                     //   if(player == null) {
                             Log.d("SEEK", "player is null");
                             player = new MediaPlayer();
 //                        Log.d("PLAY"," Create Media Player");
@@ -266,14 +262,10 @@ public class AudioManagerFragment extends Fragment {
                             Log.d("SEEK", "player is " + player + ": song path " + songPlaying.path);
                             player.setDataSource(songPlaying.path);
 
-                            //player.prepareAsync();
-                    //    }
-
 
                         //assign the song to play
 
 
-                        // todo mediaplayer attempt
                         //player = MediaPlayer.create(getContext(), songPlaying.path);
                         player.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                             @Override
@@ -303,15 +295,6 @@ public class AudioManagerFragment extends Fragment {
 //                        Log.d("PLAY","Song Started");
                         mVisualizer.setEnabled(true);
                         isPlaying = true;
-
-                        //SEEKBAR STUFF
-                        //songSeekbar.setMax(player.getDuration()/1000); //set bar to length of song
-                        // todo: new seekbar things
-
-
-                        // TODO: old seekbar things
-                        // initializeSeekbar();
-                        //startUpdatingCallbackWithPosition();
 
 
 
@@ -489,6 +472,7 @@ public class AudioManagerFragment extends Fragment {
     // send in 300 chunks per second
     public void decideWhatEffectToSend(int i){
         if(main.canSendData) {
+            // TODO: clean this up so we can start sending that gud gud
             switch (sequence) {
                 case 1:
                     try {
@@ -516,12 +500,10 @@ public class AudioManagerFragment extends Fragment {
                     break;
             }
 
-            Log.d("Data", "restart waiter");
             mListener.waitToSendInfo();
         }
     }
 
-    // TODO: actually make the seekbar work
     private void changeSeekBar() {
         if (player != null) {
             Log.d("SEEK",player.toString() + ": player is valid");
