@@ -55,19 +55,35 @@ public class ML_Add_NewPlaylistFragment extends Fragment {
         playlistName = view.findViewById(R.id.editTxt_PlaylistName);
         btnDone = view.findViewById(R.id.btn_addConfirm);
 
+
+
         showMusic(view);
+        Log.d("PLAYLIST","Add new playlist: music showing");
+
+        /*btnDone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("PLAYLIST", "done btn click registered");
+                main.arrayPlaylists.add(new Playlist(playlistName.getText().toString(),main.arrayPlaylists.size(),adapter.selectedSongs));
+                main.currentFragment = Constant.FRAGVAL_PLAYLISTS;
+                main.getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer_main,
+                        new ML_List_PlaylistsFragment()).commit();
+            }
+        });*/
+
 
         btnDone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d("PLAYLIST", "done btn click registered");
-                main.arrayPlaylists.add(new Playlist(playlistName.getText().toString(),main.arrayPlaylists.size(),selectedSongs));
+                //Log.d("PLAYLIST", "Current selected songs:"+adapter.selectedSongs.toString());
+                main.arrayPlaylists.add(new Playlist(playlistName.getText().toString(),main.arrayPlaylists.size(),adapter.selectedSongs));
+                Log.d("PLAYLIST", "Playlist Added: "+main.arrayPlaylists.get(main.arrayPlaylists.size()-1).toString());
                 main.currentFragment = Constant.FRAGVAL_PLAYLISTS;
                 main.getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer_main,
                         new ML_List_PlaylistsFragment()).commit();
             }
         });
-
 
         return view;
 
@@ -89,20 +105,10 @@ public class ML_Add_NewPlaylistFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.d("PLAYLIST","click at position"+position);
-                ImageButton btnSelected = view.findViewById(R.id.btn_songSelect);
-                Log.d("PLAYLIST",main.allSongs.songsArray.get(position).toString());
-
-                view.setSelected(!view.isSelected());
-                if(view.isSelected()){
-                    ((ImageButton) btnSelected).setImageResource(R.drawable.ic_hexagonselectbutton_fill);
-                    selectedSongs.add(main.allSongs.songsArray.get(position));
-                }
-                else{
-                    ((ImageButton) btnSelected).setImageResource(R.drawable.ic_hexagonselectbutton_clear);
-                    selectedSongs.remove(main.allSongs.songsArray.get(position));
-                }
+                Song s = (Song) parent.getItemAtPosition(position);
+                Log.d("PLAYLIST","ML_newPlaylist: Song selected in arrayadapter:"+ s.toString());
             }
         });
+
     }
 }

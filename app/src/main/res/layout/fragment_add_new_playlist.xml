@@ -39,7 +39,7 @@
                         android:id="@+id/txt_PageTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
+                        android:layout_marginTop="8dp"
                         android:text="Add new Playlist"
                         android:textAlignment="viewStart"
                         android:textAllCaps="true"
@@ -55,9 +55,10 @@
                         android:id="@+id/btn_addConfirm"
                         style="@style/Widget.AppCompat.Button.Borderless.Colored"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="0dp"
                         android:backgroundTint="@android:color/transparent"
                         android:clickable="true"
+                        android:gravity="bottom|right"
                         android:text="Done"
                         android:textColor="@color/YellowGold"
                         android:textSize="18sp"
@@ -80,7 +81,8 @@
                         android:textColor="@color/PowderBlue"
                         android:textColorHighlight="@color/VisLight"
                         android:textColorLink="@android:color/transparent"
-                        android:textCursorDrawable="?android:attr/textSelectHandleRight"
+                        android:textCursorDrawable="?android:attr/textCursorDrawable"
+
                         android:textSize="24sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -112,7 +114,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/listSongs_search" />
+            app:layout_constraintTop_toBottomOf="@+id/listSongs_search"
+            />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>
