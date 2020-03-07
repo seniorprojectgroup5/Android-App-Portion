@@ -254,6 +254,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     currentFragment = Constant.FRAGVAL_PLAYLISTS;
                     break;
                 }
+                case Constant.FRAGVAL_NEWPLAYLIST:{
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer_main,
+                            new ML_List_PlaylistsFragment()).commit();
+                    audioContainer.setVisibility(View.GONE);
+                    currentFragment = Constant.FRAGVAL_PLAYLISTS;
+                    break;
+                }
                 default:{
                     super.onBackPressed();
                     break;

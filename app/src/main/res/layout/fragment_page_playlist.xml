@@ -74,16 +74,18 @@
 
                     <ImageButton
                         android:id="@+id/btn_editList"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
+                        android:layout_width="64dp"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="64dp"
                         android:layout_marginEnd="24dp"
+
+
                         android:background="@android:color/transparent"
+                        android:paddingLeft="40dp"
                         android:src="@drawable/ic_edit_black_24dp"
-                        android:tint="@color/PaleHoney"
+                        android:tint="@color/HoneyGold"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-
-
                         app:layout_constraintTop_toTopOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -31,13 +31,15 @@ public class SelectSongAdapter extends ArrayAdapter<Song> {
 
     Playlist viewedPlaylist;
 
+    //boolean editState;
+
     ArrayList<Song> selectedSongs= new ArrayList<>();
 
 
     //constructor DO NOT DELETE
     public SelectSongAdapter(Context context, ArrayList<Song> songs) {
-
         super(context, 0, songs);
+        //this.editState = false;
     }
 
     public SelectSongAdapter(Context context, Playlist p) {
@@ -45,6 +47,7 @@ public class SelectSongAdapter extends ArrayAdapter<Song> {
         super(context, 0, p.songsArray);
         this.context = context;
         this.viewedPlaylist = p;
+        //this.editState = false;
     }
 
     public SelectSongAdapter(Context context, ArrayList<Song> songs, FragmentActivity activity) {

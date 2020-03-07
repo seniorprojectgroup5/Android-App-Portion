@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -36,6 +37,8 @@ public class ML_Page_PlaylistFragment extends Fragment {
     TextView playlistName;
     TextView numSongs;
 
+    ImageButton btnEdit;
+
     public ML_Page_PlaylistFragment() {
         // Required empty public constructor
     }
@@ -58,13 +61,21 @@ public class ML_Page_PlaylistFragment extends Fragment {
         numSongs = view.findViewById(R.id.txt_numSongs);
         numSongs.setText(list.getSize().toString());
 
+        btnEdit = view.findViewById(R.id.btn_editList);
 
         if(list.songsArray.size() >0) {
             showMusic(view);
         }
 
-
-
+        btnEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("PLAYLIST","Edit Playlist click registered");
+                main.currentFragment = Constant.FRAGVAL_NEWPLAYLIST;
+                main.getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer_main,
+                        new ML_Add_NewPlaylistFragment(true,list)).commit();
+            }
+        });
 
 
         return view;
