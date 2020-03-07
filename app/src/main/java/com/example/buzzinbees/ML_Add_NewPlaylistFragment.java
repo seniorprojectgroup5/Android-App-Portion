@@ -99,7 +99,7 @@ public class ML_Add_NewPlaylistFragment extends Fragment {
             @Override
             public void onClick(View v) {
                // Log.d("PLAYLIST", "done btn click registered");
-
+                playlistName.clearFocus();
                 if(isEditing) {
                     //editing an existing playlist
                     editingPlaylist.setName(playlistName.getText().toString());
@@ -148,17 +148,26 @@ public class ML_Add_NewPlaylistFragment extends Fragment {
             }
         });
 
-        playlistName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        /*playlistName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
-                    Log.d("PLAYLIST", "focus loosed");
+                    Log.d("PLAYLIST", "focus lost");
                     // Do whatever you want here
+                    main.closeKeyboard();
                 } else {
                     Log.d("PLAYLIST", "focused");
                 }
             }
         });
+
+        view.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                playlistName.clearFocus();
+                return false;
+            }
+        });*/
 
         return view;
 
@@ -190,4 +199,7 @@ public class ML_Add_NewPlaylistFragment extends Fragment {
         });
 
     }
+
+
+
 }

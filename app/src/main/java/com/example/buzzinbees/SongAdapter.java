@@ -10,8 +10,10 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.fragment.app.FragmentActivity;
@@ -25,6 +27,8 @@ public class SongAdapter extends ArrayAdapter<Song> {
     MainActivity main;
 
     Playlist viewedPlaylist;
+
+    Spinner songMenu;
 
     //constructor DO NOT DELETE
     public SongAdapter(Context context, ArrayList<Song> songs) {
@@ -51,7 +55,8 @@ public class SongAdapter extends ArrayAdapter<Song> {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         //get data for snog
-        Song song = getItem(position);
+        final Song song = getItem(position);
+
         //checked if the song_view is reused, otherwise inflate the view
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.song_view, parent, false);
@@ -65,6 +70,10 @@ public class SongAdapter extends ArrayAdapter<Song> {
         tvSong.setText(song.songName);
         tvArtist.setText(song.songArtist);
 
+        songMenu = (Spinner) convertView.findViewById(R.id.spn_songDropDown);
+        songMenu.setTag(position);
+
+        setSongMenuAdapter(song);
 
         songBtn = convertView.findViewById(R.id.songBox);
 
@@ -102,31 +111,49 @@ public class SongAdapter extends ArrayAdapter<Song> {
             }
         });
 
-        /*songBtn.setOnTouchListener(new View.OnTouchListener() {
+
+
+        songMenu.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-
-                switch(event.getAction()){
-
-                    case MotionEvent.ACTION_DOWN:
-                        v.setBackgroundColor(Color.GRAY);
-                        break;
-
-                    case MotionEvent.ACTION_UP:
-                        v.setBackgroundColor(Color.TRANSPARENT);
-                        v.performClick();
-                        break;
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if((parent.getSelectedItem()=="favourite")||(parent.getSelectedItem()=="unfavourite")){
+                    song.toggleFav();
+                    setSongMenuAdapter(song);
 
                 }
-                return false;
             }
-        });*/
 
-
-
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                parent.setSelection(0);
+            }
+        });
 
 
         return convertView;
     }
 
+    public void setSongMenuAdapter(Song s){
+
+        if(s.isFav){
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
+                    R.array.faved_songDropDown,android.R.layout.simple_spinner_item);
+            // Specify the layout to use when the list of choices appears
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            // Apply the adapter to the spinner
+            songMenu.setAdapter(adapter);
+        }
+        else{
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
+                    R.array.songDropDown,android.R.layout.simple_spinner_item);
+            // Specify the layout to use when the list of choices appears
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            // Apply the adapter to the spinner
+            songMenu.setAdapter(adapter);
+        }
+
+    }
+
 }
+
