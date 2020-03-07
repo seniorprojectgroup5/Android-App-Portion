@@ -75,13 +75,16 @@ public class ML_Add_NewPlaylistFragment extends Fragment {
         playlistName = view.findViewById(R.id.editTxt_PlaylistName);
         btnDone = view.findViewById(R.id.btn_addConfirm);
         pageTitle = view.findViewById(R.id.txt_PageTitle);
-        //playlistName.setClickable(true);
+        playlistName.setEnabled(true);
+        playlistName.setClickable(true);
 
         if(isEditing){
             pageTitle.setText(getResources().getString(R.string.title_musicLibrary_editPlaylist));
             playlistName.setText(editingPlaylist.getName());
             if(editingPlaylist.getID()==Constant.PLAYLIST_FAVOURITES_ID){
-                //playlistName.setClickable(false);
+                playlistName.setEnabled(false);
+                playlistName.setClickable(false);
+                //removes ability to edit name of default playlist
             }
         }
 
