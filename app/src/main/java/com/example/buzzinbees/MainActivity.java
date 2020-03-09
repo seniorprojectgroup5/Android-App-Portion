@@ -309,11 +309,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void sendEffect1() {
         canSendData = false;
-        Log.d(TAG, "trying to send effect 1");
+//        Log.d(TAG, "trying to send effect 1");
         if (bleSocket != null) {
             try {
                 bleSocket.getOutputStream().write(Constant.VIBRATION_EFFECT_1.getBytes());
-                Log.d(TAG, Constant.VIBRATION_EFFECT_1.getBytes().toString());
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -324,11 +323,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void sendEffect4() {
         canSendData = false;
-        Log.d(TAG, "trying to send effect 4");
+//        Log.d(TAG, "trying to send effect 4");
         if (bleSocket != null) {
             try {
                 bleSocket.getOutputStream().write(Constant.VIBRATION_EFFECT_4.getBytes());
-                Log.d(TAG, Constant.VIBRATION_EFFECT_4.getBytes().toString());
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -339,11 +337,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void sendEffect7() {
         canSendData = false;
-        Log.d(TAG, "trying to send effect 7");
+//        Log.d(TAG, "trying to send effect 7");
         if (bleSocket != null) {
             try {
                 bleSocket.getOutputStream().write(Constant.VIBRATION_EFFECT_7.getBytes());
-                Log.d(TAG, Constant.VIBRATION_EFFECT_7.getBytes().toString());
             } catch (IOException e) {
                 e.printStackTrace();
             }
