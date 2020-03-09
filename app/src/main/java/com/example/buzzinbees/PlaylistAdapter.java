@@ -86,25 +86,7 @@ public class PlaylistAdapter extends ArrayAdapter<Playlist> {
             }
         });
 
-       /* playlistBtn.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
 
-                switch(event.getAction()){
-
-                    case MotionEvent.ACTION_DOWN:
-                        v.setBackgroundColor(Color.GRAY);
-                        break;
-
-                    case MotionEvent.ACTION_UP:
-                        v.setBackgroundColor(Color.TRANSPARENT);
-                        v.performClick();
-                        break;
-
-                }
-                return false;
-            }
-        });*/
 
         ImageButton btnGoToPlaylist = convertView.findViewById(R.id.btn_goToPlaylist);
         btnGoToPlaylist.setTag(position);

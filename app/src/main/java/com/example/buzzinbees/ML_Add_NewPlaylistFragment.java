@@ -148,26 +148,7 @@ public class ML_Add_NewPlaylistFragment extends Fragment {
             }
         });
 
-        /*playlistName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    Log.d("PLAYLIST", "focus lost");
-                    // Do whatever you want here
-                    main.closeKeyboard();
-                } else {
-                    Log.d("PLAYLIST", "focused");
-                }
-            }
-        });
 
-        view.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                playlistName.clearFocus();
-                return false;
-            }
-        });*/
 
         return view;
 

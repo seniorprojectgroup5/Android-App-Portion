@@ -37,6 +37,10 @@ public class Constant {
     public static final float HEX3MAX = 0.75f;
     public static final float HEX4MAX = 0.55f;
 
+    public static final String MENULIST_FAV ="Favourite";
+    public static final String MENULIST_UNFAV ="Unfavourite";
+    public static final String MENULIST_ADDTOPLAY ="Add to Playlist";
+
 
 
 }

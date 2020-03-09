@@ -41,13 +41,13 @@ public class SongAdapter extends ArrayAdapter<Song> {
     //constructor DO NOT DELETE
     public SongAdapter(Context context, ArrayList<Song> songs) {
         super(context, 0, songs);
-        listNotFav.add("favourite");
-        listNotFav.add("add to Playlist");
+        listNotFav.add(Constant.MENULIST_FAV);
+        listNotFav.add(Constant.MENULIST_ADDTOPLAY);
         listNotFav.add("");
         listsize = listNotFav.size() - 1;
 
-        listFav.add("unfavourite");
-        listFav.add("add to Playlist");
+        listFav.add(Constant.MENULIST_UNFAV);
+        listFav.add(Constant.MENULIST_ADDTOPLAY);
         listFav.add("");
     }
 
@@ -56,13 +56,13 @@ public class SongAdapter extends ArrayAdapter<Song> {
         super(context, 0, p.songsArray);
         this.viewedPlaylist = p;
 
-        listNotFav.add("favourite");
-        listNotFav.add("add to Playlist");
+        listNotFav.add(Constant.MENULIST_FAV);
+        listNotFav.add(Constant.MENULIST_ADDTOPLAY);
         listNotFav.add("");
         listsize = listNotFav.size() - 1;
 
-        listFav.add("unfavourite");
-        listFav.add("add to Playlist");
+        listFav.add(Constant.MENULIST_UNFAV);
+        listFav.add(Constant.MENULIST_ADDTOPLAY);
         listFav.add("");
     }
 
@@ -70,13 +70,13 @@ public class SongAdapter extends ArrayAdapter<Song> {
 
         super(context, 0, songs);
         this.activity = activity;
-        listNotFav.add("favourite");
-        listNotFav.add("add to Playlist");
+        listNotFav.add(Constant.MENULIST_FAV);
+        listNotFav.add(Constant.MENULIST_ADDTOPLAY);
         listNotFav.add("");
         listsize = listNotFav.size() - 1;
 
-        listFav.add("unfavourite");
-        listFav.add("add to Playlist");
+        listFav.add(Constant.MENULIST_UNFAV);
+        listFav.add(Constant.MENULIST_ADDTOPLAY);
         listFav.add("");
     }
 
@@ -149,9 +149,9 @@ public class SongAdapter extends ArrayAdapter<Song> {
 
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if((parent.getSelectedItem().toString().equals("favourite"))||(parent.getSelectedItem().toString().equals("unfavourite"))){
-                    Song song = getItem((Integer)parent.getTag());
-
+                Song song = getItem((Integer)parent.getTag());
+                //get song from selected item
+                if((parent.getSelectedItem().toString().equals(Constant.MENULIST_FAV))||(parent.getSelectedItem().toString().equals(Constant.MENULIST_UNFAV))){
 
                     Log.d("PLAYLIST","song:"+song.toString());
                     song.toggleFav();
@@ -162,6 +162,15 @@ public class SongAdapter extends ArrayAdapter<Song> {
                     setSongMenuAdapter(song,(Spinner)parent);
 
                     parent.setSelection(listsize);
+                }
+                if (parent.getSelectedItem().toString().equals(Constant.MENULIST_ADDTOPLAY)){
+                    Log.d("PLAYLIST","Add to playlist clicked at index"+position);
+                    Log.d("PLAYLIST","song:"+song.toString());
+                    parent.setSelection(listsize);
+                    main.currentFragment = Constant.FRAGVAL_SONGTOPLAYLIST;
+                    main.getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer_main,
+                            new ML_Add_ToPlaylistFragment(song)).commit();
+                    main.navigationView.setCheckedItem(R.id.navigation_songs);
                 }
             }
 
