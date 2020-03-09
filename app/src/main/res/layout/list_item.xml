@@ -14,6 +14,7 @@
         android:textSize="20sp"
         android:gravity="left"
         android:padding="5dp"
-        android:textColor="#000000" />
+        android:textColor="@color/WhiteGrey"
+        android:backgroundTint="@color/DarkNavy"/>
 
 </LinearLayout>

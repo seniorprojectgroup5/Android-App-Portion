@@ -20,6 +20,8 @@
     <!--Variable/Placeholder Strings!-->
     <string name="var_RecentPlayedQueue">Music Queue</string>
     <string name="var_VersionNum">Version 0.00.1</string>
+    <string name="var_SearchBleDevices">Search</string>
+    <string name="var_ConnectBleDevice">Connect</string>
 
 
     <!--String Arrays!-->
