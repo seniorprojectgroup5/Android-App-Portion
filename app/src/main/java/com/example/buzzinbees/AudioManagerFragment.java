@@ -433,7 +433,7 @@ public class AudioManagerFragment extends Fragment {
 
                         if((byteStrings.size()>7)){
                             f1 = Float.parseFloat(byteStrings.get(10));
-//                            decideWhatEffectToSend(eff1);
+                            decideWhatEffectToSend(eff3);
                         }
                         if((byteStrings.size()>14)){
                             f2 = Float.parseFloat(byteStrings.get(17));
