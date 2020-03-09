@@ -27,144 +27,87 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import java.util.LinkedList;
-import java.util.concurrent.ScheduledExecutorService;
 
 public class AudioManagerFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
 
-    public static final int PLAYBACK_POSITION_REFRESH_INTERVAL_MS = 1000;
-
-    // old seekbar stuff
-    private ScheduledExecutorService exec;
-    private Runnable seekbarPositionUpdateTask;
-
-    // new seek bar stuff
-    private Runnable seekbarUpdate;
-
-
-    //create variables
-    private int eff1;
-    private int eff2;
-    private int eff3;
-    private int sequence;
-
+    // access main activity
     MainActivity main;
 
-    private boolean isPlaying;
-    private MediaPlayer player;
-
+    // visualizer
     private Visualizer mVisualizer;
     private MyVisualizer visualizerView;
-
-    private MediaPlayer.OnCompletionListener completeListener;
-
-    public Song songPlaying;
-
     ByteBuffer byteBuffer;
     FloatBuffer floatBuffer;
     LinkedList<String> byteStrings;
-
-    ImageView visHex1;
-    ImageView visHex2;
-    ImageView visHex3;
-    ImageView visHex4;
-
-    SeekBar songSeekbar;
-    Boolean isSeeking;
-
-    Handler mHandler;
-
-
+    ImageView visHex1, visHex2, visHex3, visHex4;
     ConstraintLayout visualizerContainer;
 
+    // seekbar
+    private Runnable seekbarUpdate;
+    SeekBar songSeekbar;
+    Boolean isSeeking;
+    Handler mHandler;
+
+    // audio
+    private boolean isPlaying;
+    private MediaPlayer player;
+    private MediaPlayer.OnCompletionListener completeListener;
+    public Song songPlaying;
     TextView songDisplay;
-    ImageButton playBack;
-    ImageButton btnNext;
-    ImageButton btnPrev;
+    ImageButton playBack, btnNext, btnPrev, btnLoop, btnShuffle;
+    Boolean isLooping, isShuffled;
 
-    ImageButton btnLoop;
-    ImageButton btnShuffle;
-
-    Boolean isLooping;
-    Boolean isShuffled;
+    // bluetooth
+    private int eff1;
+    private int eff2;
+    private int eff3;
 
 
+    //** ONCREATE VIEW **//
     public AudioManagerFragment() {
         // Required empty public constructor
     }
-
-
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
         View view = inflater.inflate(R.layout.fragment_audiomanager,container,false);
-
         main = (MainActivity) getActivity();
 
-//        Log.d("PLAY","AUDIO MANAGER LOADED ");
-
-
+        // set up the interface to send data through bluetooth
         mListener = (OnFragmentInteractionListener) getActivity();
         eff1 = 1;
         eff2 = 2;
         eff3 = 3;
-        sequence = 1;
 
 
+
+        // Visualizer set up
+        //      this stores the fft bytes
         byteStrings = new LinkedList<String>();
-        //this stores the fft bytes
-
-        player = null;
-        //create media player to handle the playback
-
-        //lets make a song
-        songPlaying = new Song();
-
-        //create buttons
-        playBack = view.findViewById(R.id.btn_PlayPause);
-        btnNext = view.findViewById(R.id.btn_Next);
-        btnPrev = view.findViewById(R.id.btn_Prev);
-
-        btnLoop = view.findViewById(R.id.btn_Loop);
-        btnShuffle = view.findViewById(R.id.btn_Shuffle);
-
-        btnLoop.setForegroundTintList(ColorStateList.valueOf(Color.GRAY));
-        btnShuffle.setForegroundTintList(ColorStateList.valueOf(Color.GRAY));
-
+        //      ref to entire visualizer container
         visualizerContainer = view.findViewById(R.id.VisualizerContainer);
-        //ref to entire visualizer container
-
+        //      ref to drawable hexagons for visualizer
         visHex1 = view.findViewById(R.id.img_visHex1);
         visHex2 = view.findViewById(R.id.img_visHex2);
         visHex3 = view.findViewById(R.id.img_visHex3);
         visHex4 = view.findViewById(R.id.img_visHex4);
-        //ref to drawable hexagons for visualizer
-
+        //      ref to visualizer view (runs the canvas and draw updates)
         visualizerView = view.findViewById(R.id.visualizer);
-        //ref to visualizer view (runs the canvas and draw updates)
-
+        //      scale hexagons to proper size
         visualizerView.scaleHexagons(visHex1,Constant.HEX1SCALE);
         visualizerView.scaleHexagons(visHex2,Constant.HEX2SCALE);
         visualizerView.scaleHexagons(visHex3,Constant.HEX3SCALE);
         visualizerView.scaleHexagons(visHex4,Constant.HEX4SCALE);
-        //scale hexagons to proper size
 
-        //song name display over seekbar
-        songDisplay = view.findViewById(R.id.txt_SongArtistTitle);
 
-        //import seekbar
+
+        // Seekbar set up
         songSeekbar = view.findViewById(R.id.song_seekBar);
         isSeeking = false;
         mHandler = new Handler();
-
-        //set isPlaying boolean
-        isPlaying = false;
-        isLooping = false;
-        isShuffled = false;
-
-
+        //      update listener
         songSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -175,21 +118,34 @@ public class AudioManagerFragment extends Fragment {
                     }
                 }
             }
-
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
+            public void onStartTrackingTouch(SeekBar seekBar) {}
             @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
+            public void onStopTrackingTouch(SeekBar seekBar) {}
         });
 
 
 
-        //decide what happens when the song is done playing
+        // Audio set up
+        //      create media player to handle the playback
+        player = null;
+        //      instantiates the song
+        songPlaying = new Song();
+        //      create buttons
+        playBack = view.findViewById(R.id.btn_PlayPause);
+        btnNext = view.findViewById(R.id.btn_Next);
+        btnPrev = view.findViewById(R.id.btn_Prev);
+        btnLoop = view.findViewById(R.id.btn_Loop);
+        btnShuffle = view.findViewById(R.id.btn_Shuffle);
+        btnLoop.setForegroundTintList(ColorStateList.valueOf(Color.GRAY));
+        btnShuffle.setForegroundTintList(ColorStateList.valueOf(Color.GRAY));
+        //      song name display over seekbar
+        songDisplay = view.findViewById(R.id.txt_SongArtistTitle);
+        //      set isPlaying boolean
+        isPlaying = false;
+        isLooping = false;
+        isShuffled = false;
+        //      decide what happens when the song is done playing
         completeListener = new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {
@@ -225,8 +181,8 @@ public class AudioManagerFragment extends Fragment {
                 playBack.performClick();
             }
         };
-
-       playBack.setOnClickListener(new View.OnClickListener() {
+        //      handle play/pause button click
+        playBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //check if a song is playing
@@ -290,18 +246,16 @@ public class AudioManagerFragment extends Fragment {
                 }
             }
         });
-
-//     goes to the previous song
-       btnPrev.setOnClickListener(new View.OnClickListener() {
+        //     goes to the previous song
+        btnPrev.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
                songSeekbar.setProgress(0);
                changeSong(-1);
                resetPlayerState();
            }
-       });
-
-//      goes to the next song
+        });
+        //      goes to the next song
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -310,8 +264,7 @@ public class AudioManagerFragment extends Fragment {
                 resetPlayerState();
             }
         });
-
-//      loops through the current song again and again
+        //      loops through the current song again and again
         btnLoop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -325,44 +278,74 @@ public class AudioManagerFragment extends Fragment {
                 }
             }
         });
+
+
+
+        // Return the view to the frame
         return view;
     }
 
-//    resets the player, updates the displayed song info, and "presses" the play button so we start playing the song immediately
+
+
+
+    // Handle the Media Player
+    //      resets the media player and visualizer
+    public void resetPlayer(){
+        if(player !=null){
+            if (isPlaying == true){
+                player.stop();
+                isPlaying = false;
+            }
+
+            player.release();
+            if(mVisualizer != null){
+                mVisualizer.setEnabled(false);
+            }
+            byteStrings.clear();//clears the byte strings
+            //reset hexagon scale
+            visualizerView.scaleHexagons(visHex1,Constant.HEX1SCALE);
+            visualizerView.scaleHexagons(visHex2,Constant.HEX2SCALE);
+            visualizerView.scaleHexagons(visHex3,Constant.HEX3SCALE);
+            visualizerView.scaleHexagons(visHex4,Constant.HEX4SCALE);
+        }
+    }
+    //      quick function to cut down on code
     public void resetPlayerState(){
         resetPlayer();
         setSongDisplay();
         playBack.performClick();
     }
 
-//    updates the display with the new song's info
-   public void setSongDisplay(){
+
+    // Handle the songs
+    //      updates displayed song info
+    public void setSongDisplay(){
        String songInfo = songPlaying.songName + " - " + songPlaying.songArtist;
        songDisplay.setText(songInfo);
    }
+    //      updates the current song from a list
+    public void changeSong(int order){
+        int toIndex = songPlaying.index + order;
 
-//    stops the player, updates the state, releases the player from memory, disables the visualizer, and clears all info from the visualizer
-   public void resetPlayer(){
-       if(player !=null){
-           if (isPlaying == true){
-               player.stop();
-               isPlaying = false;
-           }
+        if (toIndex > (main.arraySongList.size()-1)){
+            toIndex = 0;
+        }
+        else if (toIndex < 0){
+            toIndex = (main.arraySongList.size()-1);
+        }
 
-           player.release();
-           if(mVisualizer != null){
-               mVisualizer.setEnabled(false);
-           }
-           byteStrings.clear();//clears the byte strings
-           //reset hexagon scale
-           visualizerView.scaleHexagons(visHex1,Constant.HEX1SCALE);
-           visualizerView.scaleHexagons(visHex2,Constant.HEX2SCALE);
-           visualizerView.scaleHexagons(visHex3,Constant.HEX3SCALE);
-           visualizerView.scaleHexagons(visHex4,Constant.HEX4SCALE);
-       }
-   }
+        if(main.arraySongList.get(toIndex) != null){
+            songPlaying = main.arraySongList.get(toIndex);
+        }
+        else{
+            CharSequence s = "invalid song index";
+            Toast.makeText(getContext(),s,Toast.LENGTH_LONG).show();
+        }
+    }
 
-//  turns the visualizer on and off (*gone removes it completely from memory so it can free up resources)
+
+    // Visualizer
+    //      toggles visualizer visibility
     public void toggleVisualizer(int curFrag){
         if(curFrag == Constant.FRAGVAL_VISUALIZER){
             //current fragment in main activity is the visualizer page
@@ -372,28 +355,7 @@ public class AudioManagerFragment extends Fragment {
             visualizerContainer.setVisibility(View.GONE);
         }
     }
-
-//    handles changing songs and navigating the array of songs
-    public void changeSong(int order){
-       int toIndex = songPlaying.index + order;
-
-       if (toIndex > (main.arraySongList.size()-1)){
-           toIndex = 0;
-       }
-       else if (toIndex < 0){
-           toIndex = (main.arraySongList.size()-1);
-       }
-
-       if(main.arraySongList.get(toIndex) != null){
-           songPlaying = main.arraySongList.get(toIndex);
-       }
-       else{
-           CharSequence s = "invalid song index";
-           Toast.makeText(getContext(),s,Toast.LENGTH_LONG).show();
-       }
-    }
-
-//    handles setting up the visualizer, the captures, measurements, and listeners
+    //      the work horse that sets up the visualizer
     private void setupVisualizerFxAndUI() {
         // Create the Visualizer object and attach it to our media player.
         mVisualizer = new Visualizer(player.getAudioSessionId());
@@ -437,11 +399,11 @@ public class AudioManagerFragment extends Fragment {
                         }
                         if((byteStrings.size()>14)){
                             f2 = Float.parseFloat(byteStrings.get(17));
-//                            decideWhatEffectToSend(eff2);
+                            decideWhatEffectToSend(eff2);
                         }
                         if((byteStrings.size()>21)){
                             f3 = Float.parseFloat(byteStrings.get(24));
-//                            decideWhatEffectToSend(eff3);
+                            decideWhatEffectToSend(eff3);
                         }
 
                         Log.d("Data", f1 + ", " + f2 + ", " + f3);
@@ -455,8 +417,8 @@ public class AudioManagerFragment extends Fragment {
                 }, Visualizer.getMaxCaptureRate() / 2, true, true);
     }
 
-
-//    calls main activity functions through the fragment interface, these functions allow data to be sent through our ble socket connection.
+    // Bluetooth sending of effects
+    //      decides what effect to send
     public void decideWhatEffectToSend(int eff){
         if(main.canSendData) {
             // TODO: clean this up so we can start sending that gud gud
@@ -468,7 +430,6 @@ public class AudioManagerFragment extends Fragment {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                    sequence++;
                     break;
                 case 2:
                     try {
@@ -477,7 +438,6 @@ public class AudioManagerFragment extends Fragment {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                    sequence++;
                     break;
                 case 3:
                     try {
@@ -486,7 +446,6 @@ public class AudioManagerFragment extends Fragment {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                    sequence = 1;
                     break;
             }
             // add a temporary delay (mainly for debugging so we can read what is happening)
@@ -494,7 +453,9 @@ public class AudioManagerFragment extends Fragment {
         }
     }
 
-//    this updates the seeker so that it follows the song as it plays
+
+    // Seekbar
+    //      recursively updates the seekbar
     private void changeSeekBar() {
         if (player != null) {
             songSeekbar.setProgress(player.getCurrentPosition());
