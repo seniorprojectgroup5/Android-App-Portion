@@ -310,4 +310,32 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
+    public void addSongToFavs(Song song){
+        if(song.isFav){
+            Boolean b = arrayPlaylists.get(Constant.PLAYLIST_FAVOURITES_ID).addSong(song);
+            if (b){
+                //add was successful
+                Toast.makeText(this,"Song added to Favourites",Toast.LENGTH_SHORT).show();
+            }
+            else{
+                //add was unsuccesful
+                Toast.makeText(this,"[ERROR: FAILED TO ADD SONG]",Toast.LENGTH_SHORT).show();
+                song.isFav = false;
+            }
+        }
+        else{
+            Boolean b = arrayPlaylists.get(Constant.PLAYLIST_FAVOURITES_ID).removeSong(song);
+            if (b) {
+                //removal was successful
+                Toast.makeText(this, "Song removed from Favourites", Toast.LENGTH_SHORT).show();
+
+            }
+            else{
+                //removal was unsuccesful
+                Toast.makeText(this,"[ERROR: FAILED TO REMOVE SONG]",Toast.LENGTH_SHORT).show();
+                song.isFav = true;
+            }
+        }
+    }
+
 }

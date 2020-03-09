@@ -366,34 +366,7 @@ public class AudioManagerFragment extends Fragment {
                 songPlaying.toggleFav();
                 //find song in original queue & all songs queue
 
-                if(songPlaying.isFav){
-                    Boolean b = main.arrayPlaylists.get(Constant.PLAYLIST_FAVOURITES_ID).addSong(songPlaying);
-                    if (b){
-                        //add was successful
-                        Toast.makeText(getContext(),"Song added to Favourites",Toast.LENGTH_SHORT).show();
-                        ((ImageButton) btnFav).setImageResource(R.drawable.ic_favorite_black_24dp);
-                        btnFav.setColorFilter(getResources().getColor(R.color.PaleHoney));
-                    }
-                    else{
-                        //add was unsuccesful
-                        Toast.makeText(getContext(),"[ERROR: FAILED TO ADD SONG]",Toast.LENGTH_SHORT).show();
-                        songPlaying.isFav = false;
-                    }
-                }
-                else{
-                    Boolean b = main.arrayPlaylists.get(Constant.PLAYLIST_FAVOURITES_ID).removeSong(songPlaying);
-                    if (b) {
-                        //removal was successful
-                        Toast.makeText(getContext(), "Song removed from Favourites", Toast.LENGTH_SHORT).show();
-                        ((ImageButton) btnFav).setImageResource(R.drawable.ic_favorite_border_black_24dp);
-                        btnFav.setColorFilter(getResources().getColor(R.color.VisDark));
-                    }
-                    else{
-                        //removal was unsuccesful
-                        Toast.makeText(getContext(),"[ERROR: FAILED TO REMOVE SONG]",Toast.LENGTH_SHORT).show();
-                        songPlaying.isFav = true;
-                    }
-                }
+                main.addSongToFavs(songPlaying);
             }
         });
 

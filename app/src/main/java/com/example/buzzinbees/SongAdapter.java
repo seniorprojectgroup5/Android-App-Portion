@@ -21,6 +21,7 @@ import android.widget.Toast;
 import androidx.fragment.app.FragmentActivity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class SongAdapter extends ArrayAdapter<Song> {
 
@@ -32,22 +33,51 @@ public class SongAdapter extends ArrayAdapter<Song> {
 
     Spinner songMenu;
 
+    List<String> listNotFav = new ArrayList<String>();
+    int listsize;
+    List<String> listFav = new ArrayList<String>();
+
+
     //constructor DO NOT DELETE
     public SongAdapter(Context context, ArrayList<Song> songs) {
         super(context, 0, songs);
+        listNotFav.add("favourite");
+        listNotFav.add("add to Playlist");
+        listNotFav.add("");
+        listsize = listNotFav.size() - 1;
+
+        listFav.add("unfavourite");
+        listFav.add("add to Playlist");
+        listFav.add("");
     }
 
     public SongAdapter(Context context, Playlist p) {
 
         super(context, 0, p.songsArray);
         this.viewedPlaylist = p;
+
+        listNotFav.add("favourite");
+        listNotFav.add("add to Playlist");
+        listNotFav.add("");
+        listsize = listNotFav.size() - 1;
+
+        listFav.add("unfavourite");
+        listFav.add("add to Playlist");
+        listFav.add("");
     }
 
     public SongAdapter(Context context, ArrayList<Song> songs,FragmentActivity activity) {
 
         super(context, 0, songs);
         this.activity = activity;
+        listNotFav.add("favourite");
+        listNotFav.add("add to Playlist");
+        listNotFav.add("");
+        listsize = listNotFav.size() - 1;
 
+        listFav.add("unfavourite");
+        listFav.add("add to Playlist");
+        listFav.add("");
     }
 
 
@@ -75,7 +105,7 @@ public class SongAdapter extends ArrayAdapter<Song> {
         songMenu = (Spinner) convertView.findViewById(R.id.spn_songDropDown);
         songMenu.setTag(position);
 
-        setSongMenuAdapter(song);
+        setSongMenuAdapter(song,songMenu);
 
         songBtn = convertView.findViewById(R.id.songBox);
 
@@ -120,46 +150,24 @@ public class SongAdapter extends ArrayAdapter<Song> {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if((parent.getSelectedItem().toString().equals("favourite"))||(parent.getSelectedItem().toString().equals("unfavourite"))){
+                    Song song = getItem((Integer)parent.getTag());
+
+
                     Log.d("PLAYLIST","song:"+song.toString());
                     song.toggleFav();
                     Log.d("PLAYLIST","song favourited:"+ song.isFav);
 
-                    parent.setSelection(0);
+                    main.addSongToFavs(song);
 
-                    if(song.isFav){
-                        Boolean b = main.arrayPlaylists.get(Constant.PLAYLIST_FAVOURITES_ID).addSong(song);
-                        if (b){
-                            //add was successful
-                            Toast.makeText(getContext(),"Song added to Favourites",Toast.LENGTH_SHORT).show();
-                        }
-                        else{
-                            //add was unsuccesful
-                            Toast.makeText(getContext(),"[ERROR: FAILED TO ADD SONG]",Toast.LENGTH_SHORT).show();
-                            song.isFav = false;
-                        }
-                    }
-                    else{
-                        Boolean b = main.arrayPlaylists.get(Constant.PLAYLIST_FAVOURITES_ID).removeSong(song);
-                        if (b) {
-                            //removal was successful
-                            Toast.makeText(getContext(), "Song removed from Favourites", Toast.LENGTH_SHORT).show();
+                    setSongMenuAdapter(song,(Spinner)parent);
 
-                        }
-                        else{
-                            //removal was unsuccesful
-                            Toast.makeText(getContext(),"[ERROR: FAILED TO REMOVE SONG]",Toast.LENGTH_SHORT).show();
-                            song.isFav = true;
-                        }
-                    }
-
-                    setSongMenuAdapter(song);
-
+                    parent.setSelection(listsize);
                 }
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                parent.setSelection(0);
+                parent.setSelection(listsize);
             }
         });
 
@@ -167,26 +175,39 @@ public class SongAdapter extends ArrayAdapter<Song> {
         return convertView;
     }
 
-    public void setSongMenuAdapter(Song s){
+    public void setSongMenuAdapter(Song s,Spinner spinner){
 
         if(s.isFav){
-            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
-                    R.array.faved_songDropDown,android.R.layout.simple_spinner_item);
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_spinner_item, listFav) {
+                @Override
+                public int getCount() {
+                    return(listsize); // Truncate the list
+                }
+            };
             // Specify the layout to use when the list of choices appears
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             // Apply the adapter to the spinner
-            songMenu.setAdapter(adapter);
+
+            spinner.setAdapter(adapter);
         }
         else{
-            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
-                    R.array.songDropDown,android.R.layout.simple_spinner_item);
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_spinner_item, listNotFav) {
+                @Override
+                public int getCount() {
+                    return(listsize); // Truncate the list
+                }
+            };
             // Specify the layout to use when the list of choices appears
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             // Apply the adapter to the spinner
-            songMenu.setAdapter(adapter);
+
+            spinner.setAdapter(adapter);
         }
 
+        spinner.setSelection(listsize);
+
     }
+
 
 }
 
