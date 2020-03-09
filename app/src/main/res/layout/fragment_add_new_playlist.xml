@@ -41,7 +41,7 @@
                         android:id="@+id/txt_PageTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="16dp"
                         android:text="@string/title_musicLibrary_addPlaylist"
                         android:textAlignment="viewStart"
                         android:textAllCaps="true"
@@ -58,6 +58,7 @@
                         style="@style/Widget.AppCompat.Button.Borderless.Colored"
                         android:layout_width="wrap_content"
                         android:layout_height="0dp"
+                        android:layout_marginTop="16dp"
                         android:backgroundTint="@android:color/transparent"
                         android:clickable="true"
                         android:gravity="bottom|right"
@@ -74,7 +75,7 @@
                     <EditText
                         android:id="@+id/editTxt_PlaylistName"
                         style="@style/Widget.AppCompat.EditText"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
                         android:ems="10"
@@ -87,6 +88,7 @@
 
                         android:textSize="24sp"
                         app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/btn_addConfirm"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/txt_PageTitle" />
 

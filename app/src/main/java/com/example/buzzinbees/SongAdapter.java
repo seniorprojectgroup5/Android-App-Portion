@@ -12,9 +12,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.FragmentActivity;
 
@@ -117,8 +119,39 @@ public class SongAdapter extends ArrayAdapter<Song> {
 
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if((parent.getSelectedItem()=="favourite")||(parent.getSelectedItem()=="unfavourite")){
+                if((parent.getSelectedItem().toString().equals("favourite"))||(parent.getSelectedItem().toString().equals("unfavourite"))){
+                    Log.d("PLAYLIST","song:"+song.toString());
                     song.toggleFav();
+                    Log.d("PLAYLIST","song favourited:"+ song.isFav);
+
+                    parent.setSelection(0);
+
+                    if(song.isFav){
+                        Boolean b = main.arrayPlaylists.get(Constant.PLAYLIST_FAVOURITES_ID).addSong(song);
+                        if (b){
+                            //add was successful
+                            Toast.makeText(getContext(),"Song added to Favourites",Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            //add was unsuccesful
+                            Toast.makeText(getContext(),"[ERROR: FAILED TO ADD SONG]",Toast.LENGTH_SHORT).show();
+                            song.isFav = false;
+                        }
+                    }
+                    else{
+                        Boolean b = main.arrayPlaylists.get(Constant.PLAYLIST_FAVOURITES_ID).removeSong(song);
+                        if (b) {
+                            //removal was successful
+                            Toast.makeText(getContext(), "Song removed from Favourites", Toast.LENGTH_SHORT).show();
+
+                        }
+                        else{
+                            //removal was unsuccesful
+                            Toast.makeText(getContext(),"[ERROR: FAILED TO REMOVE SONG]",Toast.LENGTH_SHORT).show();
+                            song.isFav = true;
+                        }
+                    }
+
                     setSongMenuAdapter(song);
 
                 }
