@@ -540,18 +540,19 @@ public class AudioManagerFragment extends Fragment {
 
                         if((byteStrings.size()>7)){
                             f1 = Float.parseFloat(byteStrings.get(10));
-                            decideWhatEffectToSend(eff3);
+//                            decideWhatEffectToSend(eff3);
                         }
                         if((byteStrings.size()>14)){
                             f2 = Float.parseFloat(byteStrings.get(17));
-                            decideWhatEffectToSend(eff2);
+//                            decideWhatEffectToSend(eff2);
                         }
                         if((byteStrings.size()>21)){
                             f3 = Float.parseFloat(byteStrings.get(24));
-                            decideWhatEffectToSend(eff3);
+//                            decideWhatEffectToSend(eff3);
                         }
 
-                        Log.d("Data", f1 + ", " + f2 + ", " + f3);
+//                        Log.d("Data", f1 + ", " + f2 + ", " + f3);
+                        parseFftData(f1);
 
                         //scale hexagon in visualizer
                         visualizerView.lerpScaleHexagons(visHex1,1,f);
@@ -592,12 +593,51 @@ public class AudioManagerFragment extends Fragment {
                         e.printStackTrace();
                     }
                     break;
+                case 4:
+                    try {
+                        // effect 7 is a hard tick
+                        mListener.sendEffect24();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                case 5:
+                    try {
+                        // effect 7 is a hard tick
+                        mListener.sendEffect47();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    break;
             }
             // add a temporary delay (mainly for debugging so we can read what is happening)
             mListener.waitToSendInfo();
         }
     }
 
+    // logic for understanding freeform data
+    public void parseFftData(float f){
+        // bins maybe
+        // 0 - 30
+        // 31 - 60
+        // 61 - 90
+        // 91 <
+        if(f<0){
+            f = f/-1;
+        }
+
+        if(f > 0 && f < 30){
+            decideWhatEffectToSend(1);
+        }else if(f > 31 && f < 60){
+            decideWhatEffectToSend(2);
+        }else if(f > 61 && f < 90){
+            decideWhatEffectToSend(3);
+        }else if(f > 90 && f < 120){
+            decideWhatEffectToSend(4);
+        }else if(f > 120){
+            decideWhatEffectToSend(5);
+        }
+    }
 
     // Seekbar
     //      recursively updates the seekbar

@@ -366,7 +366,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 e.printStackTrace();
             }
         } else {
-            Log.d(TAG, "no bluetooth");
+//            Log.d(TAG, "no bluetooth");
         }
     }
 
@@ -380,7 +380,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 e.printStackTrace();
             }
         } else {
-            Log.d(TAG, "no bluetooth");
+//            Log.d(TAG, "no bluetooth");
         }
     }
 
@@ -394,39 +394,37 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 e.printStackTrace();
             }
         } else {
-            Log.d(TAG, "no bluetooth");
+//            Log.d(TAG, "no bluetooth");
         }
     }
 
     public void sendEffect24() {
         canSendData = false;
-        Log.d(TAG, "trying to send effect 24");
+//        Log.d(TAG, "trying to send effect 24");
         if (bleSocket != null) {
-            Log.d(TAG, "yes bluetooth");
+//            Log.d(TAG, "yes bluetooth");
             try {
                 bleSocket.getOutputStream().write(Constant.VIBRATION_EFFECT_24.getBytes());
-                Log.d(TAG, Constant.VIBRATION_EFFECT_24);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         } else {
-            Log.d(TAG, "no bluetooth");
+//            Log.d(TAG, "no bluetooth");
         }
     }
 
     public void sendEffect47() {
         canSendData = false;
-        Log.d(TAG, "trying to send effect 47");
+//        Log.d(TAG, "trying to send effect 47");
         if (bleSocket != null) {
-            Log.d(TAG, "yes bluetooth");
+//            Log.d(TAG, "yes bluetooth");
             try {
                 bleSocket.getOutputStream().write(Constant.VIBRATION_EFFECT_47.getBytes());
-                Log.d(TAG, Constant.VIBRATION_EFFECT_47);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         } else {
-            Log.d(TAG, "no bluetooth");
+//            Log.d(TAG, "no bluetooth");
         }
     }
 
