@@ -315,10 +315,10 @@ public class AudioManagerFragment extends Fragment {
 
                 if (isShuffled){
                     updateShuffleIndex(1);//update index of shuffle index
-                    changed =changeSong(0);
+                    changed = changeSong(0);
                 }
                 else {
-                    changed=changeSong(1);
+                    changed = changeSong(1);
                 }
                 if(changed) {
                     resetPlayer();
