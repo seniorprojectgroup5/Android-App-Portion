@@ -11,10 +11,12 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_margin="4dip"
-        android:textSize="20sp"
-        android:gravity="left"
-        android:padding="5dp"
-        android:textColor="@color/WhiteGrey"
-        android:backgroundTint="@color/DarkNavy"/>
+        android:textSize="25sp"
+        android:gravity="center"
+        android:padding="8dp"
+        android:textColor="@color/WhiteGrey"/>
+<!--        android:backgroundTint="@color/DarkNavy"-->
+
+
 
 </LinearLayout>

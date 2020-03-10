@@ -119,7 +119,6 @@ public class BLE_Manager extends Fragment {
         final MyAdapter adapter = new MyAdapter(getContext(), R.layout.list_item, R.id.lstContent, objects);
         lView.setAdapter(adapter);
         lView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 adapter.setSelectedIndex(position);
@@ -156,7 +155,6 @@ public class BLE_Manager extends Fragment {
     private class MyAdapter extends ArrayAdapter<BluetoothDevice> {
         private int selectedIndex;
         private Context context;
-        private int selectedColor = Color.parseColor("#abcdef");
         private List<BluetoothDevice> myList;
 
         public MyAdapter(Context ctx, int resource, int textViewResourceId, List<BluetoothDevice> objects) {
@@ -219,13 +217,15 @@ public class BLE_Manager extends Fragment {
             }
 
             if (selectedIndex != -1 && position == selectedIndex) {
-                holder.tv.setBackgroundColor(selectedColor);
+                holder.tv.setBackgroundColor(Color.parseColor("#d9a827"));
+                holder.tv.setTextColor(Color.parseColor("#21252F"));
             } else {
-                holder.tv.setBackgroundColor(Color.WHITE);
+                holder.tv.setBackgroundColor(Color.TRANSPARENT);
+                holder.tv.setTextColor(Color.parseColor("#e1e1e1"));
             }
 
             BluetoothDevice device = myList.get(position);
-            holder.tv.setText(device.getName() + "\n " + device.getAddress());
+            holder.tv.setText(device.getName());
 
             return vi;
         }

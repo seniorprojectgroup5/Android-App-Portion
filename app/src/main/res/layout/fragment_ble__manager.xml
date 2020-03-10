@@ -20,81 +20,82 @@
 
             <TableRow
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:gravity="center">
 
-                <ImageView
-                    android:id="@+id/img_searchBtn_lft"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/ic_hexagonbutton_lft_long_fill"
-                    android:tint="@color/YellowGold"
-                    app:layout_constraintBottom_toBottomOf="@+id/img_searchBtn_mid"
-                    app:layout_constraintStart_toStartOf="@+id/search"
-                    app:layout_constraintTop_toTopOf="@+id/img_searchBtn_mid" />
+<!--                <ImageView-->
+<!--                    android:id="@+id/img_searchBtn_lft"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="0dp"-->
+<!--                    android:scaleType="fitXY"-->
+<!--                    android:src="@drawable/ic_hexagonbutton_lft_long_fill"-->
+<!--                    android:tint="@color/YellowGold"-->
+<!--                    app:layout_constraintBottom_toBottomOf="@+id/img_searchBtn_mid"-->
+<!--                    app:layout_constraintStart_toStartOf="@+id/search"-->
+<!--                    app:layout_constraintTop_toTopOf="@+id/img_searchBtn_mid" />-->
 
-                <ImageView
-                    android:id="@+id/img_connect_lft"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/ic_hexagonbutton_lft_long_fill"
-                    android:tint="@color/YellowGold"
-                    app:layout_constraintBottom_toBottomOf="@+id/img_connect_mid"
-                    app:layout_constraintStart_toStartOf="@+id/connect"
-                    app:layout_constraintTop_toTopOf="@+id/img_connect_mid" />
+<!--                <ImageView-->
+<!--                    android:id="@+id/img_connect_lft"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="0dp"-->
+<!--                    android:scaleType="fitXY"-->
+<!--                    android:src="@drawable/ic_hexagonbutton_lft_long_fill"-->
+<!--                    android:tint="@color/YellowGold"-->
+<!--                    app:layout_constraintBottom_toBottomOf="@+id/img_connect_mid"-->
+<!--                    app:layout_constraintStart_toStartOf="@+id/connect"-->
+<!--                    app:layout_constraintTop_toTopOf="@+id/img_connect_mid" />-->
 
-                <ImageView
-                    android:id="@+id/img_connect_mid"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/ic_hexagonbutton_mid_long_fill"
-                    android:tint="@color/YellowGold"
-                    android:visibility="visible"
-                    app:layout_constraintBottom_toBottomOf="@+id/connect"
-                    app:layout_constraintEnd_toStartOf="@+id/img_connect_rt"
-                    app:layout_constraintStart_toEndOf="@+id/img_connect_lft"
-                    app:layout_constraintTop_toTopOf="@+id/connect" />
+<!--                <ImageView-->
+<!--                    android:id="@+id/img_connect_mid"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="0dp"-->
+<!--                    android:layout_marginTop="8dp"-->
+<!--                    android:layout_marginBottom="8dp"-->
+<!--                    android:scaleType="fitXY"-->
+<!--                    android:src="@drawable/ic_hexagonbutton_mid_long_fill"-->
+<!--                    android:tint="@color/YellowGold"-->
+<!--                    android:visibility="visible"-->
+<!--                    app:layout_constraintBottom_toBottomOf="@+id/connect"-->
+<!--                    app:layout_constraintEnd_toStartOf="@+id/img_connect_rt"-->
+<!--                    app:layout_constraintStart_toEndOf="@+id/img_connect_lft"-->
+<!--                    app:layout_constraintTop_toTopOf="@+id/connect" />-->
 
-                <ImageView
-                    android:id="@+id/img_searchBtn_mid"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/ic_hexagonbutton_mid_long_fill"
-                    android:tint="@color/YellowGold"
-                    android:visibility="visible"
-                    app:layout_constraintBottom_toBottomOf="@+id/search"
-                    app:layout_constraintEnd_toStartOf="@+id/img_searchBtn_rt"
-                    app:layout_constraintStart_toEndOf="@+id/img_searchBtn_lft"
-                    app:layout_constraintTop_toTopOf="@+id/search" />
+<!--                <ImageView-->
+<!--                    android:id="@+id/img_searchBtn_mid"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="0dp"-->
+<!--                    android:layout_marginTop="8dp"-->
+<!--                    android:layout_marginBottom="8dp"-->
+<!--                    android:scaleType="fitXY"-->
+<!--                    android:src="@drawable/ic_hexagonbutton_mid_long_fill"-->
+<!--                    android:tint="@color/YellowGold"-->
+<!--                    android:visibility="visible"-->
+<!--                    app:layout_constraintBottom_toBottomOf="@+id/search"-->
+<!--                    app:layout_constraintEnd_toStartOf="@+id/img_searchBtn_rt"-->
+<!--                    app:layout_constraintStart_toEndOf="@+id/img_searchBtn_lft"-->
+<!--                    app:layout_constraintTop_toTopOf="@+id/search" />-->
 
-                <ImageView
-                    android:id="@+id/img_searchBtn_rt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/ic_hexagonbutton_rgt_long_fill"
-                    android:tint="@color/YellowGold"
-                    app:layout_constraintBottom_toBottomOf="@+id/img_searchBtn_mid"
-                    app:layout_constraintEnd_toEndOf="@+id/search"
-                    app:layout_constraintTop_toTopOf="@+id/img_searchBtn_mid" />
+<!--                <ImageView-->
+<!--                    android:id="@+id/img_searchBtn_rt"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="0dp"-->
+<!--                    android:scaleType="fitXY"-->
+<!--                    android:src="@drawable/ic_hexagonbutton_rgt_long_fill"-->
+<!--                    android:tint="@color/YellowGold"-->
+<!--                    app:layout_constraintBottom_toBottomOf="@+id/img_searchBtn_mid"-->
+<!--                    app:layout_constraintEnd_toEndOf="@+id/search"-->
+<!--                    app:layout_constraintTop_toTopOf="@+id/img_searchBtn_mid" />-->
 
-                <ImageView
-                    android:id="@+id/img_connect_rt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/ic_hexagonbutton_rgt_long_fill"
-                    android:tint="@color/YellowGold"
-                    app:layout_constraintBottom_toBottomOf="@+id/img_connect_mid"
-                    app:layout_constraintEnd_toEndOf="@+id/connect"
-                    app:layout_constraintTop_toTopOf="@+id/img_connect_mid" />
+<!--                <ImageView-->
+<!--                    android:id="@+id/img_connect_rt"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="0dp"-->
+<!--                    android:scaleType="fitXY"-->
+<!--                    android:src="@drawable/ic_hexagonbutton_rgt_long_fill"-->
+<!--                    android:tint="@color/YellowGold"-->
+<!--                    app:layout_constraintBottom_toBottomOf="@+id/img_connect_mid"-->
+<!--                    app:layout_constraintEnd_toEndOf="@+id/connect"-->
+<!--                    app:layout_constraintTop_toTopOf="@+id/img_connect_mid" />-->
 
                 <Button
                     android:id="@+id/search"
@@ -104,11 +105,13 @@
                     android:text="@string/var_SearchBleDevices"
                     android:textColor="@color/DarkNavy"
                     android:textSize="18sp"
-                    app:iconPadding="0dp"
-                    app:iconTint="@android:color/transparent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/txt_RecentlyPlayed" />
+
+                    android:layout_marginRight="20dp"/>
+<!--                    app:iconPadding="0dp"-->
+<!--                    app:iconTint="@android:color/transparent"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent"-->
+<!--                    app:layout_constraintStart_toStartOf="parent"-->
+<!--                    app:layout_constraintTop_toBottomOf="@+id/txt_RecentlyPlayed" />-->
 
                 <Button
                     android:id="@+id/connect"
@@ -118,11 +121,12 @@
                     android:text="@string/var_ConnectBleDevice"
                     android:textColor="@color/DarkNavy"
                     android:textSize="18sp"
-                    app:iconPadding="0dp"
-                    app:iconTint="@android:color/transparent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/txt_RecentlyPlayed" />
+                    android:layout_marginLeft="20dp"/>
+<!--                    app:iconPadding="0dp"-->
+<!--                    app:iconTint="@android:color/transparent"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent"-->
+<!--                    app:layout_constraintStart_toStartOf="parent"-->
+<!--                    app:layout_constraintTop_toBottomOf="@+id/txt_RecentlyPlayed" />-->
             </TableRow>
 
         </TableLayout>
