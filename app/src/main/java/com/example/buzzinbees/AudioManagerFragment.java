@@ -26,9 +26,7 @@ import androidx.fragment.app.Fragment;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
 
@@ -415,6 +413,52 @@ public class AudioManagerFragment extends Fragment {
 
    }
 
+    public void updateShuffleIndex(int n){
+        //updates the index of the shuffle array if shuffle is active
+        curShuffleIndex += n;
+        if(curShuffleIndex > (shflIndex.size()-1)){
+            curShuffleIndex = 0;
+        }
+        else if (curShuffleIndex  < 0){
+            curShuffleIndex  = (shflIndex.size()-1);
+        }
+    }
+
+    public void resetPlayer(){
+        if(player !=null){
+            if (isPlaying == true){
+                player.stop();
+                isPlaying = false;
+            }
+
+            player.release();
+            if(mVisualizer != null){
+                mVisualizer.setEnabled(false);
+            }
+            byteStrings.clear();//clears the byte strings
+            //reset hexagon scale
+            visualizerView.scaleHexagons(visHex1,Constant.HEX1SCALE);
+            visualizerView.scaleHexagons(visHex2,Constant.HEX2SCALE);
+            visualizerView.scaleHexagons(visHex3,Constant.HEX3SCALE);
+            visualizerView.scaleHexagons(visHex4,Constant.HEX4SCALE);
+        }
+
+    }
+
+    public void shuffleSongQueue(){
+        if (shflIndex != null){
+            shflIndex.clear();
+            //clear array
+
+            for (int i = 0; i < main.playingQ.songsArray.size(); i++){
+                shflIndex.add(i); // fill shlfIndex with indecies of songs stored in arraylist
+            }
+            Collections.shuffle(shflIndex); // shuffle array
+
+            curShuffleIndex = 0;
+        }
+        Log.d("SHUFFLE",shflIndex.toString());
+    }
 
     // Visualizer
     //      toggles visualizer visibility
@@ -428,28 +472,38 @@ public class AudioManagerFragment extends Fragment {
         }
     }
 
-    public void changeSong(int order){
+    public boolean changeSong(int order){
+        if(main.playingQ.songsArray.size()>0) {
+            //ensure the Q still has songs listed in its array
 
-       int toIndex = songPlaying.index + order;
+            if (isShuffled) {
+                order = shflIndex.get(curShuffleIndex) - qIndex;
+                Log.d("SHUFFLE", Integer.toString(order));
+            }
 
-       if (toIndex > (main.arraySongList.size()-1)){
-           toIndex = 0;
-       }
-       else if (toIndex < 0){
-           toIndex = (main.arraySongList.size()-1);
-       }
+            int toIndex = qIndex + order;
+            //calculate index of next song
 
-       if(main.arraySongList.get(toIndex) != null){
-           songPlaying = main.arraySongList.get(toIndex);
-       }
-       else{
+            if (toIndex > (main.playingQ.songsArray.size() - 1)) {
+                toIndex = 0;
+            } else if (toIndex < 0) {
+                toIndex = (main.playingQ.songsArray.size() - 1);
+            } //ensure the song queue wraps around & never reaches an out of bounds index
 
-           CharSequence s = "invalid song index";
-           Toast.makeText(getContext(),s,Toast.LENGTH_LONG).show();
-       }
+            if (main.playingQ.songsArray.get(toIndex) != null) {
+                songPlaying = main.playingQ.songsArray.get(toIndex);
+            }//ensures song at index isnt null
+            else {
+                CharSequence s = "invalid song index";
+                Toast.makeText(getContext(), s, Toast.LENGTH_LONG).show();
+            }
 
+            qIndex = toIndex;
+
+            return true; // return true if able to change songs successfully
+        }
+        return false; // else return false
     }
-
     private void setupVisualizerFxAndUI() {
         // Create the Visualizer object and attach it to our media player.
         mVisualizer = new Visualizer(player.getAudioSessionId());
