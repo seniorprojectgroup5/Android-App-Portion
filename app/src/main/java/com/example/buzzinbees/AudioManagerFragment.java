@@ -171,7 +171,6 @@ public class AudioManagerFragment extends Fragment {
                 visualizerView.scaleHexagons(visHex2,Constant.HEX2SCALE);
                 visualizerView.scaleHexagons(visHex3,Constant.HEX3SCALE);
                 visualizerView.scaleHexagons(visHex4,Constant.HEX4SCALE);
-                //reset hexagons
 
                 boolean changed = false;
 
@@ -203,6 +202,7 @@ public class AudioManagerFragment extends Fragment {
                 }
             }
         };
+
         //      handle play/pause button click
         playBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -228,57 +228,56 @@ public class AudioManagerFragment extends Fragment {
                 } else {
                     //otherwise, the play button will instantiate the song and the visualizer responding to it
                     try {
-                        Log.d("Player","Set up player");
+//                        Log.d("Player","Set up player");
                         //instantiate the mediaplayer
                         player = new MediaPlayer();
-                        Log.d("PLAY","Load Song");
+//                        Log.d("PLAY","Load Song");
                         if (songPlaying.index != -1) {
                             player.setDataSource(songPlaying.path);
 
-                        // create a listener to set up the seek bar, start the music, and loop the seekbar to constantly update
-                        player.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                            @Override
-                            public void onPrepared(MediaPlayer mp) {
-                                Log.d("SEEK", "preped to go");
-                                songSeekbar.setMax(player.getDuration());
-                                player.seekTo(songSeekbar.getProgress());
-                                player.start();
-                                changeSeekBar();
+                            // create a listener to set up the seek bar, start the music, and loop the seekbar to constantly update
+                            player.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                                @Override
+                                public void onPrepared(MediaPlayer mp) {
+//                                    Log.d("SEEK", "preped to go");
+                                    songSeekbar.setMax(player.getDuration());
+                                    player.seekTo(songSeekbar.getProgress());
+                                    player.start();
+                                    changeSeekBar();
+                                }
+                            });
+
+                            // create a listener that handles what happens when a song ends
+                            player.setOnCompletionListener(completeListener);
+
+                            // prepare the media player to begin playing, and record that we have started playing
+                            player.prepare();
+                            isPlaying = true;
+
+                            // set up the visualizer functionality, and make it visible
+                            setupVisualizerFxAndUI();
+                            mVisualizer.setEnabled(true);
+
+                            // replace the play button with the pause button
+                            ((ImageButton) v).setImageResource(R.drawable.ic_pause_black_48dp);
                             }
-                        });
+                            else {
+                                //to play pre loaded
+                                //AssetFileDescriptor assetFileDescriptor = getResources().openRawResourceFd(R.raw.sleepyhead); //pulling a RAW FILE, not from device storage!
+                                //player.setDataSource(assetFileDescriptor);
+                                main.onNavigationItemSelected(main.navigationView.getMenu().findItem(R.id.navigation_songs));
+                            }
 
-                        // create a listener that handles what happens when a song ends
-                        player.setOnCompletionListener(completeListener);
-
-                        // prepare the media player to begin playing, and record that we have started playing
-                        player.prepare();
-                        isPlaying = true;
-
-                        // set up the visualizer functionality, and make it visible
-                        setupVisualizerFxAndUI();
-                        mVisualizer.setEnabled(true);
-
-                        // replace the play button with the pause button
-                        ((ImageButton) v).setImageResource(R.drawable.ic_pause_black_24dp);
-                        }
-                        else {
-                        
-                            //to play pre loaded
-                            //AssetFileDescriptor assetFileDescriptor = getResources().openRawResourceFd(R.raw.sleepyhead); //pulling a RAW FILE, not from device storage!
-                            //player.setDataSource(assetFileDescriptor);
-
-                            main.onNavigationItemSelected(main.navigationView.getMenu().findItem(R.id.navigation_songs));
-                        }
                             //navigate to song list
-                    } catch (IOException e) {
+                        } catch (IOException e) {
                         //if the "try" above fails, do this
                         e.printStackTrace();
                         Toast.makeText(getContext(),"No Valid Songs to Play",Toast.LENGTH_SHORT).show();
-
                     }
                 }
             }
         });
+
         //     goes to the previous song
         btnPrev.setOnClickListener(new View.OnClickListener() {
            @Override
@@ -302,9 +301,9 @@ public class AudioManagerFragment extends Fragment {
                    songPlaying = new Song();
                    setSongDisplay();
                }
-
            }
         });
+
         //      goes to the next song
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -331,6 +330,7 @@ public class AudioManagerFragment extends Fragment {
                 }
             }
         });
+
         //      loops through the current song again and again
         btnLoop.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -352,8 +352,8 @@ public class AudioManagerFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 //toggles shuffle state on and off
-                Log.d("SHUFFLE","Playing queue:"+ main.playingQ.songsArray.toString());
-                Log.d("SHUFFLE","Playing queue size:"+ main.playingQ.songsArray.size());
+//                Log.d("SHUFFLE","Playing queue:"+ main.playingQ.songsArray.toString());
+//                Log.d("SHUFFLE","Playing queue size:"+ main.playingQ.songsArray.size());
                 if(main.playingQ.getSize()>0) {
                     if (!isShuffled) {
                         isShuffled = true;
@@ -376,14 +376,11 @@ public class AudioManagerFragment extends Fragment {
         btnFav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 songPlaying.toggleFav();
                 //find song in original queue & all songs queue
-
                 main.addSongToFavs(songPlaying);
             }
         });
-
 
         // Return the view to the frame
         return view;
@@ -457,7 +454,7 @@ public class AudioManagerFragment extends Fragment {
 
             curShuffleIndex = 0;
         }
-        Log.d("SHUFFLE",shflIndex.toString());
+//        Log.d("SHUFFLE",shflIndex.toString());
     }
 
     // Visualizer
@@ -478,7 +475,7 @@ public class AudioManagerFragment extends Fragment {
 
             if (isShuffled) {
                 order = shflIndex.get(curShuffleIndex) - qIndex;
-                Log.d("SHUFFLE", Integer.toString(order));
+//                Log.d("SHUFFLE", Integer.toString(order));
             }
 
             int toIndex = qIndex + order;

@@ -4,7 +4,6 @@ import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
-import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -13,7 +12,6 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
@@ -47,6 +45,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     // Audio
     AudioManagerFragment audioManagerFragment;
     public ArrayList<Song> arraySongList = new ArrayList<>();
+    //main list of songs loaded into the app
+    public Playlist allSongs;
+    public Playlist playingQ;
+    //clone of arraylist set to play from
+    public ArrayList<Playlist> arrayPlaylists = new ArrayList<>();
+    //list of all user and default playlists
+    public boolean songsLoaded;
+
 
     //BLUETOOTH
     private BluetoothAdapter bleAdapter;
@@ -61,14 +67,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private Handler mHandler;
     public boolean canSendData;
 
-    public Playlist allSongs;
-    //main list of songs loaded into the app
-    public Playlist playingQ;
-    //clone of arraylist set to play from
-    public ArrayList<Playlist> arrayPlaylists = new ArrayList<>();
-    //list of all user and default playlists
 
-    public boolean songsLoaded;
 
 
     //check permissions
@@ -81,11 +80,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         //called at app load
 
-        Log.d("AppCrash", "Oncreate called");
+//        Log.d("AppCrash", "Oncreate called");
         super.onCreate(savedInstanceState);
-        Log.d("AppCrash", "SaveInstance");
+//        Log.d("AppCrash", "SaveInstance");
         setContentView(R.layout.activity_main);
-        Log.d("AppCrash", "contentView set");
+//        Log.d("AppCrash", "contentView set");
 
 
         audioContainer = findViewById(R.id.fragmentContainer_audioManager);
@@ -134,18 +133,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         arraySongList = new ArrayList<Song>();
-        Log.d("SONGLIST",arraySongList.toString());
-        //arraySongList.add(new Song());
-        // init song list array
+//        Log.d("SONGLIST",arraySongList.toString());
 
         allSongs = new Playlist();
         playingQ = new Playlist();
-        Log.d("SONGLIST",allSongs.songsArray.toString());
+//        Log.d("SONGLIST",allSongs.songsArray.toString());
 
         arrayPlaylists.add(new Playlist(getString(R.string.name_defaultPlaylist),Constant.PLAYLIST_FAVOURITES_ID,new ArrayList<Song>()));
-
-
-
     }
 
 
@@ -498,13 +492,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onPause();
     }
 
-    public void closeKeyboard() {
-        View view = this.getCurrentFocus();
-        if (view != null) {
-            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-        }
-    }
+//    public void closeKeyboard() {
+//        View view = this.getCurrentFocus();
+//        if (view != null) {
+//            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+//            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+//        }
+//    }
 
     public void addSongToFavs(Song song){
         if(song.isFav){

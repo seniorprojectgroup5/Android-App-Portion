@@ -2,12 +2,6 @@ package com.example.buzzinbees;
 
 
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.view.GravityCompat;
-import androidx.fragment.app.Fragment;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +10,10 @@ import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 import java.util.ArrayList;
 
@@ -80,8 +78,6 @@ public class ML_Page_PlaylistFragment extends Fragment {
 
 
         return view;
-
-
     }
 
     public void showMusic(View view) {
@@ -90,7 +86,7 @@ public class ML_Page_PlaylistFragment extends Fragment {
         arrayList = new ArrayList<Song>();
         Log.d("PLAYLIST",list.toString());
         //initialize the adapter and assign the arrrayList to it so it has data
-        adapter = new SongAdapter(this.getContext(),list);
+        adapter = new SongAdapter(this.getContext(),arrayList);
         //apply the adapter to the listview to show list
 
         listView.setAdapter(adapter);

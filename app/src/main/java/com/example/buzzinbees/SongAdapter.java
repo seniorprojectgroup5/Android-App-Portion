@@ -2,18 +2,14 @@ package com.example.buzzinbees;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.fragment.app.FragmentActivity;
 
@@ -38,34 +34,6 @@ public class SongAdapter extends ArrayAdapter<Song> {
     //constructor DO NOT DELETE
     public SongAdapter(Context context, ArrayList<Song> songs) {
         super(context, 0, songs);
-        listNotFav.add(Constant.MENULIST_FAV);
-        listNotFav.add(Constant.MENULIST_ADDTOPLAY);
-        listNotFav.add("");
-        listsize = listNotFav.size() - 1;
-
-        listFav.add(Constant.MENULIST_UNFAV);
-        listFav.add(Constant.MENULIST_ADDTOPLAY);
-        listFav.add("");
-    }
-
-    public SongAdapter(Context context, Playlist p) {
-
-        super(context, 0, p.songsArray);
-        this.viewedPlaylist = p;
-
-        listNotFav.add(Constant.MENULIST_FAV);
-        listNotFav.add(Constant.MENULIST_ADDTOPLAY);
-        listNotFav.add("");
-        listsize = listNotFav.size() - 1;
-
-        listFav.add(Constant.MENULIST_UNFAV);
-        listFav.add(Constant.MENULIST_ADDTOPLAY);
-        listFav.add("");
-    }
-
-    public SongAdapter(Context context, ArrayList<Song> songs,FragmentActivity activity) {
-        super(context, 0, songs);
-        this.activity = activity;
         listNotFav.add(Constant.MENULIST_FAV);
         listNotFav.add(Constant.MENULIST_ADDTOPLAY);
         listNotFav.add("");
@@ -149,9 +117,9 @@ public class SongAdapter extends ArrayAdapter<Song> {
                 //get song from selected item
                 if((parent.getSelectedItem().toString().equals(Constant.MENULIST_FAV))||(parent.getSelectedItem().toString().equals(Constant.MENULIST_UNFAV))){
 
-                    Log.d("PLAYLIST","song:"+song.toString());
+//                    Log.d("PLAYLIST","song:"+song.toString());
                     song.toggleFav();
-                    Log.d("PLAYLIST","song favourited:"+ song.isFav);
+//                    Log.d("PLAYLIST","song favourited:"+ song.isFav);
 
                     main.addSongToFavs(song);
 
@@ -160,8 +128,8 @@ public class SongAdapter extends ArrayAdapter<Song> {
                     parent.setSelection(listsize);
                 }
                 if (parent.getSelectedItem().toString().equals(Constant.MENULIST_ADDTOPLAY)){
-                    Log.d("PLAYLIST","Add to playlist clicked at index"+position);
-                    Log.d("PLAYLIST","song:"+song.toString());
+//                    Log.d("PLAYLIST","Add to playlist clicked at index"+position);
+//                    Log.d("PLAYLIST","song:"+song.toString());
                     parent.setSelection(listsize);
                     main.currentFragment = Constant.FRAGVAL_SONGTOPLAYLIST;
                     main.getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer_main,
