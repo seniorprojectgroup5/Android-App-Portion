@@ -106,25 +106,50 @@ public class ML_Add_NewPlaylistFragment extends Fragment {
                     //change name to text in edittext field
 
                     if (adapter.selectedSongs.size()>0){
-                        new AlertDialog.Builder(getContext())
-                                .setTitle("Confirm Changes")
-                                .setMessage("Remove selected songs from this playlist?")
-                                .setIcon(android.R.drawable.ic_dialog_alert)
-                                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int whichButton) {
+                        if(editingPlaylist.getSize()>0) {
+                            new AlertDialog.Builder(getContext())
+                                    .setTitle("Confirm Changes")
+                                    .setMessage("Remove selected songs from this playlist?")
+                                    .setIcon(android.R.drawable.ic_dialog_alert)
+                                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int whichButton) {
 
-                                        editingPlaylist.removeSong(adapter.selectedSongs, getContext());
-                                        //removing songs
+                                            editingPlaylist.removeSong(adapter.selectedSongs, getContext());
+                                            //removing songs
 
-                                        Toast.makeText(getContext(), "Songs removed from playlist", Toast.LENGTH_SHORT).show();
-                                        //toast to user
-                                        main.currentFragment = Constant.FRAGVAL_PLAYLISTPAGE;
-                                        main.getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer_main,
-                                                new ML_Page_PlaylistFragment(editingPlaylist)).commit();
-                                        //nav back to playlist page
+                                            Toast.makeText(getContext(), "Songs removed from playlist", Toast.LENGTH_SHORT).show();
+                                            //toast to user
+                                            main.currentFragment = Constant.FRAGVAL_PLAYLISTPAGE;
+                                            main.getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer_main,
+                                                    new ML_Page_PlaylistFragment(editingPlaylist)).commit();
+                                            //nav back to playlist page
 
-                                    }})
-                                .setNegativeButton(android.R.string.no, null).show();
+                                        }
+                                    })
+                                    .setNegativeButton(android.R.string.no, null).show();
+                        }
+                        else{
+                            new AlertDialog.Builder(getContext())
+                                    .setTitle("Confirm Changes")
+                                    .setMessage("Add selected songs from this playlist?")
+                                    .setIcon(android.R.drawable.ic_dialog_alert)
+                                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int whichButton) {
+
+                                            editingPlaylist.addSong(adapter.selectedSongs);
+                                            //removing songs
+
+                                            Toast.makeText(getContext(), "Songs added from playlist", Toast.LENGTH_SHORT).show();
+                                            //toast to user
+                                            main.currentFragment = Constant.FRAGVAL_PLAYLISTPAGE;
+                                            main.getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer_main,
+                                                    new ML_Page_PlaylistFragment(editingPlaylist)).commit();
+                                            //nav back to playlist page
+
+                                        }
+                                    })
+                                    .setNegativeButton(android.R.string.no, null).show();
+                        }
                     }
                     else{
                         main.currentFragment = Constant.FRAGVAL_PLAYLISTPAGE;
@@ -161,6 +186,9 @@ public class ML_Add_NewPlaylistFragment extends Fragment {
 
         //initialize the adapter and assign the arrrayList to it so it has data
         if(!isEditing) {
+            adapter = new SelectSongAdapter(this.getContext(), main.allSongs.songsArray);
+        }
+        else if(isEditing && editingPlaylist.getSize()<=0){
             adapter = new SelectSongAdapter(this.getContext(), main.allSongs.songsArray);
         }
         else {

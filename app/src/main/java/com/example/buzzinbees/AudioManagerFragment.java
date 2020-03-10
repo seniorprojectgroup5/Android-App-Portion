@@ -178,10 +178,7 @@ public class AudioManagerFragment extends Fragment {
             public void onCompletion(MediaPlayer mp) {
                 //stop the music and release the media player
                 resetPlayer();
-                //player.stop();
-                //player.release();
-                //reset isPlaying to false
-                //isPlaying = false;
+
                 //turn off the visualizer
                 mVisualizer.setEnabled(false);
                 //turn the button text to play again
@@ -191,24 +188,34 @@ public class AudioManagerFragment extends Fragment {
                 visualizerView.scaleHexagons(visHex4,Constant.HEX4SCALE);
                 //reset hexagons
 
+                boolean changed = false;
+
                 if(!isLooping && !isShuffled){
                     //not looping, not shuffle order
-                    changeSong(1);
+                    changed = changeSong(1);
                 }
                 else if (isLooping){
                     //looping one song
-                    changeSong(0);
+                    changed = changeSong(0);
                 }
                 else if (isShuffled){
                     //shuffled play order
                     //shuffle case
                     updateShuffleIndex(1);//update index of shuffle index
-                    changeSong(0);
-                    //int iSHFL = shflIndex.get(curShuffleIndex);//get index value of next song to be played
+                    changed = changeSong(0);
+
                 }
 
-                setSongDisplay();
-                playBack.performClick();
+                if(changed) {
+                    setSongDisplay();
+                    playBack.performClick();
+                }
+                else{
+                    Toast.makeText(getContext(),"[ERROR PLAYING NEXT SONG]",Toast.LENGTH_SHORT);
+                    main.playingQ = new Playlist();
+                    songPlaying = new Song();
+                    setSongDisplay();
+                }
             }
         };
 
@@ -221,8 +228,7 @@ public class AudioManagerFragment extends Fragment {
                    // Log.d("PLAY","is Playing true");
                     player.pause();
                     //if a song is playing, the button will stop playback
-                    //player.stop();
-                    //player.release();
+
                     isPlaying = false;
                     mVisualizer.setEnabled(false);
                     ((ImageButton) v).setImageResource(R.drawable.ic_play_arrow_black_48dp);
@@ -289,31 +295,51 @@ public class AudioManagerFragment extends Fragment {
        btnPrev.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
+               boolean changed = false;
                if (isShuffled){
                    updateShuffleIndex(1);//update index of shuffle index
-                   changeSong(0);
+                   changed = changeSong(0);
                }
                else {
-                   changeSong(-1);
+                  changed = changeSong(-1);
                }
-               resetPlayer();
-               setSongDisplay();
-               playBack.performClick();
+               if(changed) {
+                   resetPlayer();
+                   setSongDisplay();
+                   playBack.performClick();
+               }
+               else{
+                   Toast.makeText(getContext(),"[ERROR PLAYING NEXT SONG]",Toast.LENGTH_SHORT);
+                   main.playingQ = new Playlist();
+                   songPlaying = new Song();
+                   setSongDisplay();
+               }
+
            }
        });
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                boolean changed = false;
+
                 if (isShuffled){
                     updateShuffleIndex(1);//update index of shuffle index
-                    changeSong(0);
+                    changed =changeSong(0);
                 }
                 else {
-                    changeSong(1);
+                    changed=changeSong(1);
                 }
-                resetPlayer();
-                setSongDisplay();
-                playBack.performClick();
+                if(changed) {
+                    resetPlayer();
+                    setSongDisplay();
+                    playBack.performClick();
+                }
+                else{
+                    Toast.makeText(getContext(),"[ERROR PLAYING NEXT SONG]",Toast.LENGTH_SHORT);
+                    main.playingQ = new Playlist();
+                    songPlaying = new Song();
+                    setSongDisplay();
+                }
             }
         });
 
@@ -374,17 +400,16 @@ public class AudioManagerFragment extends Fragment {
         return view;
     }
 
-   /* public void run(){
-        if(player != null){
-            int mCurPos = player.getCurrentPosition()/1000;
-            songSeekbar.setProgress(mCurPos);
-        }
-        mHandler.postDelayed(this,1000);
-    }*/
 
    public void setSongDisplay(){
     //updates song info display in audio player
+
        String songInfo = songPlaying.songName + " - " + songPlaying.songArtist;
+
+       if(songPlaying.songName == null && songPlaying.songArtist == null){
+           songInfo = "No song Playing";
+       }
+
        songDisplay.setText(songInfo);
 
        if(songPlaying.isFav){
@@ -395,6 +420,8 @@ public class AudioManagerFragment extends Fragment {
            ((ImageButton) btnFav).setImageResource(R.drawable.ic_favorite_border_black_24dp);
            btnFav.setColorFilter(getResources().getColor(R.color.VisDark));
        }
+
+
 
    }
 
@@ -431,33 +458,37 @@ public class AudioManagerFragment extends Fragment {
         }
     }
 
-    public void changeSong(int order){
+    public boolean changeSong(int order){
+        if(main.playingQ.songsArray.size()>0) {
+            //ensure the Q still has songs listed in its array
 
-        if(isShuffled){
-            order = shflIndex.get(curShuffleIndex) - qIndex;
-            Log.d("SHUFFLE", Integer.toString(order));
+            if (isShuffled) {
+                order = shflIndex.get(curShuffleIndex) - qIndex;
+                Log.d("SHUFFLE", Integer.toString(order));
+            }
+
+            int toIndex = qIndex + order;
+            //calculate index of next song
+
+            if (toIndex > (main.playingQ.songsArray.size() - 1)) {
+                toIndex = 0;
+            } else if (toIndex < 0) {
+                toIndex = (main.playingQ.songsArray.size() - 1);
+            } //ensure the song queue wraps around & never reaches an out of bounds index
+
+            if (main.playingQ.songsArray.get(toIndex) != null) {
+                songPlaying = main.playingQ.songsArray.get(toIndex);
+            }//ensures song at index isnt null
+            else {
+                CharSequence s = "invalid song index";
+                Toast.makeText(getContext(), s, Toast.LENGTH_LONG).show();
+            }
+
+            qIndex = toIndex;
+
+            return true; // return true if able to change songs successfully
         }
-
-        int toIndex= qIndex + order;
-        //calculate index of next song
-
-        if (toIndex > (main.playingQ.songsArray.size()-1)){
-           toIndex = 0;
-        }
-        else if (toIndex < 0){
-           toIndex = (main.playingQ.songsArray.size()-1);
-        } //ensure the song queue wraps around & never reaches an out of bounds index
-
-        if(main.playingQ.songsArray.get(toIndex) != null){
-           songPlaying = main.playingQ.songsArray.get(toIndex);
-        }//ensures song at index isnt null
-        else{
-           CharSequence s = "invalid song index";
-           Toast.makeText(getContext(),s,Toast.LENGTH_LONG).show();
-        }
-
-        qIndex = toIndex;
-
+        return false; // else return false
     }
 
     public void updateShuffleIndex(int n){

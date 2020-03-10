@@ -76,6 +76,7 @@ public class Playlist {
         //add individual song to the song array
         try {
             this.songsArray.addAll(s);
+            this.updateSize();
         }
         catch (ConcurrentModificationException e){
             return false; // if error occurs return false
@@ -89,6 +90,7 @@ public class Playlist {
             if(this.songsArray.contains(s)){
                 //ensure array contains song item
                 this.songsArray.remove(s);
+                this.updateSize();
             }
             else {
                 return false;
@@ -97,7 +99,7 @@ public class Playlist {
         catch (ConcurrentModificationException e){
             return false; // if error occurs return false
         }
-        this.updateSize();
+
         return true;//else will return true
     }
 

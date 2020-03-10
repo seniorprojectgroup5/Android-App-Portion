@@ -72,6 +72,7 @@ public class ML_Page_PlaylistFragment extends Fragment {
             public void onClick(View v) {
                 Log.d("PLAYLIST","Edit Playlist click registered");
                 main.currentFragment = Constant.FRAGVAL_NEWPLAYLIST;
+
                 main.getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer_main,
                         new ML_Add_NewPlaylistFragment(true,list)).commit();
             }
