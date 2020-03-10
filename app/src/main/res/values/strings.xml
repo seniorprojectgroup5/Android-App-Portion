@@ -14,6 +14,7 @@
     <string name="title_musicLibrary_allAlbums">Albums</string>
     <string name="title_musicLibrary_allArtists">Artists</string>
     <string name="title_visualizer">Visualizer</string>
+    <string name="title_bluetooth">Bluetooth Setup</string>
 
     <!-- Constants-->
     <string name="name_songLibraryPlaylist">All Songs</string>
@@ -22,6 +23,8 @@
     <!--Variable/Placeholder Strings!-->
     <string name="var_RecentPlayedQueue">Music Queue</string>
     <string name="var_VersionNum">Version 0.00.1</string>
+    <string name="var_SearchBleDevices">Search</string>
+    <string name="var_ConnectBleDevice">Connect</string>
 
 
 

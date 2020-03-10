@@ -1,10 +1,15 @@
 package com.example.buzzinbees;
 
 import android.Manifest;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothSocket;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,37 +17,49 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.widget.Toolbar;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-
 
 import com.google.android.material.navigation.NavigationView;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, OnFragmentInteractionListener {
+    private static final String TAG = "Main";
 
+    // Nav
     int currentFragment = 0;
-
+    NavigationView navigationView;
     private DrawerLayout drawer;
-
     FrameLayout audioContainer;
 
+    // Audio
     AudioManagerFragment audioManagerFragment;
+    public ArrayList<Song> arraySongList = new ArrayList<>();
 
-    NavigationView navigationView;
+    //BLUETOOTH
+    private BluetoothAdapter bleAdapter;
+    private BluetoothDevice bleDevice;
+    private UUID bleDeviceUUID;
+    public BluetoothSocket bleSocket;
+    private boolean mIsUserInitiatedDisconnect = false;
+    private boolean mIsBluetoothConnected = false;
 
+    // Threading
+    private Runnable sendData;
+    private Handler mHandler;
+    public boolean canSendData;
 
     public Playlist allSongs;
     //main list of songs loaded into the app
@@ -56,78 +73,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     //check permissions
     List<String> permissions = new ArrayList<String>();
-    private boolean askPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            int RECORD_AUDIO = checkSelfPermission(Manifest.permission.RECORD_AUDIO );
-            if (RECORD_AUDIO != PackageManager.PERMISSION_GRANTED) {
-                permissions.add(Manifest.permission.RECORD_AUDIO);
-            }
-            if (!permissions.isEmpty()) {
-                requestPermissions(permissions.toArray(new String[permissions.size()]), Constant.AUDIO_PERMS);
-            } else
-                return false;
-        } else
-            return false;
-        return true;
-    }
-    private boolean askDataPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            int ACCESS_DATA = checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE );
-            if (ACCESS_DATA != PackageManager.PERMISSION_GRANTED) {
-                permissions.add(Manifest.permission.READ_EXTERNAL_STORAGE);
-            }
-            if (!permissions.isEmpty()) {
-                requestPermissions(permissions.toArray(new String[permissions.size()]), Constant.DATA_PERMS);
-            } else
-                return false;
-        } else
-            return false;
-        return true;
-    }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        if (requestCode == Constant.AUDIO_PERMS) {
-            boolean result = true;
-            for (int i = 0; i < permissions.length; i++) {
-                result = result && grantResults[i] == PackageManager.PERMISSION_GRANTED;
-            }
-            if (!result) {
-                Toast.makeText(this, "..", Toast.LENGTH_LONG).show();
-            } else {
-            }
-        }
-        else if (requestCode == Constant.DATA_PERMS) {
-            boolean result = true;
-            for (int i = 0; i < permissions.length; i++) {
-                result = result && grantResults[i] == PackageManager.PERMISSION_GRANTED;
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer_main,
-                        new ML_List_SongsFragment()).commit();
-                audioContainer.setVisibility(View.GONE);
-                currentFragment = Constant.FRAGVAL_SONGS;
-            }
-            if (!result) {
-                Toast.makeText(this, "..", Toast.LENGTH_LONG).show();
-            } else {
-            }
-        }
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-    }
 
+
+    //** ONCREATE **//
     @Override
-    protected void onCreate(Bundle savedInstanceState){
+    protected void onCreate(Bundle savedInstanceState) {
         //called at app load
 
-        Log.d("AppCrash","Oncreate called");
+        Log.d("AppCrash", "Oncreate called");
         super.onCreate(savedInstanceState);
-        Log.d("AppCrash","SaveInstance");
+        Log.d("AppCrash", "SaveInstance");
         setContentView(R.layout.activity_main);
-        Log.d("AppCrash","contentView set");
+        Log.d("AppCrash", "contentView set");
 
 
         audioContainer = findViewById(R.id.fragmentContainer_audioManager);
         //reference to entire audio manager fragment container
 
+        // bluetooth adapter
+        bleAdapter = BluetoothAdapter.getDefaultAdapter();
+        mHandler = new Handler();
+        canSendData = true;
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -136,8 +103,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         drawer = findViewById(R.id.mainContainer);
         //ref to navigation drawer layout
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawer,toolbar,
-                R.string.navigation_drawer_open,R.string.navigation_drawer_close);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
+                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         //sets up drawer open/close listener
@@ -155,7 +122,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             askPermission();//ask permission for the audio manager stuff to work
 
             FragmentManager fragmentManager = getSupportFragmentManager();
-            audioManagerFragment = (AudioManagerFragment)fragmentManager.findFragmentById(R.id.fragmentContainer_audioManager);
+            audioManagerFragment = (AudioManagerFragment) fragmentManager.findFragmentById(R.id.fragmentContainer_audioManager);
 
             //load home fragment
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer_main,
@@ -166,6 +133,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         }
 
+        arraySongList = new ArrayList<Song>();
+        Log.d("SONGLIST",arraySongList.toString());
+        //arraySongList.add(new Song());
+        // init song list array
 
         allSongs = new Playlist();
         playingQ = new Playlist();
@@ -177,7 +148,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-    public boolean onNavigationItemSelected(@NonNull MenuItem item){
+
+
+    //** NAV **//
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         //nav menu click lsiteners
         switch (item.getItemId()) {
             case R.id.navigation_home:
@@ -191,8 +165,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.navigation_songs:
                 //check permissions
-                if(ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                    if(ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
                         ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, Constant.DATA_PERMS);
                     } else {
                         ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, Constant.DATA_PERMS);
@@ -235,6 +209,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 audioContainer.setVisibility(View.GONE);
                 currentFragment = Constant.FRAGVAL_OPTIONS;
                 break;
+            case R.id.navigation_bluetooth:
+                openBluetoothFragment();
         }
 
         toggleVisualizer();//toggle visibility of visualizer
@@ -244,7 +220,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onBackPressed() {
-        if(drawer.isDrawerOpen(GravityCompat.START)){
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
             //on backpress, if menu open, close menu
         }else{
@@ -271,35 +247,255 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             //else usual back btn function, closes app currently
         }
-
     }
 
-    public void toggleVisualizer(){
+
+
+    //** VISUALIZER **//
+    public void toggleVisualizer() {
         //creates reference to audio manager fragment to call method for visualizer visibility
 
         FragmentManager fragmentManager = getSupportFragmentManager();
-        audioManagerFragment = (AudioManagerFragment)fragmentManager.findFragmentById(R.id.fragmentContainer_audioManager);
+        audioManagerFragment = (AudioManagerFragment) fragmentManager.findFragmentById(R.id.fragmentContainer_audioManager);
         //create instance of audio manager fragment that is currently running
         audioManagerFragment.toggleVisualizer(currentFragment);
         //calls method from fragment's java class
     }
 
 
-    private boolean loadFragment(Fragment frag) {
-        //loadsfragment - not used
-        if(frag != null) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer_main, frag).commit();
 
-            return true;
-        }
-        else {
-            return false;
+    //** BLUETOOTH **//
+    public void openBluetoothFragment() {
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer_main,
+                new BLE_Manager()).commit();
+        audioContainer.setVisibility(View.GONE);
+        currentFragment = Constant.FRAGVAL_BLUETOOTH;
+    }
+
+    public void setUpBluetooth(BluetoothDevice bleD, String uuid) {
+        bleDeviceUUID = UUID.fromString(uuid);
+        bleDevice = bleD;
+
+        if (bleSocket == null || !mIsBluetoothConnected) {
+            msg("connecting");
+            //progressDialog = ProgressDialog.show(getApplicationContext(), "Hold on", "Connecting");
+            new ConnectBT().execute();
+        } else {
+            msg("no blue");
         }
     }
 
-    @Override
-    public void onPointerCaptureChanged(boolean hasCapture) {
+    private class DisConnectBT extends AsyncTask<Void, Void, Void> {
 
+        @Override
+        protected void onPreExecute() {
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            try {
+                bleSocket.close();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+            mIsBluetoothConnected = false;
+            if (mIsUserInitiatedDisconnect) {
+                finish();
+            }
+        }
+    }
+
+    private class ConnectBT extends AsyncTask<Void, Void, Void> {
+        private boolean mConnectSuccessful = true;
+        @Override
+        protected Void doInBackground(Void... devices) {
+            try {
+                if (bleSocket == null || !mIsBluetoothConnected) {
+                    bleSocket = bleDevice.createInsecureRfcommSocketToServiceRecord(bleDeviceUUID);
+
+                    bleAdapter.getDefaultAdapter().cancelDiscovery();
+
+                    bleSocket.connect();
+
+                    if (bleSocket == null) {
+                        Log.d(TAG, "bad");
+                    } else {
+                        Log.d(TAG, "good");
+                    }
+                }
+            } catch (IOException e) {
+                // Unable to connect to device`
+                // e.printStackTrace();
+                mConnectSuccessful = false;
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+
+            if (!mConnectSuccessful) {
+                Toast.makeText(getApplicationContext(), "Could not connect to device.Please turn on your Hardware", Toast.LENGTH_LONG).show();
+                finish();
+            } else {
+                msg("Connected to device");
+                mIsBluetoothConnected = true;
+            }
+        }
+    }
+    // send effects
+    public void waitToSendInfo() {
+        sendData = new Runnable() {
+            @Override
+            public void run() {
+                canSendData = true;
+            }
+        };
+        mHandler.postDelayed(sendData, 0);
+    }
+
+    public void sendEffect1() {
+        canSendData = false;
+//        Log.d(TAG, "trying to send effect 1");
+        if (bleSocket != null) {
+            try {
+                bleSocket.getOutputStream().write(Constant.VIBRATION_EFFECT_1.getBytes());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            Log.d(TAG, "no bluetooth");
+        }
+    }
+
+    public void sendEffect4() {
+        canSendData = false;
+//        Log.d(TAG, "trying to send effect 4");
+        if (bleSocket != null) {
+            try {
+                bleSocket.getOutputStream().write(Constant.VIBRATION_EFFECT_4.getBytes());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            Log.d(TAG, "no bluetooth");
+        }
+    }
+
+    public void sendEffect7() {
+        canSendData = false;
+//        Log.d(TAG, "trying to send effect 7");
+        if (bleSocket != null) {
+            try {
+                bleSocket.getOutputStream().write(Constant.VIBRATION_EFFECT_7.getBytes());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            Log.d(TAG, "no bluetooth");
+        }
+    }
+
+    public void sendEffect24() {
+        canSendData = false;
+        Log.d(TAG, "trying to send effect 24");
+        if (bleSocket != null) {
+            Log.d(TAG, "yes bluetooth");
+            try {
+                bleSocket.getOutputStream().write(Constant.VIBRATION_EFFECT_24.getBytes());
+                Log.d(TAG, Constant.VIBRATION_EFFECT_24);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            Log.d(TAG, "no bluetooth");
+        }
+    }
+
+    public void sendEffect47() {
+        canSendData = false;
+        Log.d(TAG, "trying to send effect 47");
+        if (bleSocket != null) {
+            Log.d(TAG, "yes bluetooth");
+            try {
+                bleSocket.getOutputStream().write(Constant.VIBRATION_EFFECT_47.getBytes());
+                Log.d(TAG, Constant.VIBRATION_EFFECT_47);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            Log.d(TAG, "no bluetooth");
+        }
+    }
+
+
+
+    //** PERMISSIONS **//
+    private boolean askPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            int RECORD_AUDIO = checkSelfPermission(Manifest.permission.RECORD_AUDIO);
+            if (RECORD_AUDIO != PackageManager.PERMISSION_GRANTED) {
+                permissions.add(Manifest.permission.RECORD_AUDIO);
+            }
+            if (!permissions.isEmpty()) {
+                requestPermissions(permissions.toArray(new String[permissions.size()]), Constant.AUDIO_PERMS);
+            } else
+                return false;
+        } else
+            return false;
+        return true;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == Constant.AUDIO_PERMS) {
+            boolean result = true;
+            for (int i = 0; i < permissions.length; i++) {
+                result = result && grantResults[i] == PackageManager.PERMISSION_GRANTED;
+            }
+            if (!result) {
+                Toast.makeText(this, "..", Toast.LENGTH_LONG).show();
+            } else {
+            }
+        } else if (requestCode == Constant.DATA_PERMS) {
+            boolean result = true;
+            for (int i = 0; i < permissions.length; i++) {
+                result = result && grantResults[i] == PackageManager.PERMISSION_GRANTED;
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer_main,
+                        new ML_List_SongsFragment()).commit();
+                audioContainer.setVisibility(View.GONE);
+                currentFragment = Constant.FRAGVAL_SONGS;
+            }
+            if (!result) {
+                Toast.makeText(this, "..", Toast.LENGTH_LONG).show();
+            } else {
+            }
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+
+    //** GENERAL **//
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
+    protected void onPause() {
+        if (bleSocket != null && mIsBluetoothConnected) {
+            new DisConnectBT().execute();
+        }
+        Log.d(TAG, "Paused");
+        super.onPause();
     }
 
     public void closeKeyboard() {
@@ -338,4 +534,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
+    private void msg(String s) {
+        Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT).show();
+    }
 }

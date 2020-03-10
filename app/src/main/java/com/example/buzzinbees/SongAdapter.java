@@ -3,10 +3,7 @@ package com.example.buzzinbees;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,7 +64,6 @@ public class SongAdapter extends ArrayAdapter<Song> {
     }
 
     public SongAdapter(Context context, ArrayList<Song> songs,FragmentActivity activity) {
-
         super(context, 0, songs);
         this.activity = activity;
         listNotFav.add(Constant.MENULIST_FAV);

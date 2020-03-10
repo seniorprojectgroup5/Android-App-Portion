@@ -18,9 +18,19 @@ public class Constant {
     public static final int FRAGVAL_ARTISTPAGE = 9;
     public static final int FRAGVAL_NEWPLAYLIST = 10;
     public static final int FRAGVAL_SONGTOPLAYLIST = 11;
+    public static final int FRAGVAL_BLUETOOTH = 12;
 
     public static final int PLAYLIST_FAVOURITES_ID = 0;
     public static final int PLAYLIST_ALLSONGS_ID = -1000;
+
+    //  BLUETOOTH
+    public static final String VIBRATION_EFFECT_1 = "1";
+    public static final String VIBRATION_EFFECT_4 = "4";
+    public static final String VIBRATION_EFFECT_7 = "7";
+    public static final String VIBRATION_EFFECT_24 = "24";
+    public static final String VIBRATION_EFFECT_47 = "47";
+
+    public static final int BT_ENABLE_REQUEST = 10;
 
     public static final float HEX1SCALE = 0.7087f;
     public static final float HEX2SCALE = 0.5748f;
@@ -36,11 +46,7 @@ public class Constant {
     public static final float HEX2MAX = 0.80f;
     public static final float HEX3MAX = 0.75f;
     public static final float HEX4MAX = 0.55f;
-
-    public static final String MENULIST_FAV ="Favourite";
     public static final String MENULIST_UNFAV ="Unfavourite";
-    public static final String MENULIST_ADDTOPLAY ="Add to Playlist";
-
-
+    public static final String MENULIST_FAV ="Favourite";
 
 }
