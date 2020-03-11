@@ -1,19 +1,17 @@
 package com.example.buzzinbees;
 
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 
 public class HomeFragment extends Fragment {
@@ -47,6 +45,12 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
 
         main = (MainActivity) getActivity();
+
+        if(main.mIsBluetoothConnected){
+            ConnectToBle.setImageResource(R.drawable.ic_queenbeetopdown_fill);
+        }else{
+            ConnectToBle.setImageResource(R.drawable.ic_queenbeetopdown_clear);
+        }
 
         btnToQueue = view.findViewById(R.id.btn_toQueue);
 

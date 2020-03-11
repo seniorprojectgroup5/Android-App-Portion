@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -60,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private UUID bleDeviceUUID;
     public BluetoothSocket bleSocket;
     private boolean mIsUserInitiatedDisconnect = false;
-    private boolean mIsBluetoothConnected = false;
+    public boolean mIsBluetoothConnected = false;
 
     // Threading
     private Runnable sendData;
@@ -68,6 +69,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean canSendData;
 
 
+    // device setup
+    private ImageView deviceStatus,hFrag_deviceStatus;
 
 
     //check permissions
@@ -108,9 +111,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toggle.syncState();
         //sets up drawer open/close listener
 
+
         navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         //loads nav menu
+
+        // find header image
+        View hView = navigationView.getHeaderView(0);
+        deviceStatus = hView.findViewById(R.id.device_status);
 
         if (savedInstanceState == null) {
 
@@ -243,6 +251,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
+    public void updateDeviceStatus(){
+        if(mIsBluetoothConnected){
+            deviceStatus.setImageResource(R.drawable.ic_queenbeetopdown_fill);
+            navigationView.getMenu().getItem(7).setIcon(R.drawable.ic_queenbeetopdown_fill);
+        }else{
+            deviceStatus.setImageResource(R.drawable.ic_queenbeetopdown_clear);
+            navigationView.getMenu().getItem(7).setIcon(R.drawable.ic_queenbeetopdown_clear);
+        }
+    }
 
 
     //** VISUALIZER **//
@@ -300,6 +317,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
             mIsBluetoothConnected = false;
+            updateDeviceStatus();
             if (mIsUserInitiatedDisconnect) {
                 finish();
             }
@@ -342,6 +360,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             } else {
                 msg("Connected to device");
                 mIsBluetoothConnected = true;
+                updateDeviceStatus();
             }
         }
     }

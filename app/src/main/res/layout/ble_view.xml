@@ -15,7 +15,6 @@
         android:gravity="center"
         android:padding="8dp"
         android:textColor="@color/WhiteGrey"/>
-<!--        android:backgroundTint="@color/DarkNavy"-->
 
 
 

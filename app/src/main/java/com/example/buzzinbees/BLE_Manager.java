@@ -7,12 +7,14 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,17 +28,21 @@ import java.util.Set;
 import java.util.UUID;
 
 public class BLE_Manager extends Fragment {
-    private static final String TAG = "Bluetooth Manager - ";
+    private static final String TAG = "Bluetooth Manager";
 
+    MainActivity main;
     private OnFragmentInteractionListener mListener;
 
     private UUID bleDeviceUUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
     private static final String DEVICE_LIST = "temp device list";
     private static final String DEVICE_LIST_SELECTED = "temp device selected";
-
-    private Button searchBtn, connectBtn;
+    private ImageButton searchBtn,  connectBtn;
     private ListView lView;
     private BluetoothAdapter bleAdapter;
+
+    private Handler mHandler;
+
+    private ImageView D_Status;
 
     //** Fragment Set up **//
     public BLE_Manager() {}
@@ -44,6 +50,7 @@ public class BLE_Manager extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_ble__manager, null);
+        mHandler = new Handler();
 
         // if we know nothing we need to start from scratch, else get the stuff we know from the phone
         lView = view.findViewById(R.id.listview);
@@ -65,12 +72,18 @@ public class BLE_Manager extends Fragment {
             initList(new ArrayList<BluetoothDevice>());
         }
 
+        D_Status = view.findViewById(R.id.bleManagerDeviceStatus);
+
 
         searchBtn = view.findViewById(R.id.search);
         searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
                 bleAdapter = BluetoothAdapter.getDefaultAdapter();
+
+                searchBtn.setColorFilter(Color.parseColor("#93a4a9"));
+                mHandler.postDelayed(rstSearchBtn,100);
+
                 if (bleAdapter == null) {
                     Toast.makeText(getContext(), "Bluetooth not found", Toast.LENGTH_SHORT).show();
                 }
@@ -90,8 +103,18 @@ public class BLE_Manager extends Fragment {
             public void onClick(View arg0) {
                 BluetoothDevice device = ((MyAdapter) (lView.getAdapter())).getSelectedItem();
                 mListener.setUpBluetooth(device, bleDeviceUUID.toString());
+
+                connectBtn.setColorFilter(Color.parseColor("#93a4a9"));
+                mHandler.postDelayed(rstConnectBtn,100);
+                mHandler.postDelayed(checkBleConnection, 1000);
             }
         });
+
+
+        main = (MainActivity) getActivity();
+
+
+        mHandler.post(checkBleConnection);
 
         // Inflate the layout for this fragment
         return view;
@@ -111,12 +134,36 @@ public class BLE_Manager extends Fragment {
         mListener = null;
     }
 
+    //runnable stuff
+    final Runnable rstSearchBtn = new Runnable() {
+        @Override
+        public void run() {
+            searchBtn.setColorFilter(Color.parseColor("#21252f"));
+
+        }
+    };
+    final Runnable rstConnectBtn = new Runnable() {
+        @Override
+        public void run() {
+            connectBtn.setColorFilter(Color.parseColor("#21252f"));
+        }
+    };
+    final Runnable checkBleConnection = new Runnable() {
+        @Override
+        public void run() {
+            if(main.mIsBluetoothConnected){
+                D_Status.setImageResource(R.drawable.ic_queenbeetopdown_fill);
+            }else{
+                D_Status.setImageResource(R.drawable.ic_queenbeetopdown_clear);
+            }
+        }
+    };
 
 
     // Get all the BLE devices
     //      prepares the list for the UI
     private void initList(List<BluetoothDevice> objects) {
-        final MyAdapter adapter = new MyAdapter(getContext(), R.layout.list_item, R.id.lstContent, objects);
+        final MyAdapter adapter = new MyAdapter(getContext(), R.layout.ble_view, R.id.lstContent, objects);
         lView.setAdapter(adapter);
         lView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -206,7 +253,7 @@ public class BLE_Manager extends Fragment {
             View vi = convertView;
             ViewHolder holder;
             if (convertView == null) {
-                vi = LayoutInflater.from(context).inflate(R.layout.list_item, null);
+                vi = LayoutInflater.from(context).inflate(R.layout.ble_view, null);
                 holder = new ViewHolder();
 
                 holder.tv = vi.findViewById(R.id.lstContent);

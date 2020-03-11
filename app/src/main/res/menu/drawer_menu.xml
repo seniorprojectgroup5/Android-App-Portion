@@ -38,7 +38,7 @@
             android:title="@string/title_options" />
         <item
             android:id="@+id/navigation_bluetooth"
-            android:icon="@drawable/ic_queenbeetopdown_fill"
+            android:icon="@drawable/ic_queenbeetopdown_clear"
             android:title="@string/title_bluetooth"/>
     </group>
 </menu>

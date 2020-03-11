@@ -294,6 +294,7 @@ public class AudioManagerFragment extends Fragment {
                    resetPlayer();
                    setSongDisplay();
                    playBack.performClick();
+                   changeSeekBar();
                }
                else{
                    Toast.makeText(getContext(),"[ERROR PLAYING NEXT SONG]",Toast.LENGTH_SHORT);
@@ -321,6 +322,7 @@ public class AudioManagerFragment extends Fragment {
                     resetPlayer();
                     setSongDisplay();
                     playBack.performClick();
+                    changeSeekBar();
                 }
                 else{
                     Toast.makeText(getContext(),"[ERROR PLAYING NEXT SONG]",Toast.LENGTH_SHORT);

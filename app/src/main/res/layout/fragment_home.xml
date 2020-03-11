@@ -134,7 +134,7 @@
                     android:layout_height="250dp"
                     android:layout_marginTop="50dp"
                     android:layout_marginBottom="52dp"
-                    android:src="@drawable/ic_queenbeetopdown_fill"
+                    android:src="@drawable/ic_queenbeetopdown_clear"
                     android:tint="@color/HoneyGold"
                     android:visibility="visible"
                     app:layout_constraintBottom_toBottomOf="@+id/deviceActiveContainer"
