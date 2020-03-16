@@ -62,9 +62,7 @@ public class AudioManagerFragment extends Fragment {
     Boolean isLooping, isShuffled;
 
     // bluetooth
-    private int eff1;
-    private int eff2;
-    private int eff3;
+    private int stopeff, eff1, eff2, eff3, eff4, eff5;
 
     ImageButton btnFav;
 
@@ -83,9 +81,12 @@ public class AudioManagerFragment extends Fragment {
 
         // set up the interface to send data through bluetooth
         mListener = (OnFragmentInteractionListener) getActivity();
+        stopeff = 0;
         eff1 = 1;
         eff2 = 2;
         eff3 = 3;
+        eff4 = 4;
+        eff5 = 5;
 
 
 
@@ -223,11 +224,12 @@ public class AudioManagerFragment extends Fragment {
                     visualizerView.scaleHexagons(visHex3,Constant.HEX3SCALE);
                     visualizerView.scaleHexagons(visHex4,Constant.HEX4SCALE);
 
-                    decideWhatEffectToSend(0);
+                    decideWhatEffectToSend(stopeff);
 
                 } else {
                     //otherwise, the play button will instantiate the song and the visualizer responding to it
                     try {
+                        mListener.waitToSendInfo();
 //                        Log.d("Player","Set up player");
                         //instantiate the mediaplayer
                         player = new MediaPlayer();
@@ -503,6 +505,7 @@ public class AudioManagerFragment extends Fragment {
         }
         return false; // else return false
     }
+
     private void setupVisualizerFxAndUI() {
         // Create the Visualizer object and attach it to our media player.
         mVisualizer = new Visualizer(player.getAudioSessionId());
@@ -542,15 +545,12 @@ public class AudioManagerFragment extends Fragment {
 
                         if((byteStrings.size()>7)){
                             f1 = Float.parseFloat(byteStrings.get(10));
-//                            decideWhatEffectToSend(eff3);
                         }
                         if((byteStrings.size()>14)){
                             f2 = Float.parseFloat(byteStrings.get(17));
-//                            decideWhatEffectToSend(eff2);
                         }
                         if((byteStrings.size()>21)){
                             f3 = Float.parseFloat(byteStrings.get(24));
-//                            decideWhatEffectToSend(eff3);
                         }
 
 //                        Log.d("Data", f1 + ", " + f2 + ", " + f3);
@@ -568,76 +568,88 @@ public class AudioManagerFragment extends Fragment {
     // Bluetooth sending of effects
     //      decides what effect to send
     public void decideWhatEffectToSend(int eff){
-        if(main.canSendData) {
-            // TODO: clean this up so we can start sending that gud gud
-            switch (eff) {
-                case 1:
-                    try {
-                        // effect 4 is the softest tick
-                        mListener.sendEffect4();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    break;
-                case 2:
-                    try {
-                        // effect 1 is a tick
-                        mListener.sendEffect1();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    break;
-                case 3:
-                    try {
-                        // effect 7 is a hard tick
-                        mListener.sendEffect7();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    break;
-                case 4:
-                    try {
-                        // effect 7 is a hard tick
-                        mListener.sendEffect24();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    break;
-                case 5:
-                    try {
-                        // effect 7 is a hard tick
-                        mListener.sendEffect47();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    break;
+        // used for debugging
+//
+
+        // check if the bluetooth is connected
+        if(main.mIsBluetoothConnected){
+            if(main.canSendData) {
+                switch (eff) {
+                    case 0:
+                        try {
+                            // sending 0 should stop the vibrations
+                            mListener.stopEffects();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                    case 1:
+                        try {
+                            // effect 4 is the softest tick
+                            mListener.sendEffect1();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                    case 2:
+                        try {
+                            // effect 1 is a tick
+                            mListener.sendEffect2();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                    case 3:
+                        try {
+                            // effect 7 is a hard tick
+                            mListener.sendEffect3();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                    case 4:
+                        try {
+                            // effect 7 is a hard tick
+                            mListener.sendEffect4();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                    case 5:
+                        try {
+                            // effect 7 is a hard tick
+                            mListener.sendEffect5();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                }
+                // A temporary delay (used for debugging so we can read what is happening)
+                // remove when
+//            mListener.waitToSendInfo();
             }
-            // add a temporary delay (mainly for debugging so we can read what is happening)
-            mListener.waitToSendInfo();
         }
     }
 
     // logic for understanding freeform data
     public void parseFftData(float f){
-        // bins maybe
-        // 0 - 30
-        // 31 - 60
-        // 61 - 90
-        // 91 <
+        // make the float positive
         if(f<0){
             f = f/-1;
         }
 
-        if(f > 0 && f < 30){
-            decideWhatEffectToSend(1);
-        }else if(f > 31 && f < 60){
-            decideWhatEffectToSend(2);
-        }else if(f > 61 && f < 90){
-            decideWhatEffectToSend(3);
-        }else if(f > 90 && f < 120){
-            decideWhatEffectToSend(4);
-        }else if(f > 120){
-            decideWhatEffectToSend(5);
+        // set up data ranges and send data for those ranges
+        if(f > 0.0 && f < 15.0){
+            decideWhatEffectToSend(eff1);
+        }else if(f > 16.0 && f < 35.0){
+            decideWhatEffectToSend(eff2);
+        }else if(f > 36.0 && f < 60.0){
+            decideWhatEffectToSend(eff3);
+        }
+        else if(f > 61.0 && f < 90.0){
+            decideWhatEffectToSend(eff4);
+        }else{
+            decideWhatEffectToSend(eff5);
         }
     }
 
@@ -663,5 +675,11 @@ public class AudioManagerFragment extends Fragment {
         else{
            Log.d("SEEK BAR","player is null");
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        player.release();
+        super.onDestroy();
     }
 }

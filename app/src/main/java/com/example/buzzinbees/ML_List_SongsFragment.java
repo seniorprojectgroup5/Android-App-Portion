@@ -5,18 +5,16 @@ import android.content.ContentResolver;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 import java.util.ArrayList;
 
@@ -43,11 +41,11 @@ public class ML_List_SongsFragment extends Fragment {
 
 
         main = (MainActivity) getActivity();
-        Log.d("SONGLIST",main.allSongs.songsArray.toString());
+//        Log.d("SONGLIST",main.allSongs.songsArray.toString());
 
 
         showMusic(view);
-        Log.d("SONGLIST",main.allSongs.songsArray.toString());
+//        Log.d("SONGLIST",main.allSongs.songsArray.toString());
 
 
 

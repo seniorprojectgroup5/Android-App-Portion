@@ -24,11 +24,12 @@ public class Constant {
     public static final int PLAYLIST_ALLSONGS_ID = -1000;
 
     //  BLUETOOTH
+    public static final String STOP_VIBRATION_EFFECTS = "0"; // stop vibrating
     public static final String VIBRATION_EFFECT_1 = "1";
+    public static final String VIBRATION_EFFECT_2 = "2";
+    public static final String VIBRATION_EFFECT_3 = "3";
     public static final String VIBRATION_EFFECT_4 = "4";
-    public static final String VIBRATION_EFFECT_7 = "7";
-    public static final String VIBRATION_EFFECT_24 = "24";
-    public static final String VIBRATION_EFFECT_47 = "47";
+    public static final String VIBRATION_EFFECT_5 = "5";
 
     public static final int BT_ENABLE_REQUEST = 10;
 

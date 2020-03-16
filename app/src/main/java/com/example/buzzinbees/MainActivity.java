@@ -300,6 +300,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         @Override
         protected void onPreExecute() {
+            // TODO: maybe this is where we need to send the last info to stop the device from vibrating
+            stopEffects();
         }
 
         @Override
@@ -364,6 +366,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         }
     }
+
     // send effects
     public void waitToSendInfo() {
         sendData = new Runnable() {
@@ -375,8 +378,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mHandler.postDelayed(sendData, 0);
     }
 
+    public void stopEffects(){
+        if(bleSocket != null){
+            try {
+                bleSocket.getOutputStream().write(Constant.STOP_VIBRATION_EFFECTS.getBytes());
+                canSendData = false;
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+        }
+    }
+
     public void sendEffect1() {
-        canSendData = false;
+//        canSendData = false;
 //        Log.d(TAG, "trying to send effect 1");
         if (bleSocket != null) {
             try {
@@ -389,10 +403,39 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    public void sendEffect4() {
-        canSendData = false;
-//        Log.d(TAG, "trying to send effect 4");
+    public void sendEffect2() {
+//        canSendData = false;
+//        Log.d(TAG, "trying to send effect 2");
         if (bleSocket != null) {
+            try {
+                bleSocket.getOutputStream().write(Constant.VIBRATION_EFFECT_2.getBytes());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+//            Log.d(TAG, "no bluetooth");
+        }
+    }
+
+    public void sendEffect3() {
+//        canSendData = false;
+//        Log.d(TAG, "trying to send effect 3");
+        if (bleSocket != null) {
+            try {
+                bleSocket.getOutputStream().write(Constant.VIBRATION_EFFECT_3.getBytes());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+//            Log.d(TAG, "no bluetooth");
+        }
+    }
+
+    public void sendEffect4() {
+//        canSendData = false;
+//        Log.d(TAG, String.valueOf(Constant.VIBRATION_EFFECT_4.getBytes()));
+        if (bleSocket != null) {
+//            Log.d(TAG, "yes bluetooth");
             try {
                 bleSocket.getOutputStream().write(Constant.VIBRATION_EFFECT_4.getBytes());
             } catch (IOException e) {
@@ -403,42 +446,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    public void sendEffect7() {
-        canSendData = false;
-//        Log.d(TAG, "trying to send effect 7");
-        if (bleSocket != null) {
-            try {
-                bleSocket.getOutputStream().write(Constant.VIBRATION_EFFECT_7.getBytes());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } else {
-//            Log.d(TAG, "no bluetooth");
-        }
-    }
-
-    public void sendEffect24() {
-        canSendData = false;
-//        Log.d(TAG, "trying to send effect 24");
+    public void sendEffect5() {
+//        canSendData = false;
+//        Log.d(TAG, String.valueOf(Constant.VIBRATION_EFFECT_5.getBytes()));
         if (bleSocket != null) {
 //            Log.d(TAG, "yes bluetooth");
             try {
-                bleSocket.getOutputStream().write(Constant.VIBRATION_EFFECT_24.getBytes());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } else {
-//            Log.d(TAG, "no bluetooth");
-        }
-    }
-
-    public void sendEffect47() {
-        canSendData = false;
-//        Log.d(TAG, "trying to send effect 47");
-        if (bleSocket != null) {
-//            Log.d(TAG, "yes bluetooth");
-            try {
-                bleSocket.getOutputStream().write(Constant.VIBRATION_EFFECT_47.getBytes());
+                bleSocket.getOutputStream().write(Constant.VIBRATION_EFFECT_5.getBytes());
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -497,14 +511,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     //** GENERAL **//
     @Override
     protected void onDestroy() {
+        if (bleSocket != null && mIsBluetoothConnected) {
+            new DisConnectBT().execute();
+        }
         super.onDestroy();
     }
 
     @Override
     protected void onPause() {
-        if (bleSocket != null && mIsBluetoothConnected) {
-            new DisConnectBT().execute();
-        }
+        // todo: may be the place where we are disconecting when the phone goes to sleep
+
         Log.d(TAG, "Paused");
         super.onPause();
     }
