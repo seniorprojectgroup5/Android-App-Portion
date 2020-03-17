@@ -68,6 +68,8 @@ public class AudioManagerFragment extends Fragment {
 
     ArrayList<Integer> shflIndex;
     int curShuffleIndex;
+
+
     //** ONCREATE VIEW **//
     public AudioManagerFragment() {
         // Required empty public constructor
@@ -568,11 +570,9 @@ public class AudioManagerFragment extends Fragment {
     // Bluetooth sending of effects
     //      decides what effect to send
     public void decideWhatEffectToSend(int eff){
-        // used for debugging
-//
-
         // check if the bluetooth is connected
         if(main.mIsBluetoothConnected){
+            // used for debugging
             if(main.canSendData) {
                 switch (eff) {
                     case 0:
@@ -585,7 +585,6 @@ public class AudioManagerFragment extends Fragment {
                         break;
                     case 1:
                         try {
-                            // effect 4 is the softest tick
                             mListener.sendEffect1();
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -593,7 +592,6 @@ public class AudioManagerFragment extends Fragment {
                         break;
                     case 2:
                         try {
-                            // effect 1 is a tick
                             mListener.sendEffect2();
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -601,7 +599,6 @@ public class AudioManagerFragment extends Fragment {
                         break;
                     case 3:
                         try {
-                            // effect 7 is a hard tick
                             mListener.sendEffect3();
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -609,7 +606,6 @@ public class AudioManagerFragment extends Fragment {
                         break;
                     case 4:
                         try {
-                            // effect 7 is a hard tick
                             mListener.sendEffect4();
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -617,16 +613,14 @@ public class AudioManagerFragment extends Fragment {
                         break;
                     case 5:
                         try {
-                            // effect 7 is a hard tick
                             mListener.sendEffect5();
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
                         break;
                 }
-                // A temporary delay (used for debugging so we can read what is happening)
-                // remove when
-//            mListener.waitToSendInfo();
+                // uncomment to DEBUG
+//              mListener.waitToSendInfo();
             }
         }
     }
@@ -677,9 +671,11 @@ public class AudioManagerFragment extends Fragment {
         }
     }
 
+    // removes the junk
     @Override
-    public void onDestroy() {
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
         player.release();
-        super.onDestroy();
     }
 }

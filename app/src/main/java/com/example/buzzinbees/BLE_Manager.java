@@ -30,9 +30,11 @@ import java.util.UUID;
 public class BLE_Manager extends Fragment {
     private static final String TAG = "Bluetooth Manager";
 
+    // access main activity functionality
     MainActivity main;
     private OnFragmentInteractionListener mListener;
 
+    // bluetooth
     private UUID bleDeviceUUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
     private static final String DEVICE_LIST = "temp device list";
     private static final String DEVICE_LIST_SELECTED = "temp device selected";
@@ -40,8 +42,10 @@ public class BLE_Manager extends Fragment {
     private ListView lView;
     private BluetoothAdapter bleAdapter;
 
+    // multithreading
     private Handler mHandler;
 
+    // device status image
     private ImageView D_Status;
 
     //** Fragment Set up **//
@@ -72,9 +76,12 @@ public class BLE_Manager extends Fragment {
             initList(new ArrayList<BluetoothDevice>());
         }
 
+
+        // collect the image to update
         D_Status = view.findViewById(R.id.bleManagerDeviceStatus);
 
 
+        // set up a button to search through paired devices, searches for devices if none are found
         searchBtn = view.findViewById(R.id.search);
         searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,6 +104,8 @@ public class BLE_Manager extends Fragment {
             }
         });
 
+
+        // sets up button to connect to a selected bluetooth device
         connectBtn = view.findViewById(R.id.connect);
         connectBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,14 +120,18 @@ public class BLE_Manager extends Fragment {
         });
 
 
+        // link to the main activity
         main = (MainActivity) getActivity();
 
-
+        // check current status of the bluetooth connection so that we accurately update the status image
         mHandler.post(checkBleConnection);
 
         // Inflate the layout for this fragment
         return view;
     }
+
+
+    // sets up fragment connections
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
@@ -128,18 +141,19 @@ public class BLE_Manager extends Fragment {
             throw new RuntimeException(context.toString() + " must implement OnFragmentInteractionListener");
         }
     }
+
+    // removes the junk
     @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
     }
 
-    //runnable stuff
+    // on click event stuff (mainly reset the button colour)
     final Runnable rstSearchBtn = new Runnable() {
         @Override
         public void run() {
             searchBtn.setColorFilter(Color.parseColor("#21252f"));
-
         }
     };
     final Runnable rstConnectBtn = new Runnable() {

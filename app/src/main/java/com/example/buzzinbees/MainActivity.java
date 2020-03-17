@@ -276,6 +276,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     //** BLUETOOTH **//
+    // allows the bluetooth to be open from a button press
     public void openBluetoothFragment() {
         getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer_main,
                 new BLE_Manager()).commit();
@@ -283,6 +284,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         currentFragment = Constant.FRAGVAL_BLUETOOTH;
     }
 
+    // begins the bluetooth multithreading
     public void setUpBluetooth(BluetoothDevice bleD, String uuid) {
         bleDeviceUUID = UUID.fromString(uuid);
         bleDevice = bleD;
@@ -296,11 +298,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
+    // disconnect from our bluetooth connection
     private class DisConnectBT extends AsyncTask<Void, Void, Void> {
 
         @Override
         protected void onPreExecute() {
-            // TODO: maybe this is where we need to send the last info to stop the device from vibrating
+            // before we disconnect send the stop vibrating info
             stopEffects();
         }
 
@@ -309,7 +312,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             try {
                 bleSocket.close();
             } catch (IOException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
             return null;
@@ -326,6 +328,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
+    // create a bluetooth connection
     private class ConnectBT extends AsyncTask<Void, Void, Void> {
         private boolean mConnectSuccessful = true;
         @Override
@@ -368,6 +371,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     // send effects
+    // for debugging (slows down the sending of data by setting up the "delayMillis" var) must uncomment the DEBUG line in the "decideWhatEffectToSend" function inside of the "AudioManagerFragment.java" file
     public void waitToSendInfo() {
         sendData = new Runnable() {
             @Override
@@ -378,6 +382,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mHandler.postDelayed(sendData, 0);
     }
 
+    // will stop vibrations
     public void stopEffects(){
         if(bleSocket != null){
             try {
@@ -388,7 +393,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         }
     }
-
+    // softest vibration
     public void sendEffect1() {
 //        canSendData = false;
 //        Log.d(TAG, "trying to send effect 1");
@@ -402,7 +407,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //            Log.d(TAG, "no bluetooth");
         }
     }
-
+    // soft vibration
     public void sendEffect2() {
 //        canSendData = false;
 //        Log.d(TAG, "trying to send effect 2");
@@ -416,7 +421,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //            Log.d(TAG, "no bluetooth");
         }
     }
-
+    // standard vibration
     public void sendEffect3() {
 //        canSendData = false;
 //        Log.d(TAG, "trying to send effect 3");
@@ -430,7 +435,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //            Log.d(TAG, "no bluetooth");
         }
     }
-
+    // hard vibration
     public void sendEffect4() {
 //        canSendData = false;
 //        Log.d(TAG, String.valueOf(Constant.VIBRATION_EFFECT_4.getBytes()));
@@ -445,7 +450,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //            Log.d(TAG, "no bluetooth");
         }
     }
-
+    // hardest vibration
     public void sendEffect5() {
 //        canSendData = false;
 //        Log.d(TAG, String.valueOf(Constant.VIBRATION_EFFECT_5.getBytes()));
@@ -478,7 +483,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             return false;
         return true;
     }
-
+    // handle permission response
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         if (requestCode == Constant.AUDIO_PERMS) {
@@ -511,6 +516,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     //** GENERAL **//
     @Override
     protected void onDestroy() {
+        // make sure to disconnect from the bluetooth connection
         if (bleSocket != null && mIsBluetoothConnected) {
             new DisConnectBT().execute();
         }
@@ -519,12 +525,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     protected void onPause() {
-        // todo: may be the place where we are disconecting when the phone goes to sleep
-
         Log.d(TAG, "Paused");
         super.onPause();
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
+    // quick toast
+    private void msg(String s) {
+        Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT).show();
+    }
+
+    // commented out as it is not immediately applicable to our project but may be eventually
 //    public void closeKeyboard() {
 //        View view = this.getCurrentFocus();
 //        if (view != null) {
@@ -533,6 +548,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //        }
 //    }
 
+
+    //** PLAYLISTS **//
+    // add songs to the favourites playlist
     public void addSongToFavs(Song song){
         if(song.isFav){
             Boolean b = arrayPlaylists.get(Constant.PLAYLIST_FAVOURITES_ID).addSong(song);
@@ -559,15 +577,5 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 song.isFav = true;
             }
         }
-    }
-
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-    }
-
-    private void msg(String s) {
-        Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT).show();
     }
 }
