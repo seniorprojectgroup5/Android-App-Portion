@@ -2,12 +2,7 @@ package com.example.buzzinbees;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Color;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -19,6 +14,8 @@ import android.widget.Toast;
 import androidx.fragment.app.FragmentActivity;
 
 import java.util.ArrayList;
+
+//import android.util.Log;
 
 public class PlaylistAdapter extends ArrayAdapter<Playlist> {
 
@@ -97,7 +94,7 @@ public class PlaylistAdapter extends ArrayAdapter<Playlist> {
                 int position = (Integer) v.getTag();
 
                 Playlist playlist = getItem(position);
-                Log.d("PLAYLIST",playlist.toString());
+//                Log.d("PLAYLIST",playlist.toString());
 
                 main.currentFragment = Constant.FRAGVAL_PLAYLISTPAGE;
                 main.getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer_main,

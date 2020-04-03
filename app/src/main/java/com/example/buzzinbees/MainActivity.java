@@ -9,7 +9,6 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -187,30 +186,30 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 audioContainer.setVisibility(View.GONE);
                 currentFragment = Constant.FRAGVAL_PLAYLISTS;
                 break;
-            case R.id.navigation_albums:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer_main,
-                        new ML_List_AlbumsFragment()).commit();
-                audioContainer.setVisibility(View.GONE);
-                currentFragment = Constant.FRAGVAL_ALBUMS;
-                break;
-            case R.id.navigation_artists:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer_main,
-                        new ML_List_ArtstisFragment()).commit();
-                audioContainer.setVisibility(View.GONE);
-                currentFragment = Constant.FRAGVAL_ARTISTS;
-                break;
+//            case R.id.navigation_albums:
+//                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer_main,
+//                        new ML_List_AlbumsFragment()).commit();
+//                audioContainer.setVisibility(View.GONE);
+//                currentFragment = Constant.FRAGVAL_ALBUMS;
+//                break;
+//            case R.id.navigation_artists:
+//                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer_main,
+//                        new ML_List_ArtstisFragment()).commit();
+//                audioContainer.setVisibility(View.GONE);
+//                currentFragment = Constant.FRAGVAL_ARTISTS;
+//                break;
             case R.id.navigation_visualizer:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer_main,
                         new VisualizerFragment()).commit();
                 audioContainer.setVisibility(View.VISIBLE);
                 currentFragment = Constant.FRAGVAL_VISUALIZER;
                 break;
-            case R.id.navigation_options:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer_main,
-                        new OptionsFragment()).commit();
-                audioContainer.setVisibility(View.GONE);
-                currentFragment = Constant.FRAGVAL_OPTIONS;
-                break;
+//            case R.id.navigation_options:
+//                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer_main,
+//                        new OptionsFragment()).commit();
+//                audioContainer.setVisibility(View.GONE);
+//                currentFragment = Constant.FRAGVAL_OPTIONS;
+//                break;
             case R.id.navigation_bluetooth:
                 openBluetoothFragment();
         }
@@ -342,9 +341,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     bleSocket.connect();
 
                     if (bleSocket == null) {
-                        Log.d(TAG, "bad");
+//                        Log.d(TAG, "bad");
                     } else {
-                        Log.d(TAG, "good");
+//                        Log.d(TAG, "good");
                     }
                 }
             } catch (IOException e) {
@@ -525,7 +524,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     protected void onPause() {
-        Log.d(TAG, "Paused");
+//        Log.d(TAG, "Paused");
         super.onPause();
     }
 

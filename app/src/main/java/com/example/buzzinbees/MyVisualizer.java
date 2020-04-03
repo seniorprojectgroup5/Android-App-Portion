@@ -4,16 +4,12 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Path;
 import android.graphics.Rect;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
-import androidx.core.math.MathUtils;
-
-import java.util.LinkedList;
+//import android.util.Log;
 
 
 public class MyVisualizer extends View{

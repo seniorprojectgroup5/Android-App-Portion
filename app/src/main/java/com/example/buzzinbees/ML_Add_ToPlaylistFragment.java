@@ -1,13 +1,7 @@
 package com.example.buzzinbees;
 
 
-import android.content.DialogInterface;
 import android.os.Bundle;
-
-import androidx.appcompat.app.AlertDialog;
-import androidx.fragment.app.Fragment;
-
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +12,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
+
 import java.util.ArrayList;
+
+//import android.util.Log;
 
 
 /**
@@ -59,7 +57,7 @@ public class ML_Add_ToPlaylistFragment extends Fragment {
         btnDone = view.findViewById(R.id.btn_addConfirm);
 
         showMusic(view);
-        Log.d("PLAYLIST","Add new playlist: music showing");
+//        Log.d("PLAYLIST","Add new playlist: music showing");
 
 
         btnDone.setOnClickListener(new View.OnClickListener() {

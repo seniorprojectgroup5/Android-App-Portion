@@ -2,26 +2,20 @@ package com.example.buzzinbees;
 
 
 import android.content.DialogInterface;
-import android.graphics.Rect;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
-
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -91,7 +85,7 @@ public class ML_Add_NewPlaylistFragment extends Fragment {
 
 
         showMusic(view);
-        Log.d("PLAYLIST","Add new playlist: music showing");
+//        Log.d("PLAYLIST","Add new playlist: music showing");
 
 
 
@@ -163,7 +157,7 @@ public class ML_Add_NewPlaylistFragment extends Fragment {
                     //Creating a new playlist
                     main.arrayPlaylists.add(new Playlist(playlistName.getText().toString(), main.arrayPlaylists.size(), adapter.selectedSongs));
                     //add new playlist to array of playlists
-                    Log.d("PLAYLIST", "Playlist Added: " + main.arrayPlaylists.get(main.arrayPlaylists.size() - 1).toString());
+//                    Log.d("PLAYLIST", "Playlist Added: " + main.arrayPlaylists.get(main.arrayPlaylists.size() - 1).toString());
                     Toast.makeText(getContext(), "New Playlist Added", Toast.LENGTH_SHORT);
                     main.currentFragment = Constant.FRAGVAL_PLAYLISTS;
                     main.getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer_main,
@@ -203,7 +197,7 @@ public class ML_Add_NewPlaylistFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Song s = (Song) parent.getItemAtPosition(position);
-                Log.d("PLAYLIST","ML_newPlaylist: Song selected in arrayadapter:"+ s.toString());
+//                Log.d("PLAYLIST","ML_newPlaylist: Song selected in arrayadapter:"+ s.toString());
             }
         });
 

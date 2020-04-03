@@ -9,7 +9,7 @@ import android.media.MediaPlayer;
 import android.media.audiofx.Visualizer;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
+//import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -126,7 +126,7 @@ public class AudioManagerFragment extends Fragment {
                 if(fromUser){
                     if(player != null) {
                         player.seekTo(progress);
-                        Log.d("SEEK", "seeked to " + progress);
+//                        Log.d("SEEK", "seeked to " + progress);
                     }
                 }
             }
@@ -344,12 +344,12 @@ public class AudioManagerFragment extends Fragment {
                 if(!isLooping){
                     isLooping = true;
                     btnLoop.setColorFilter(getResources().getColor(R.color.PowderBlue));
-                    Log.d("BTN","Loop Pressed, Loop ON");
+//                    Log.d("BTN","Loop Pressed, Loop ON");
                 }
                 else{
                     isLooping = false;
                     btnLoop.setColorFilter(getResources().getColor(R.color.VisDark));
-                    Log.d("BTN","Loop Pressed, Loop OFF");
+//                    Log.d("BTN","Loop Pressed, Loop OFF");
                 }
             }
         });
@@ -365,16 +365,16 @@ public class AudioManagerFragment extends Fragment {
                         isShuffled = true;
                         shuffleSongQueue();
                         btnShuffle.setColorFilter(getResources().getColor(R.color.PowderBlue));
-                        Log.d("BTN", "Shuffle Pressed, Shuffle ON");
+//                        Log.d("BTN", "Shuffle Pressed, Shuffle ON");
                     } else {
                         isShuffled = false;
                         btnShuffle.setColorFilter(getResources().getColor(R.color.VisDark));
-                        Log.d("BTN", "Shuffle Pressed, Shuffle OFF");
+//                        Log.d("BTN", "Shuffle Pressed, Shuffle OFF");
                     }
                 }else{
                     isShuffled = false;
                     btnShuffle.setColorFilter(getResources().getColor(R.color.VisDark));
-                    Log.d("BTN", "Shuffle Pressed, Shuffle OFF");
+//                    Log.d("BTN", "Shuffle Pressed, Shuffle OFF");
                 }
             }
         });
@@ -667,7 +667,7 @@ public class AudioManagerFragment extends Fragment {
             }
         }
         else{
-           Log.d("SEEK BAR","player is null");
+//           Log.d("SEEK BAR","player is null");
         }
     }
 

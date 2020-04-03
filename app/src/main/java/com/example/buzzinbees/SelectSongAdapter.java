@@ -2,21 +2,19 @@ package com.example.buzzinbees;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 
 import androidx.fragment.app.FragmentActivity;
 
 import java.util.ArrayList;
+
+//import android.util.Log;
 
 public class SelectSongAdapter extends ArrayAdapter<Song> {
 
@@ -94,16 +92,16 @@ public class SelectSongAdapter extends ArrayAdapter<Song> {
                 //onclick for image button beside song box
 
                 int position = (Integer) v.getTag();
-                Log.d("PLAYLIST","Song row clicked at pos "+position);
+//                Log.d("PLAYLIST","Song row clicked at pos "+position);
 
                 View parent = (View) v.getParent();
                 //LinearLayout l = parent.findViewById(R.id.songBox);
 
                 Song song = getItem(position);
-                Log.d("PLAYLIST","Song :"+ song.toString());
+//                Log.d("PLAYLIST","Song :"+ song.toString());
                 v.setSelected(!v.isSelected()); // toggle btn selection
 
-                Log.d("PLAYLIST","isSelected ="+v.isSelected());
+//                Log.d("PLAYLIST","isSelected ="+v.isSelected());
                 //determines current selection state and acts accordingly
                 if(v.isSelected()){
                     ((ImageButton) v).setImageResource(R.drawable.ic_hexagonselectbutton_fill);
@@ -122,7 +120,7 @@ public class SelectSongAdapter extends ArrayAdapter<Song> {
             public void onClick(View v) {
                 //on click for the song box for better user experience
                 int position = (Integer) v.getTag();
-                Log.d("PLAYLIST","Song row clicked at pos "+position);
+//                Log.d("PLAYLIST","Song row clicked at pos "+position);
 
                 View parent = (View) v.getParent();
                 //focus on parent view of onclicked item

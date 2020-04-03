@@ -2,7 +2,6 @@ package com.example.buzzinbees;
 
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,7 +67,7 @@ public class ML_Page_PlaylistFragment extends Fragment {
         btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("PLAYLIST","Edit Playlist click registered");
+//                Log.d("PLAYLIST","Edit Playlist click registered");
                 main.currentFragment = Constant.FRAGVAL_NEWPLAYLIST;
 
                 main.getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer_main,
@@ -84,7 +83,7 @@ public class ML_Page_PlaylistFragment extends Fragment {
         //initialize listview and arraylist
         listView = view.findViewById(R.id.listSongs_container);
         arrayList = new ArrayList<Song>();
-        Log.d("PLAYLIST",list.toString());
+//        Log.d("PLAYLIST",list.toString());
         //initialize the adapter and assign the arrrayList to it so it has data
         adapter = new SongAdapter(this.getContext(),arrayList);
         //apply the adapter to the listview to show list
