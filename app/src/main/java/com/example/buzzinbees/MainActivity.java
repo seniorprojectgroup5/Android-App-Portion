@@ -253,10 +253,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void updateDeviceStatus(){
         if(mIsBluetoothConnected){
             deviceStatus.setImageResource(R.drawable.ic_queenbeetopdown_fill);
-            navigationView.getMenu().getItem(7).setIcon(R.drawable.ic_queenbeetopdown_fill);
+            navigationView.getMenu().getItem(4).setIcon(R.drawable.ic_queenbeetopdown_fill);
         }else{
             deviceStatus.setImageResource(R.drawable.ic_queenbeetopdown_clear);
-            navigationView.getMenu().getItem(7).setIcon(R.drawable.ic_queenbeetopdown_clear);
+            navigationView.getMenu().getItem(4).setIcon(R.drawable.ic_queenbeetopdown_clear);
         }
     }
 
