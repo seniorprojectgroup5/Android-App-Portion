@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent"
+    tools:context=".BLE_Manager">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/fragBleManagerContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/fragBleManagerToolbar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/DarkNavy"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="0dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/fragBleManagerConstraintLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingStart="40dp">
+
+                <TextView
+                    android:id="@+id/txt_PageTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/title_bluetooth"
+                    android:textAlignment="viewStart"
+                    android:textAllCaps="true"
+                    android:textColor="@color/PowderBlue"
+                    android:textSize="24sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0" />
+
+                <ImageView
+                    android:id="@+id/bleManagerDeviceStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_queenbeetopdown_clear"
+                    app:layout_constraintRight_toRightOf="@id/fragBleManagerConstraintLayout"
+                    app:layout_constraintTop_toTopOf="@id/txt_PageTitle"
+                    android:layout_marginRight="30dp"
+                    android:tint="@color/YellowGold"/>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </FrameLayout>
+    </androidx.appcompat.widget.Toolbar>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/fragBleManagerToolbar">
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:layout_marginTop="5dp">
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/search"
+                    android:layout_width="110sp"
+                    android:layout_height="35sp"
+                    android:backgroundTint="@color/YellowGold"
+                    android:text="@string/var_SearchBleDevices"
+                    android:textColor="@color/DarkNavy"
+                    android:textSize="18sp"
+                    android:src ="@android:drawable/ic_menu_search"
+                    android:tint="@color/DarkNavy"
+                    android:background="@drawable/ic_hexagonbutton_long_fill"
+                    android:layout_marginRight="40sp"
+                    android:scaleX="1.4"
+                    android:scaleY="1.4"
+                    />
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/connect"
+                    android:layout_width="110sp"
+                    android:layout_height="35sp"
+                    android:backgroundTint="@color/YellowGold"
+                    android:text="@string/var_SearchBleDevices"
+                    android:textColor="@color/DarkNavy"
+                    android:textSize="18sp"
+                    android:src ="@drawable/ic_connect_text"
+                    android:maxWidth="100sp"
+                    android:tint="@color/DarkNavy"
+                    android:layout_marginLeft="40sp"
+                    android:background="@drawable/ic_hexagonbutton_long_fill"
+                    android:scaleX="1.4"
+                    android:scaleY="1.4"
+                    />
+
+<!--                <Button-->
+<!--                    android:id="@+id/connect"-->
+<!--                    android:layout_width="100sp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:backgroundTint="@color/YellowGold"-->
+<!--                    android:text="@string/var_ConnectBleDevice"-->
+<!--                    android:textColor="@color/DarkNavy"-->
+<!--                    android:textSize="12sp"-->
+<!--                    android:background="@drawable/ic_hexagonbutton_long_fill"/>-->
+            </TableRow>
+        </TableLayout>
+
+        <ListView
+            android:id="@+id/listview"
+            android:layout_width="match_parent"
+            android:layout_height="590dp"></ListView>
+
+    </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>

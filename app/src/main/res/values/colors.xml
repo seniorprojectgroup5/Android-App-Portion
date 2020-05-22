@@ -1,6 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="colorPrimary">#2F3443</color>
+    <color name="colorPrimaryDark">#21252F</color>
+    <color name="colorAccent">#d9a827</color>
+
+    <color name="DarkerNavy">#0e1014</color>
+    <color name="DarkNavy">#21252F</color>
+    <color name="NavyBlue">#2F3443</color>
+    <color name="PowderBlue">#C7DDE2</color>
+    <color name="YellowGold">#d9a827</color>
+    <color name="WhiteGrey">#e1e1e1</color>
+    <color name="DarkGrey">#636363</color>
+    <color name="GreyBlue">#93a4a9</color>
+
+    <color name="VisDark">#3D485C</color>
+    <color name="VisMid">#455C77</color>
+    <color name="VisLight">#587091</color>
+    <color name="VisBright">#7283AB</color>
+    <color name="VisMidAlpha">#BE455C77</color>
+
+    <color name="HoneyGold">#DAA927</color>
+    <color name="PaleHoney">#FCDD8D</color>
+    <color name="White">#FFFFFF</color>
+    <color name="Black">#000000</color>
+
 </resources>

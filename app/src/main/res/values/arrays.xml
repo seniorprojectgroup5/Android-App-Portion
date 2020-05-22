@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--String Arrays!-->
+    <string-array name="faved_songDropDown">
+        <item></item>
+        <item>unfavourite</item>
+        <item>Add to Playlist</item>
+    </string-array>
+
+    <string-array name="songDropDown">
+        <item></item>
+        <item>favourite</item>
+        <item>Add to Playlist</item>
+    </string-array>
+</resources>
